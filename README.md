@@ -5,11 +5,15 @@
 - React
 - Apollo
 - GraphQL
+- D3
+- Python
+  - Django
 
 ### TO-DO List
 
-- [ ] React 프로젝트 생성
-- [ ] React Router 적용
+- [x] React 프로젝트 생성
+  - create-react-app
+- [x] React Router 적용
 
   - [Getting started with React Router](https://codeburst.io/getting-started-with-react-router-5c978f70df91)
 
