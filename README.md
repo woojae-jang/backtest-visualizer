@@ -17,5 +17,12 @@
 
   - [Getting started with React Router](https://codeburst.io/getting-started-with-react-router-5c978f70df91)
 
+- [ ] Optimal Portfolio Selection
+
+  - [ ] Asset Allocation 시각화
+    - [ ] scatter chart
+    - [ ] efficient frontier
+    - [ ] Capital Allocation Line - CAL
+
 - [ ] 분위 알고리즘
   - [ ] 예시 web 시각화
