@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "babel-loader": "^8.0.5",
+    "chart.js": "^2.7.3",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-router": "^4.3.1",
