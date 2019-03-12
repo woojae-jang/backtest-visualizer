@@ -65,6 +65,6 @@ const routing = (
   </Router>
 );
 ReactDOM.render(
-  <ApolloProvider client={client}>routing</ApolloProvider>,
+  <ApolloProvider client={client}>{routing}</ApolloProvider>,
   document.getElementById("root")
 );
