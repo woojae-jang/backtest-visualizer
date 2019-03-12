@@ -5,8 +5,6 @@ const Example3 = ({ match }) => <p>{match.params.id}</p>;
 
 class Example3s extends React.Component {
   render() {
-    const { url } = this.props.match;
-
     return (
       <div>
         <h1>Example3</h1>
