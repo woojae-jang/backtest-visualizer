@@ -7620,4 +7620,24 @@ export class Market {
 
     return data;
   }
+
+  getCumPctChange(code) {
+    const closePriceObject = this.getPriceList(code);
+    const dateList = Object.keys(closePriceObject);
+    const closePriceList = Object.values(closePriceObject);
+    const cumPctChangeList = [];
+
+    const basePrice = closePriceList[0];
+    closePriceList.map(price => {
+      const pctChange = ((price - basePrice) / basePrice) * 100;
+      cumPctChangeList.push(pctChange);
+      return null;
+    });
+
+    const data = {};
+    data["dateList"] = dateList.slice(1);
+    data["pctChange"] = cumPctChangeList;
+
+    return data;
+  }
 }
