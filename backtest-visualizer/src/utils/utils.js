@@ -1,7 +1,6 @@
 import * as mathjs from "mathjs";
 
 const getRandomAllocation = division => {
-  const alloc = [];
   let weight_list = [];
   for (let i = 0; i < division; i++) {
     weight_list.push(Math.random());
