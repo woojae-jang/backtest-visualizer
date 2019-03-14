@@ -2,6 +2,7 @@ import React from "react";
 import Chart from "chart.js";
 import { Market } from "../market";
 import { dynamicColors } from "../utils/chartUtil";
+import * as math from "mathjs";
 
 const market = new Market("20161207");
 // console.log(market.getPctChange("232080"));
@@ -34,48 +35,31 @@ class PriceChartPage extends React.Component {
       "139660",
       "130730"
     ];
-    const price_data = market.getCumPctChange("232080");
 
     const dataList = [];
+
     for (let i = 0; i < codeList.length; i++) {
-      const price_data = market.getCumPctChange(codeList[i]);
+      let price_data = market.getCumPctChange(codeList[i]);
       let dataset = {};
       dataset.data = price_data;
       dataset.label = codeList[i];
       dataList.push(dataset);
     }
 
-    // console.log(price_data);
-    // price_data.pctChange
-    const labels = price_data.dateList;
+    const priceData = market.getCumPctChange("232080");
+    const labels = priceData.dateList;
     this._create_chart(dataList, labels);
   }
+
   _create_chart(price_data = [], labels = []) {
     const colors = [dynamicColors(), dynamicColors()];
     const datasets = [];
-    // const datasets = [
-    //   {
-    //     label: "My First dataset",
-    //     backgroundColor: colors[0],
-    //     borderColor: colors[0],
-    //     data: price_data,
-    //     fill: false
-    //   },
-    //   {
-    //     label: "My Second dataset",
-    //     fill: false,
-    //     backgroundColor: colors[1],
-    //     borderColor: colors[1],
-    //     data: [2, 1, 3, 2, 4, 7, 9, 6]
-    //   }
-    // ];
-
     price_data.map((data, index) => {
       const dataset = {
         label: data.label,
         backgroundColor: colors[index],
         borderColor: colors[index],
-        data: data.data.pctChange,
+        data: data.data.pctChange.map(num => math.round(num, 2)),
         fill: false
       };
       datasets.push(dataset);
