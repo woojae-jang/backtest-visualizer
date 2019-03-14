@@ -12,6 +12,7 @@
     "chart.js": "^2.7.3",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
+    "mathjs": "^5.7.0",
     "react": "^16.8.2",
     "react-apollo": "^2.5.2",
     "react-dom": "^16.8.2",
