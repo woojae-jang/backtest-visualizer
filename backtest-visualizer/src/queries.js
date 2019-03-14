@@ -18,3 +18,12 @@ export const GET_SIMULATION = gql`
     }
   }
 `;
+
+export const GET_PRICE_LIST = gql`
+  {
+    priceList @client {
+      code
+      closePrice
+    }
+  }
+`;
