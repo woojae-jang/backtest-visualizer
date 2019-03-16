@@ -14,10 +14,3 @@ export const SIMULATION_FRAGMENT = gql`
     endDate
   }
 `;
-
-export const PRICE_LIST_FRAGMENT = gql`
-  fragment PriceListParts on PriceList {
-    code
-    closePrice
-  }
-`;

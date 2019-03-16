@@ -1,8 +1,4 @@
-import {
-  NOTE_FRAGMENT,
-  SIMULATION_FRAGMENT,
-  PRICE_LIST_FRAGMENT
-} from "./fragments";
+import { NOTE_FRAGMENT, SIMULATION_FRAGMENT } from "./fragments";
 import { GET_NOTES } from "./queries";
 
 export const resolvers = {
@@ -24,19 +20,6 @@ export const resolvers = {
       console.log("simulation");
       console.log(simulation);
       return simulation;
-    },
-
-    priceList: (_, variables, { cache }) => {
-      const code = cache.config.dataIdFromObject({
-        __typename: "PriceList",
-        code: variables.code
-      });
-      const priceList = cache.readFragment({
-        fragment: PRICE_LIST_FRAGMENT,
-        code
-      });
-
-      return priceList;
     }
   },
   Mutation: {

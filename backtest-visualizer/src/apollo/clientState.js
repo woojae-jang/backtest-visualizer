@@ -29,8 +29,4 @@ export const typeDefs = `
         endDate: String
     }
 
-    type PriceList{
-        code: String!
-        closePrice: [Int]!
-    }
     `;
