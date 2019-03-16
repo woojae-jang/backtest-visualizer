@@ -2,7 +2,7 @@ import React from "react";
 import { DatePicker } from "antd";
 import "antd/dist/antd.css";
 import { Query } from "react-apollo";
-import { GET_SIMULATION, GET_PRICE_LIST } from "../apollo/queries";
+import { GET_SIMULATION, GET_GLOBAL_VARIABLES } from "../apollo/queries";
 
 const { RangePicker } = DatePicker;
 
@@ -18,16 +18,17 @@ class Example5 extends React.Component {
       <div>
         <h1>Example5</h1>
         <RangePicker onChange={onChange} />
-        <Query query={GET_SIMULATION}>
+        <Query query={GET_GLOBAL_VARIABLES}>
           {({ loading, error, data }) => {
-            console.log(data.simulation);
+            console.log(data);
             return [];
           }}
         </Query>
 
-        <Query query={GET_PRICE_LIST}>
+        <Query query={GET_SIMULATION}>
           {({ loading, error, data }) => {
-            return data.priceList[0].closePrice.map(price => <li>{price}</li>);
+            console.log(data.simulation);
+            return [];
           }}
         </Query>
       </div>

@@ -1,5 +1,6 @@
 export const defaultsState = {
   globalVariables: {
+    __typename: "GlobalVariables",
     startDate: null,
     endDate: null
   },

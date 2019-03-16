@@ -11,7 +11,7 @@ export const typeDefs = `
         notes: [Note]!
         note(id: Int!): Note
         simulation: Simulation
-        globalVariables: Object
+        globalVariables: GlobalVariables
     }
     type Mutation{
         createNote(title: String!, content: String!): Note
@@ -25,6 +25,11 @@ export const typeDefs = `
 
     type Simulation{
         id: Int
+        startDate: String
+        endDate: String
+    }
+
+    GlobalVariables{
         startDate: String
         endDate: String
     }
