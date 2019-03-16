@@ -3,6 +3,8 @@ import Chart from "chart.js";
 import { Market } from "../market";
 import { dynamicColors } from "../utils/chartUtil";
 import * as math from "mathjs";
+import * as $ from "jquery";
+import "./PriceChartPage.css";
 
 const market = new Market("20161207");
 // console.log(market.getPctChange("232080"));
@@ -12,7 +14,10 @@ class PriceChartPage extends React.Component {
     return (
       <div id="chart">
         <h1>PriceChart</h1>
-        <canvas id="line-chart" width="800" height="450" />
+        <div className="chart__container">
+          <canvas id="cursor" width="800" height="450" />
+          <canvas id="line-chart" width="800" height="450" />
+        </div>
       </div>
     );
   }
@@ -21,19 +26,19 @@ class PriceChartPage extends React.Component {
     const codeList = [
       "069500",
       "232080",
-      "143850",
-      "195930",
-      "238720",
-      "192090",
-      "148070",
-      "136340",
-      "182490",
-      "132030",
-      "130680",
-      "114800",
-      "138230",
-      "139660",
-      "130730"
+      "143850"
+      // "195930",
+      // "238720",
+      // "192090",
+      // "148070",
+      // "136340",
+      // "182490",
+      // "132030",
+      // "130680",
+      // "114800",
+      // "138230",
+      // "139660",
+      // "130730"
     ];
 
     const dataList = [];
@@ -87,6 +92,20 @@ class PriceChartPage extends React.Component {
         hover: {
           mode: "nearest",
           intersect: true
+        },
+        onHover: event => {
+          const element = $("#cursor");
+          const offsetLeft = element.offset().left;
+          const domElement = element.get(0);
+          const clientX = parseInt(event.clientX - offsetLeft);
+          const ctx = element.get(0).getContext("2d");
+          ctx.clearRect(0, 0, domElement.width, domElement.height);
+          ctx.beginPath();
+          ctx.moveTo(clientX, 0);
+          ctx.lineTo(clientX, domElement.height);
+          ctx.setLineDash([10, 10]);
+          ctx.strokeStyle = "#333";
+          ctx.stroke();
         },
         scales: {
           xAxes: [
