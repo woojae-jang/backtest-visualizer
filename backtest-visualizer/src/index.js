@@ -15,7 +15,7 @@ import AssetAllocationChart from "./pages/Example4";
 import Example5 from "./pages/Example5";
 import Notfound from "./pages/notfound";
 import { ApolloProvider } from "react-apollo";
-import client from "./apollo";
+import client from "./apollo/apollo";
 import PriceChartPage from "./pages/PriceChartPage";
 
 const routing = (

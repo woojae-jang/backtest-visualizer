@@ -3,7 +3,8 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { withClientState } from "apollo-link-state";
 import { ApolloLink } from "apollo-link";
 
-import { typeDefs, defaults, resolvers } from "./clientState";
+import { typeDefs, defaults } from "./clientState";
+import { resolvers } from "./resolvers";
 
 const cache = new InMemoryCache();
 

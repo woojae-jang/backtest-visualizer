@@ -2,7 +2,7 @@ import React from "react";
 import { DatePicker } from "antd";
 import "antd/dist/antd.css";
 import { Query } from "react-apollo";
-import { GET_SIMULATION, GET_PRICE_LIST } from "../queries";
+import { GET_SIMULATION, GET_PRICE_LIST } from "../apollo/queries";
 
 const { RangePicker } = DatePicker;
 
