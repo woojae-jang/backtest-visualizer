@@ -33,6 +33,7 @@ export const GET_GLOBAL_VARIABLES = gql`
     globalVariables @client {
       startDate
       endDate
+      codeList
     }
   }
 `;

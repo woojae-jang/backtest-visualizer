@@ -32,6 +32,7 @@ export const typeDefs = `
     GlobalVariables{
         startDate: String
         endDate: String
+        codeList: [String]
     }
 
     `;
