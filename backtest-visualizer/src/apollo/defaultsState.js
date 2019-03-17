@@ -1,8 +1,8 @@
 export const defaultsState = {
   globalVariables: {
     __typename: "GlobalVariables",
-    startDate: "20161123",
-    endDate: "20161206",
+    startDate: "20170306",
+    endDate: "20170928",
     codeList: [
       "069500",
       "232080",
