@@ -7641,6 +7641,40 @@ export class Market {
     return data;
   }
 
+  getPriceListInRange(code, startDate, endDate) {
+    const closePriceObject = this.getPriceList(code);
+    const closePriceList = Object.values(closePriceObject);
+
+    const dateList = Object.keys(closePriceObject);
+    const startDateIdx = dateList.indexOf(startDate);
+    const endDateIdx = dateList.indexOf(endDate);
+
+    const slicedClosePriceList = closePriceList.slice(
+      startDateIdx,
+      endDateIdx + 1
+    );
+
+    return slicedClosePriceList;
+  }
+
+  getReturnsListInRange(code, startDate, endDate) {
+    const closePriceList = this.getPriceListInRange(code, startDate, endDate);
+
+    const returnsList = [];
+
+    closePriceList.map((price, index) => {
+      if (index === 0) return null;
+
+      const prePrice = closePriceList[index - 1];
+      const pctChange = ((price - prePrice) / prePrice) * 100;
+      returnsList.push(pctChange);
+
+      return null;
+    });
+
+    return returnsList;
+  }
+
   getCumPctChangeInRange(code, startDate, endDate) {
     const closePriceObject = this.getPriceList(code);
     const closePriceList = Object.values(closePriceObject);

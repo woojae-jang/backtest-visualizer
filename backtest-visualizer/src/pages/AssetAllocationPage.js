@@ -5,6 +5,7 @@ import AssetAllocationChart from "../components/AssetAllocationChart";
 import MarketCalendar from "../components/MarketCalendar";
 import { GET_GLOBAL_VARIABLES } from "../apollo/queries";
 import { Query } from "react-apollo";
+import { summaryTable } from "../utils/simulation";
 
 class AssetAllocationPage extends Component {
   // state = {
@@ -117,6 +118,9 @@ class AssetAllocationPage extends Component {
     return (
       <Query query={GET_GLOBAL_VARIABLES}>
         {({ loading, error, data, client }) => {
+          const { codeList, startDate, endDate } = data.globalVariables;
+          const table = summaryTable(codeList, startDate, endDate);
+          console.log(table);
           return (
             <div>
               <div className="asset-allocation-page">

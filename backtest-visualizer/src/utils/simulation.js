@@ -363,4 +363,28 @@ class BackTestArgsHandler {
   }
 }
 
-export { BackTest, BackTestArgsHandler };
+const summaryTable = (codeList, startDate, endDate) => {
+  const market = new Market(startDate);
+  const results = [];
+  codeList.forEach(code => {
+    let result = {};
+
+    result.code = code;
+
+    market.setDate(startDate);
+    const basePrice = market.getPrice(code);
+    market.setDate(endDate);
+    const finalPrice = market.getPrice(code);
+    result.returns = (finalPrice - basePrice) / basePrice;
+
+    const returnsList = market.getReturnsListInRange(code, startDate, endDate);
+    returnsList.shift();
+    const std = math.std(returnsList);
+    result.std = std;
+
+    results.push(result);
+  });
+  return results;
+};
+
+export { BackTest, BackTestArgsHandler, summaryTable };
