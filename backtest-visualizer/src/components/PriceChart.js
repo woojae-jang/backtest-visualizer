@@ -17,10 +17,8 @@ class PriceChart extends React.Component {
     );
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props !== nextProps) {
-      this.chartUpdate();
-    }
+  componentDidUpdate() {
+    this.chartUpdate();
   }
 
   chartUpdate() {
