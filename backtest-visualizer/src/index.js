@@ -17,6 +17,7 @@ import Notfound from "./pages/notfound";
 import { ApolloProvider } from "react-apollo";
 import client from "./apollo/apollo";
 import PriceChartPage from "./pages/PriceChartPage";
+import AssetAllocationPage from "./pages/AssetAllocationPage";
 
 const routing = (
   <Router>
@@ -57,6 +58,11 @@ const routing = (
             PriceChart
           </NavLink>
         </li>
+        <li>
+          <NavLink activeClassName="active" to="/asset-allocation">
+            AssetAllocation
+          </NavLink>
+        </li>
       </ul>
       <Switch>
         <Route exact path="/" component={App} />
@@ -66,6 +72,7 @@ const routing = (
         <Route path="/example4" component={AssetAllocationChart} />
         <Route path="/example5" component={Example5} />
         <Route path="/price_chart" component={PriceChartPage} />
+        <Route path="/asset-allocation" component={AssetAllocationPage} />
         <Route component={Notfound} />
       </Switch>
     </div>
