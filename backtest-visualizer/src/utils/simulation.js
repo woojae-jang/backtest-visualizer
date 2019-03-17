@@ -129,8 +129,8 @@ class PortFolio {
       const weight = asset.weight;
       totalWeight += weight;
 
-      if (code === "cash") return;
-      if (weight === 0) return;
+      if (code === "cash") return null;
+      if (weight === 0) return null;
 
       const orderableMoney = this.weightToValue(weight);
       const price = this.market.getPrice(code);
@@ -146,6 +146,7 @@ class PortFolio {
 
     // 결과값이 99.999999 인 경우 핸들링 위해 반올림 하였음
     if (Math.round(totalWeight) !== 100) {
+      // eslint-disable-next-line no-throw-literal
       throw "total weight is not 100";
     }
 
@@ -159,6 +160,7 @@ class PortFolio {
   }
 
   weightToValue(weight) {
+    // eslint-disable-next-line no-throw-literal
     if (weight === 0) throw "weight can't be 0";
 
     const NAV = this.valuation();
@@ -176,6 +178,7 @@ class PortFolio {
       const price = this.market.getPrice(name, this.date);
       const amount = this.assets[name];
       NAV += price * amount;
+      return null;
     });
     return NAV;
   }
@@ -259,6 +262,7 @@ class BackTest {
   forwardDate(days = 1) {
     this.dateIndex += days;
     if (this.dateIndex >= tradingDateList.length) {
+      // eslint-disable-next-line no-throw-literal
       throw "dateIndex out of range";
     }
     this.date = tradingDateList[this.dateIndex];
@@ -281,7 +285,7 @@ class BackTest {
         this.portfolio.executeAllocation(this.fixedAlloc);
       }
       const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " " + "NAV: " + NAV;
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
       this.dailyLog.push(shortLog);
 
       this.navList.push(NAV);
@@ -294,7 +298,7 @@ class BackTest {
 
   createMetaData() {
     this.returnList = this.navList.map((price, index) => {
-      if (index == 0) {
+      if (index === 0) {
         return NaN;
       }
 
