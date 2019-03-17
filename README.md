@@ -12,10 +12,14 @@
 ### TO-DO List
 
 - [x] React 프로젝트 생성(2019.02.20)
+
   - create-react-app
+
 - [x] React Router 적용(2019.02.20)
 
   - [Getting started with React Router](https://codeburst.io/getting-started-with-react-router-5c978f70df91)
+
+- [x] Market Calendar UI(2019.03.17)
 
 - [ ] Optimal Portfolio Selection
 
