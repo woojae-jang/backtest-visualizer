@@ -6,6 +6,7 @@ import "antd/dist/antd.css";
 import { Query } from "react-apollo";
 import * as moment from "moment";
 import PriceChart from "../components/PriceChart";
+import { tradingDateList } from "../utils/data";
 
 const { RangePicker } = DatePicker;
 
@@ -26,6 +27,15 @@ class PriceChartPage extends React.Component {
     });
   };
 
+  disabledDate = currentDate => {
+    const date = currentDate.format(dateFormat);
+    if (tradingDateList.indexOf(date) === -1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
     return (
       <div id="chart">
@@ -42,6 +52,7 @@ class PriceChartPage extends React.Component {
                     moment(endDate, dateFormat)
                   ]}
                   format={dateFormat}
+                  disabledDate={this.disabledDate}
                 />
                 <PriceChart data={data} />
               </div>
