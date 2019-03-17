@@ -7640,4 +7640,33 @@ export class Market {
 
     return data;
   }
+
+  getCumPctChangeInRange(code, startDate, endDate) {
+    const closePriceObject = this.getPriceList(code);
+    const closePriceList = Object.values(closePriceObject);
+
+    const dateList = Object.keys(closePriceObject);
+    const startDateIdx = dateList.indexOf(startDate);
+    const endDateIdx = dateList.indexOf(endDate);
+
+    const slicedClosePriceList = closePriceList.slice(
+      startDateIdx,
+      endDateIdx + 1
+    );
+
+    const cumPctChangeList = [];
+
+    const basePrice = slicedClosePriceList[0];
+    slicedClosePriceList.map(price => {
+      const pctChange = ((price - basePrice) / basePrice) * 100;
+      cumPctChangeList.push(pctChange);
+      return null;
+    });
+
+    const data = {};
+    data["dateList"] = dateList.slice(startDateIdx, endDateIdx + 1);
+    data["pctChange"] = cumPctChangeList;
+
+    return data;
+  }
 }
