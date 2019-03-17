@@ -342,6 +342,11 @@ class BackTestArgsHandler {
     };
   }
 
+  setDateRange(startDate, endDate) {
+    this.argsObject.startDate = startDate;
+    this.argsObject.endDate = endDate;
+  }
+
   getArgs() {
     return this.argsObject;
   }

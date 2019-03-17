@@ -23,11 +23,14 @@ class AssetAllocationPage extends Component {
     this.tempData = [];
   }
 
-  simulationOnce() {
+  simulationOnce(variables) {
+    const { startDate, endDate } = variables;
     const newAllocation = getRandomAllocation(16);
     // const newAllocation = [0,0,0,0,0,0,100,0,0,0,0,0,0,0,0,0]
     const backTestArgsHandler = new BackTestArgsHandler();
     backTestArgsHandler.replaceAllocation(newAllocation);
+    backTestArgsHandler.setDateRange(startDate, endDate);
+
     const testArgs = backTestArgsHandler.getArgs();
     const backTest = new BackTest();
     backTest.init(testArgs);
@@ -48,7 +51,7 @@ class AssetAllocationPage extends Component {
     };
   }
 
-  simulationLoop() {
+  simulationLoop(variables) {
     // let i = 0;
     const startTime = Date.now();
     let curTime = Date.now();
@@ -56,7 +59,7 @@ class AssetAllocationPage extends Component {
     while (true) {
       // if(i == 5000) break;
 
-      this.simulationOnce();
+      this.simulationOnce(variables);
       // let resultObject = this.simulationOnce();
       // if(bestAllocation === null){
       // bestAllocation = resultObject;
@@ -95,8 +98,9 @@ class AssetAllocationPage extends Component {
     }
   }
 
-  handleOnClick(event) {
-    this.simulationLoop();
+  handleOnClick(event, data) {
+    const globalVariables = data.globalVariables;
+    this.simulationLoop(globalVariables);
     this.setState({
       data: this.tempData
     });
@@ -117,7 +121,7 @@ class AssetAllocationPage extends Component {
             <div>
               <div className="asset-allocation-page">
                 <MarketCalendar data={data} client={client} />
-                <button onClick={this.handleOnClick}>Run</button>
+                <button onClick={e => this.handleOnClick(e, data)}>Run</button>
                 <button onClick={this.handleResetClick}>Reset</button>
                 <AssetAllocationChart data={this.state.data} />
               </div>
