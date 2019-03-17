@@ -2,17 +2,7 @@ import React from "react";
 import { DatePicker } from "antd";
 import "antd/dist/antd.css";
 import { Query } from "react-apollo";
-import { GET_SIMULATION } from "../apollo/queries";
-import gql from "graphql-tag";
-
-export const GET_GLOBAL_VARIABLES = gql`
-  {
-    globalVariables @client {
-      startDate
-      endDate
-    }
-  }
-`;
+import { GET_SIMULATION, GET_GLOBAL_VARIABLES } from "../apollo/queries";
 
 const { RangePicker } = DatePicker;
 
