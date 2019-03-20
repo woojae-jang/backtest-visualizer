@@ -1,13 +1,13 @@
 # backtest-visualizer
 
-## 사용할 기술 스택
+## Stack
 
 - React
+- D3
+- Chart.js
 - Apollo
 - GraphQL
-- D3
 - Python
-  - Django
 
 ### TO-DO List
 
