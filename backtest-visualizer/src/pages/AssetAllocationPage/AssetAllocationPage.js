@@ -6,11 +6,33 @@ import MarketCalendar from "components/MarketCalendar";
 import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import { Query } from "react-apollo";
 import { summaryTable } from "utils/simulation";
+import SelectInput from "components/SelectInput";
+import ResultTable from "components/ResultTable";
 
 class AssetAllocationPage extends Component {
-  // state = {
-  //   data: []
-  // };
+  render() {
+    return (
+      <Query query={GET_GLOBAL_VARIABLES}>
+        {({ loading, error, data, client }) => {
+          const { codeList, startDate, endDate } = data.globalVariables;
+          const table = summaryTable(codeList, startDate, endDate);
+          console.log(table);
+          return (
+            <div>
+              <div className="asset-allocation-page">
+                <SelectInput data={data} client={client} />
+                <MarketCalendar data={data} client={client} />
+                {table ? <ResultTable data={table} /> : null}
+                <button onClick={e => this.handleOnClick(e, data)}>Run</button>
+                <button onClick={this.handleResetClick}>Reset</button>
+                <AssetAllocationChart data={this.state.data} />
+              </div>
+            </div>
+          );
+        }}
+      </Query>
+    );
+  }
 
   constructor(props) {
     super(props);
@@ -112,28 +134,6 @@ class AssetAllocationPage extends Component {
     this.setState({
       data: "reset"
     });
-  }
-
-  render() {
-    return (
-      <Query query={GET_GLOBAL_VARIABLES}>
-        {({ loading, error, data, client }) => {
-          const { codeList, startDate, endDate } = data.globalVariables;
-          const table = summaryTable(codeList, startDate, endDate);
-          console.log(table);
-          return (
-            <div>
-              <div className="asset-allocation-page">
-                <MarketCalendar data={data} client={client} />
-                <button onClick={e => this.handleOnClick(e, data)}>Run</button>
-                <button onClick={this.handleResetClick}>Reset</button>
-                <AssetAllocationChart data={this.state.data} />
-              </div>
-            </div>
-          );
-        }}
-      </Query>
-    );
   }
 }
 
