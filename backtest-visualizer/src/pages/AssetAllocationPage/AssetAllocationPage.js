@@ -25,7 +25,10 @@ class AssetAllocationPage extends Component {
                 {table ? <ResultTable data={table} /> : null}
                 <button onClick={e => this.handleOnClick(e, data)}>Run</button>
                 <button onClick={this.handleResetClick}>Reset</button>
-                <AssetAllocationChart data={this.state.data} />
+                <AssetAllocationChart
+                  data={this.state.data}
+                  fixedAllocation={table}
+                />
               </div>
             </div>
           );

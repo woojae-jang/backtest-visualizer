@@ -10,10 +10,15 @@ class AssetAllocationChart extends Component {
     );
   }
   componentDidMount() {
+    console.log(this.props);
     this._create_chart();
+    this._fixedAllocation();
   }
 
   componentDidUpdate() {
+    if (this.props.fixedAllocation) {
+      this._fixedAllocation();
+    }
     this._chartUpdate();
     // if(this.chart !== undefined){
     //     if(this.props.data == "reset"){
@@ -23,6 +28,22 @@ class AssetAllocationChart extends Component {
     //         this.add_points(this.props.data);
     //     }
     // }
+  }
+
+  _fixedAllocation() {
+    const allocations = this.props.fixedAllocation;
+    this.chart.data.datasets.map((datasets, index) => {
+      if (datasets.label === "Fixed Allocation") {
+        this.chart.data.datasets[index].data = allocations.map(alloc => {
+          console.log(alloc);
+          return { x: alloc.std, y: alloc.returns, code: alloc.code };
+        });
+      }
+
+      return null;
+    });
+
+    this.chart.update();
   }
 
   _chartUpdate() {
@@ -38,11 +59,20 @@ class AssetAllocationChart extends Component {
       });
       return new_label;
     });
-    this.chart.data.datasets[0].data = [
-      ...this.chart.data.datasets[0].data,
-      ...points
-    ];
+
+    this.chart.data.datasets.map((datasets, index) => {
+      if (datasets.label === "Random Allocation") {
+        this.chart.data.datasets[index].data = [
+          ...this.chart.data.datasets[index].data,
+          ...points
+        ];
+      }
+
+      return null;
+    });
+
     this.chart.data.labels = [...this.chart.data.labels, ...labels];
+    console.log(points);
     this.chart.update();
   }
 
@@ -53,7 +83,13 @@ class AssetAllocationChart extends Component {
         labels: [],
         datasets: [
           {
-            label: "Scatter Dataset",
+            label: "Fixed Allocation",
+            data: [],
+            backgroundColor: "rgb(0, 99, 132)"
+          },
+
+          {
+            label: "Random Allocation",
             data: [],
             backgroundColor: "rgb(255, 99, 132)"
           }
