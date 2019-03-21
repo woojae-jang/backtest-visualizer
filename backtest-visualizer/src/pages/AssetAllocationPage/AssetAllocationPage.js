@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { BackTest, BackTestArgsHandler } from "../utils/simulation";
-import { getRandomAllocation } from "../utils/utils";
-import AssetAllocationChart from "../components/AssetAllocationChart";
-import MarketCalendar from "../components/MarketCalendar";
-import { GET_GLOBAL_VARIABLES } from "../apollo/queries";
+import { BackTest, BackTestArgsHandler } from "utils/simulation";
+import { getRandomAllocation } from "utils/utils";
+import AssetAllocationChart from "components/AssetAllocationChart";
+import MarketCalendar from "components/MarketCalendar";
+import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import { Query } from "react-apollo";
-import { summaryTable } from "../utils/simulation";
+import { summaryTable } from "utils/simulation";
 
 class AssetAllocationPage extends Component {
   // state = {

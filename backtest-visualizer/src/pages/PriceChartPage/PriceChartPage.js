@@ -1,11 +1,11 @@
 import React from "react";
 import "./PriceChartPage.css";
-import { GET_GLOBAL_VARIABLES } from "../apollo/queries";
+import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import "antd/dist/antd.css";
 import { Query } from "react-apollo";
-import PriceChart from "../components/PriceChart";
-import MarketCalendar from "../components/MarketCalendar";
-import SelectInput from "../components/SelectInput";
+import PriceChart from "components/PriceChart";
+import MarketCalendar from "components/MarketCalendar";
+import SelectInput from "components/SelectInput";
 
 class PriceChartPage extends React.Component {
   render() {
@@ -16,7 +16,7 @@ class PriceChartPage extends React.Component {
           {({ loading, error, data, client }) => {
             return (
               <div>
-                <SelectInput />
+                <SelectInput data={data} client={client} />
                 <MarketCalendar data={data} client={client} />
                 <PriceChart data={data} />
               </div>

@@ -17,8 +17,8 @@ import Example6 from "./pages/Example6";
 import Notfound from "./pages/notfound";
 import { ApolloProvider } from "react-apollo";
 import client from "./apollo/apollo";
-import PriceChartPage from "./pages/PriceChartPage";
-import AssetAllocationPage from "./pages/AssetAllocationPage";
+import PriceChartPage from "pages/PriceChartPage/PriceChartPage";
+import AssetAllocationPage from "pages/AssetAllocationPage/AssetAllocationPage";
 
 const routing = (
   <Router>
