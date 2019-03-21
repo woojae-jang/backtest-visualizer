@@ -3,13 +3,39 @@ import React from "react";
 
 const Option = Select.Option;
 
+const codeList = [
+  "069500",
+  "232080",
+  "143850",
+  "195930",
+  "238720",
+  "192090",
+  "148070",
+  "136340",
+  "182490",
+  "132030",
+  "130680",
+  "114800",
+  "138230",
+  "139660",
+  "130730"
+];
+
 const children = [];
-for (let i = 10; i < 36; i++) {
-  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+
+for (let i = 0; i < codeList.length; i++) {
+  children.push(<Option key={codeList[i]}>{codeList[i]}</Option>);
 }
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
+function handleChange(value, client) {
+  client.writeData({
+    data: {
+      globalVariables: {
+        __typename: "GlobalVariables",
+        codeList: value
+      }
+    }
+  });
 }
 
 const SelectInput = props => {
@@ -18,8 +44,8 @@ const SelectInput = props => {
       mode="multiple"
       style={{ width: "100%" }}
       placeholder="Please select"
-      defaultValue={["a10", "c12"]}
-      onChange={handleChange}
+      defaultValue={props.data.globalVariables.codeList}
+      onChange={value => handleChange(value, props.client)}
     >
       {children}
     </Select>
