@@ -49,10 +49,11 @@ class PriceChart extends React.Component {
     const colors = this.chart.data.datasets.map(dataset => dataset.borderColor);
     const datasets = [];
     dataList.map((data, index) => {
+      const newColor = dynamicColors();
       const dataset = {
         label: data.label,
-        backgroundColor: colors[index],
-        borderColor: colors[index],
+        backgroundColor: colors[index] ? colors[index] : newColor,
+        borderColor: colors[index] ? colors[index] : newColor,
         data: data.data.pctChange.map(num => math.round(num, 2)),
         fill: false
       };
@@ -96,13 +97,13 @@ class PriceChart extends React.Component {
   }
 
   _create_chart(price_data = [], labels = []) {
-    const colors = [dynamicColors(), dynamicColors()];
     const datasets = [];
-    price_data.map((data, index) => {
+    price_data.map(data => {
+      const color = dynamicColors();
       const dataset = {
         label: data.label,
-        backgroundColor: colors[index],
-        borderColor: colors[index],
+        backgroundColor: color,
+        borderColor: color,
         data: data.data.pctChange.map(num => math.round(num, 2)),
         fill: false
       };
