@@ -17,7 +17,6 @@ class AssetAllocationPage extends Component {
         {({ loading, error, data, client }) => {
           const { codeList, startDate, endDate } = data.globalVariables;
           const table = summaryTable(codeList, startDate, endDate);
-          console.log(table);
           return (
             <div>
               <div className="asset-allocation-page">

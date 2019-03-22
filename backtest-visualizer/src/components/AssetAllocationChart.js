@@ -10,7 +10,6 @@ class AssetAllocationChart extends Component {
     );
   }
   componentDidMount() {
-    console.log(this.props);
     this._create_chart();
     this._fixedAllocation();
   }
@@ -35,7 +34,6 @@ class AssetAllocationChart extends Component {
     this.chart.data.datasets.map((datasets, index) => {
       if (datasets.label === "Fixed Allocation") {
         this.chart.data.datasets[index].data = allocations.map(alloc => {
-          console.log(alloc);
           return { x: alloc.std, y: alloc.returns, code: alloc.code };
         });
       }
@@ -72,7 +70,6 @@ class AssetAllocationChart extends Component {
     });
 
     this.chart.data.labels = [...this.chart.data.labels, ...labels];
-    console.log(points);
     this.chart.update();
   }
 
