@@ -54,9 +54,10 @@ class AssetAllocationPage extends Component {
     const { startDate, endDate, codeList } = variables;
 
     const tmpArray = new Array(16).fill(0);
-    codeList.forEach((code, index) => {
-      if (assetCodeList.indexOf(code) !== -1) {
-        tmpArray[index] = null;
+    codeList.forEach(code => {
+      const codeIndex = assetCodeList.indexOf(code);
+      if (codeIndex !== -1) {
+        tmpArray[codeIndex] = null;
       }
     });
 
