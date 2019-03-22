@@ -537,8 +537,14 @@ const nameList = [
   "KOSEF단기자금"
 ];
 
+const getAssetName = code => {
+  const idx = codeList.indexOf(code);
+  return nameList[idx];
+};
+
 export {
   tradingDateList,
   codeList as assetCodeList,
-  nameList as assetNameList
+  nameList as assetNameList,
+  getAssetName
 };

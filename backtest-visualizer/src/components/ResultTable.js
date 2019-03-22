@@ -1,6 +1,7 @@
 import { Table } from "antd";
 import React from "react";
 import * as math from "mathjs";
+import { getAssetName } from "utils/data";
 
 // const dataSource = [
 //   {
@@ -22,6 +23,11 @@ const columns = [
     title: "Code",
     dataIndex: "code",
     key: "code"
+  },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name"
   },
   {
     title: "Returns",
@@ -49,6 +55,7 @@ const ResultTable = props => {
     return {
       key: index,
       code,
+      name: getAssetName(code),
       returns,
       std
     };
