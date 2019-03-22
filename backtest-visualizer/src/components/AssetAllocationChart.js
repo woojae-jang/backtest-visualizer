@@ -109,7 +109,7 @@ class AssetAllocationChart extends Component {
           if (activePoints[0]) {
             let index = activePoints[0]._index;
             // console.log(this.chart.data.labels[index]);
-            console.log(this.chart.data.datasets[0].data[index]);
+            console.log(this.chart.data.datasets[1].data[index]);
             // console.log(this.chart.data.datasets[0].data[index].sharpeRatio);
           }
         }

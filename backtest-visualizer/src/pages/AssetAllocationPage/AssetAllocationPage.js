@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BackTest, BackTestArgsHandler } from "utils/simulation";
-import { getRandomAllocation, getRandAllocWithFixedWeights } from "utils/utils";
+import { getRandAllocWithFixedWeights } from "utils/utils";
 import { assetCodeList } from "utils/data";
 import AssetAllocationChart from "components/AssetAllocationChart";
 import MarketCalendar from "components/MarketCalendar";
