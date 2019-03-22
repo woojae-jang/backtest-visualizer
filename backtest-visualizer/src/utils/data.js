@@ -519,4 +519,26 @@ const codeList = [
   "130730"
 ];
 
-export { tradingDateList, codeList as assetCodeList };
+const nameList = [
+  "KODEX200",
+  "TIGER코스닥150",
+  "TIGER미국S&P500선물(H)",
+  "TIGER유로스탁스50(합성H)",
+  "KINDEX일본Nikkei225(H)",
+  "TIGER차이나CSI300",
+  "KOSEF국고채10년",
+  "KBSTAR중기우량회사채",
+  "TIGER단기선진하이일드(합성H)",
+  "KODEX골드선물(H)",
+  "TIGER원유선물Enhanced(H)",
+  "KODEX인버스",
+  "KOSEF미국달러선물",
+  "KOSEF미국달러선물인버스",
+  "KOSEF단기자금"
+];
+
+export {
+  tradingDateList,
+  codeList as assetCodeList,
+  nameList as assetNameList
+};
