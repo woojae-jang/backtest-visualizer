@@ -501,4 +501,22 @@ const tradingDateList = [
   "20181207"
 ];
 
-export { tradingDateList };
+const codeList = [
+  "069500",
+  "232080",
+  "143850",
+  "195930",
+  "238720",
+  "192090",
+  "148070",
+  "136340",
+  "182490",
+  "132030",
+  "130680",
+  "114800",
+  "138230",
+  "139660",
+  "130730"
+];
+
+export { tradingDateList, codeList as assetCodeList };
