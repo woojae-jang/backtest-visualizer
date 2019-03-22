@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BackTest, BackTestArgsHandler } from "utils/simulation";
-import { getRandomAllocation } from "utils/utils";
+import { getRandomAllocation, getRandAllocWithFixedWeights } from "utils/utils";
+import { assetCodeList } from "utils/data";
 import AssetAllocationChart from "components/AssetAllocationChart";
 import MarketCalendar from "components/MarketCalendar";
 import { GET_GLOBAL_VARIABLES } from "apollo/queries";
@@ -50,9 +51,17 @@ class AssetAllocationPage extends Component {
   }
 
   simulationOnce(variables) {
-    const { startDate, endDate } = variables;
-    const newAllocation = getRandomAllocation(16);
-    // const newAllocation = [0,0,0,0,0,0,100,0,0,0,0,0,0,0,0,0]
+    const { startDate, endDate, codeList } = variables;
+
+    const tmpArray = new Array(16).fill(0);
+    codeList.forEach((code, index) => {
+      if (assetCodeList.indexOf(code) !== -1) {
+        tmpArray[index] = null;
+      }
+    });
+
+    const newAllocation = getRandAllocWithFixedWeights(tmpArray);
+
     const backTestArgsHandler = new BackTestArgsHandler();
     backTestArgsHandler.replaceAllocation(newAllocation);
     backTestArgsHandler.setDateRange(startDate, endDate);
