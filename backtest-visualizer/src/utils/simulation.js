@@ -3,7 +3,8 @@ import * as math from "mathjs";
 import { tradingDateList } from "./data";
 
 const SEED_MONEY = 10000000000;
-const COMMISION_RATE = 0.015 / 100;
+// const COMMISION_RATE = 0.015 / 100;
+const COMMISION_RATE = 0 / 100;
 const TAX_RATE = 0;
 // const TAX_RATE = 0.3 / 100;
 
@@ -165,8 +166,8 @@ class PortFolio {
 
     const NAV = this.valuation();
 
-    // weight 10% 가감
-    weight *= 0.9;
+    // // weight 10% 가감
+    // weight *= 0.9;
 
     return (NAV / 100) * weight;
   }
