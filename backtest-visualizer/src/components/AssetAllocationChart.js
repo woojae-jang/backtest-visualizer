@@ -102,11 +102,10 @@ class AssetAllocationChart extends Component {
           ]
         },
         onClick: event => {
-          let activePoints = this.chart.getElementAtEvent(event);
+          const activePoints = this.chart.getElementAtEvent(event);
           if (activePoints[0]) {
-            let index = activePoints[0]._index;
-            // console.log(this.chart.data.labels[index]);
-            console.log(this.chart.data.datasets[1].data[index]);
+            const { _datasetIndex, _index } = activePoints[0];
+            console.log(this.chart.data.datasets[_datasetIndex].data[_index]);
             // console.log(this.chart.data.datasets[0].data[index].sharpeRatio);
           }
         }
