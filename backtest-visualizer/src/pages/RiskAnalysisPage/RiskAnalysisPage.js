@@ -4,7 +4,8 @@ import "antd/dist/antd.css";
 import { Query } from "react-apollo";
 import RiskChart from "components/RiskChart";
 import MarketCalendar from "components/MarketCalendar";
-import SelectInput from "components/SelectInput";
+import SelectSingleInput from "components/SelectSingleInput";
+// import SelectInput from "components/SelectInput";
 
 class RiskAnalysisPage extends React.Component {
   render() {
@@ -15,7 +16,7 @@ class RiskAnalysisPage extends React.Component {
           {({ loading, error, data, client }) => {
             return (
               <div>
-                <SelectInput data={data} client={client} />
+                <SelectSingleInput data={data} client={client} />
                 <MarketCalendar data={data} client={client} />
                 <RiskChart data={data} />
               </div>

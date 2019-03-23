@@ -24,9 +24,13 @@ class RiskChart extends React.Component {
   }
 
   chartUpdate() {
-    const { startDate, endDate } = this.props.data.globalVariables;
+    const {
+      startDate,
+      endDate,
+      selectedCode
+    } = this.props.data.globalVariables;
 
-    const code = "069500";
+    const code = selectedCode;
 
     const pctChange = market.getReturnsListInRange(code, startDate, endDate);
 
@@ -66,9 +70,13 @@ class RiskChart extends React.Component {
   }
 
   componentDidMount() {
-    const { startDate, endDate } = this.props.data.globalVariables;
+    const {
+      startDate,
+      endDate,
+      selectedCode
+    } = this.props.data.globalVariables;
 
-    const code = "069500";
+    const code = selectedCode;
 
     const pctChange = market.getReturnsListInRange(code, startDate, endDate);
 
