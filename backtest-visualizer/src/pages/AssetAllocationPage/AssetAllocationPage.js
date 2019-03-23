@@ -9,6 +9,7 @@ import { Query } from "react-apollo";
 import { summaryTable } from "utils/simulation";
 import SelectInput from "components/SelectInput";
 import ResultTable from "components/ResultTable";
+import * as math from "mathjs";
 
 class AssetAllocationPage extends Component {
   render() {
@@ -60,7 +61,10 @@ class AssetAllocationPage extends Component {
       }
     });
 
-    const newAllocation = getRandAllocWithFixedWeights(tmpArray);
+    let newAllocation = getRandAllocWithFixedWeights(tmpArray);
+    newAllocation = newAllocation.map(value => math.floor(value));
+    const remainWieght = 100 - math.sum(newAllocation);
+    newAllocation[newAllocation.length - 1] += remainWieght;
 
     const backTestArgsHandler = new BackTestArgsHandler();
     backTestArgsHandler.replaceAllocation(newAllocation);
@@ -73,8 +77,8 @@ class AssetAllocationPage extends Component {
     backTest.createMetaData();
     const result = backTest.result();
     this.tempData.push({
-      x: result.std,
-      y: result.finalReturn,
+      x: math.round(result.std, 4),
+      y: math.round(result.finalReturn, 4),
       labels: newAllocation,
       sharpeRatio: result.sharpeRatio
     });
