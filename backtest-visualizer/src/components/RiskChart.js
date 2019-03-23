@@ -44,8 +44,11 @@ class RiskChart extends React.Component {
     const datasets = [];
     const daysList = windowList;
     const colors = this.chart.data.datasets.map(dataset => dataset.borderColor);
-    const hidden = this.chart.data.datasets.map(dataset => dataset.hidden);
-    console.log(hidden);
+    // const hidden = this.chart.data.datasets.map((dataset,index) => {
+    //   let meta = this.chart.getDatasetMeta(index);
+    // }
+    // );
+    // console.log(hidden);
     daysList.forEach((days, index) => {
       const newColor = dynamicColors();
       let data = getStdMovingAvg(pctChange, days);
@@ -57,8 +60,7 @@ class RiskChart extends React.Component {
         backgroundColor: colors[index] ? colors[index] : newColor,
         borderColor: colors[index] ? colors[index] : newColor,
         data: data,
-        fill: false,
-        hidden: hidden[index]
+        fill: false
       };
       datasets.push(dataset);
     });
