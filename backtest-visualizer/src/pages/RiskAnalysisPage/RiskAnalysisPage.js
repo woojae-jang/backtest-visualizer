@@ -2,7 +2,7 @@ import React from "react";
 import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import "antd/dist/antd.css";
 import { Query } from "react-apollo";
-import PriceChart from "components/PriceChart";
+import RiskChart from "components/RiskChart";
 import MarketCalendar from "components/MarketCalendar";
 import SelectInput from "components/SelectInput";
 
@@ -17,6 +17,7 @@ class RiskAnalysisPage extends React.Component {
               <div>
                 <SelectInput data={data} client={client} />
                 <MarketCalendar data={data} client={client} />
+                <RiskChart data={data} />
               </div>
             );
           }}
