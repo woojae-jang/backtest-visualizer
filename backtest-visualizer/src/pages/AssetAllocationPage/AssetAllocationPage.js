@@ -62,6 +62,8 @@ class AssetAllocationPage extends Component {
     });
 
     let newAllocation = getRandAllocWithFixedWeights(tmpArray);
+
+    // EF LINE 에 영향을 미침
     newAllocation = newAllocation.map(value => math.floor(value));
     const remainWieght = 100 - math.sum(newAllocation);
     newAllocation[newAllocation.length - 1] += remainWieght;
