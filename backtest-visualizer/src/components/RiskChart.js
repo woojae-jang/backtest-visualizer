@@ -4,7 +4,7 @@ import * as math from "mathjs";
 import * as $ from "jquery";
 import Chart from "chart.js";
 import { dynamicColors } from "../utils/chartUtil";
-import * as sma from "sma";
+import { getStdMovingAvg } from "utils/utils";
 
 const market = new Market("20161207");
 
@@ -18,63 +18,55 @@ class RiskChart extends React.Component {
     );
   }
 
-  // componentDidUpdate() {
-  //   this.chartUpdate();
-  // }
+  componentDidUpdate() {
+    this.chartUpdate();
+  }
 
-  // chartUpdate() {
-  //   const { startDate, endDate, codeList } = this.props.data.globalVariables;
+  chartUpdate() {
+    const { startDate, endDate } = this.props.data.globalVariables;
 
-  //   const dataList = [];
+    const code = "069500";
 
-  //   for (let i = 0; i < codeList.length; i++) {
-  //     let price_data = market.getCumPctChangeInRange(
-  //       codeList[i],
-  //       startDate,
-  //       endDate
-  //     );
-  //     let dataset = {};
-  //     dataset.data = price_data;
-  //     dataset.label = codeList[i];
-  //     dataList.push(dataset);
-  //   }
+    const pctChange = market.getReturnsListInRange(code, startDate, endDate);
 
-  //   const priceData = market.getCumPctChangeInRange(
-  //     "232080",
-  //     startDate,
-  //     endDate
-  //   );
-  //   const labels = priceData.dateList;
+    const priceData = market.getCumPctChangeInRange(
+      "232080",
+      startDate,
+      endDate
+    );
+    const labels = priceData.dateList;
 
-  //   // same colors
-  //   const colors = this.chart.data.datasets.map(dataset => dataset.borderColor);
-  //   const datasets = [];
-  //   dataList.map((data, index) => {
-  //     const newColor = dynamicColors();
-  //     const dataset = {
-  //       label: data.label,
-  //       backgroundColor: colors[index] ? colors[index] : newColor,
-  //       borderColor: colors[index] ? colors[index] : newColor,
-  //       data: data.data.pctChange.map(num => math.round(num, 2)),
-  //       fill: false
-  //     };
-  //     datasets.push(dataset);
-  //     return null;
-  //   });
+    const datasets = [];
+    const daysList = [20, 40, 60, 80];
+    const colors = this.chart.data.datasets.map(dataset => dataset.borderColor);
+    daysList.forEach((days, index) => {
+      const newColor = dynamicColors();
+      let data = getStdMovingAvg(pctChange, days);
+      for (let i = 0; i < days; i++) {
+        data.unshift(NaN);
+      }
+      const dataset = {
+        label: days + "MA",
+        backgroundColor: colors[index] ? colors[index] : newColor,
+        borderColor: colors[index] ? colors[index] : newColor,
+        data: data,
+        fill: false
+      };
+      datasets.push(dataset);
+    });
 
-  //   const data = {
-  //     labels: labels,
-  //     datasets
-  //   };
-  //   this.chart.data = data;
-  //   this.chart.update();
-  // }
+    const data = {
+      labels: labels,
+      datasets
+    };
+
+    this.chart.data = data;
+    this.chart.update();
+  }
 
   componentDidMount() {
-    // const { startDate, endDate, codeList } = this.props.data.globalVariables;
+    const { startDate, endDate } = this.props.data.globalVariables;
 
-    const startDate = "20170306";
-    const endDate = "20170928";
     const code = "069500";
 
     const pctChange = market.getReturnsListInRange(code, startDate, endDate);
@@ -93,7 +85,7 @@ class RiskChart extends React.Component {
     const datasets = [];
     const daysList = [20, 40, 60, 80];
     daysList.forEach(days => {
-      let data = sma(pctChange, days, d => d);
+      let data = getStdMovingAvg(pctChange, days);
       for (let i = 0; i < days; i++) {
         data.unshift(NaN);
       }
@@ -160,7 +152,7 @@ class RiskChart extends React.Component {
               display: true,
               scaleLabel: {
                 display: true,
-                labelString: "Return(%)"
+                labelString: "Standard Deviation(%)"
               }
             }
           ]

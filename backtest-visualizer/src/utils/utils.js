@@ -32,4 +32,29 @@ const getRandAllocWithFixedWeights = weightsWithfixedWeight => {
   return output;
 };
 
-export { getRandomAllocation, getRandAllocWithFixedWeights };
+const mStd = (arr, stIdx, enIdx) => {
+  return std(arr.slice(stIdx, enIdx));
+};
+
+const std = arr => {
+  return mathjs.std(arr);
+};
+
+// function avg(arr, idx, range) {
+//   return sum(arr.slice(idx - range, idx)) / range;
+// }
+
+const getStdMovingAvg = (pctChange, window) => {
+  const length = pctChange.length;
+  const data = [];
+  let value = null;
+  for (let i = 0; i < length - window + 1; i++) {
+    value = mStd(pctChange, i, i + window);
+    data.push(value);
+  }
+  return data;
+
+  // let data = sma(pctChange, ma, d => d);
+};
+
+export { getRandomAllocation, getRandAllocWithFixedWeights, getStdMovingAvg };
