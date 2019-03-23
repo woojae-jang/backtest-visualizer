@@ -93,31 +93,21 @@ class RiskChart extends React.Component {
     const datasets = [];
     const daysList = [20, 40, 60, 80];
     daysList.forEach(days => {
-      console.log(sma(pctChange, days, d => d));
-      // const color = dynamicColors();
-      // const dataset = {
-      //   label: days + "MA",
-      //   backgroundColor: color,
-      //   borderColor: color,
-      //   data: data.data.pctChange.map(num => math.round(num, 2)),
-      //   fill: false
-      // };
-      // datasets.push(dataset);
-    });
-    return;
+      let data = sma(pctChange, days, d => d);
+      for (let i = 0; i < days; i++) {
+        data.unshift(NaN);
+      }
 
-    // price_data.map(data => {
-    //   const color = dynamicColors();
-    //   const dataset = {
-    //     label: data.label,
-    //     backgroundColor: color,
-    //     borderColor: color,
-    //     data: data.data.pctChange.map(num => math.round(num, 2)),
-    //     fill: false
-    //   };
-    //   datasets.push(dataset);
-    //   return null;
-    // });
+      const color = dynamicColors();
+      const dataset = {
+        label: days + "MA",
+        backgroundColor: color,
+        borderColor: color,
+        data: data,
+        fill: false
+      };
+      datasets.push(dataset);
+    });
 
     const data = {
       labels: labels,
