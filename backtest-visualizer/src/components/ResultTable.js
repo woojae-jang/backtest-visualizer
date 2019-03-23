@@ -3,21 +3,6 @@ import React from "react";
 import * as math from "mathjs";
 import { getAssetName } from "utils/data";
 
-// const dataSource = [
-//   {
-//     key: "1",
-//     code: "123456",
-//     returns: 0.23,
-//     std: 0.13
-//   },
-//   {
-//     key: "2",
-//     code: "654321",
-//     returns: 0.15,
-//     std: 0.11
-//   }
-// ];
-
 const columns = [
   {
     title: "Code",
@@ -40,12 +25,6 @@ const columns = [
     key: "std"
   }
 ];
-
-// class ResultTable extends React.Component {
-//   render() {
-//     return <Table dataSource={dataSource} columns={columns} />;
-//   }
-// }
 
 const ResultTable = props => {
   const dataSource = props.data.map((data, index) => {
