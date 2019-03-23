@@ -1,12 +1,13 @@
 import React from "react";
 import { Market } from "../market";
-import * as math from "mathjs";
 import * as $ from "jquery";
 import Chart from "chart.js";
 import { dynamicColors } from "../utils/chartUtil";
 import { getStdMovingAvg } from "utils/utils";
 
 const market = new Market("20161207");
+
+const windowList = [20, 60, 120, 240, 360, 480];
 
 class RiskChart extends React.Component {
   render() {
@@ -37,7 +38,7 @@ class RiskChart extends React.Component {
     const labels = priceData.dateList;
 
     const datasets = [];
-    const daysList = [20, 40, 60, 80];
+    const daysList = windowList;
     const colors = this.chart.data.datasets.map(dataset => dataset.borderColor);
     daysList.forEach((days, index) => {
       const newColor = dynamicColors();
@@ -83,7 +84,7 @@ class RiskChart extends React.Component {
 
   _create_chart(pctChange = [], labels = []) {
     const datasets = [];
-    const daysList = [20, 40, 60, 80];
+    const daysList = windowList;
     daysList.forEach(days => {
       let data = getStdMovingAvg(pctChange, days);
       for (let i = 0; i < days; i++) {
