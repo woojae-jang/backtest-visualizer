@@ -101,6 +101,28 @@ class AssetAllocationChart extends Component {
             }
           ]
         },
+        tooltips: {
+          callbacks: {
+            label: (tooltipItem, data) => {
+              const { index, datasetIndex } = tooltipItem;
+              let label = null;
+              if (datasetIndex === 0) {
+                label = data.datasets[0].data[index].code;
+              } else {
+                label = data.labels[tooltipItem.index];
+              }
+
+              return (
+                label +
+                " : (" +
+                tooltipItem.xLabel +
+                ", " +
+                tooltipItem.yLabel +
+                ")"
+              );
+            }
+          }
+        },
         onClick: event => {
           const activePoints = this.chart.getElementAtEvent(event);
           if (activePoints[0]) {
