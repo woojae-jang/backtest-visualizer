@@ -24,7 +24,7 @@
 - [ ] Optimal Portfolio Selection
 
   - [ ] Asset Allocation 시각화
-    - [ ] scatter chart
+    - [x] scatter chart(2019.03.22)
     - [ ] efficient frontier
     - [ ] Capital Allocation Line - CAL
 
