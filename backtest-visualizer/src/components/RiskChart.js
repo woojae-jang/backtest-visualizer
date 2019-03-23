@@ -122,7 +122,7 @@ class RiskChart extends React.Component {
         responsive: true,
         title: {
           display: true,
-          text: "Chart.js Line Chart"
+          text: "Standard Deviation Moving Avg"
         },
         tooltips: {
           mode: "index",
