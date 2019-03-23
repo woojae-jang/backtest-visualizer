@@ -1,5 +1,16 @@
 import gql from "graphql-tag";
 
+export const GET_GLOBAL_VARIABLES = gql`
+  {
+    globalVariables @client {
+      startDate
+      endDate
+      codeList
+      selectedCode
+    }
+  }
+`;
+
 export const GET_NOTES = gql`
   {
     notes @client {
@@ -24,16 +35,6 @@ export const GET_PRICE_LIST = gql`
     priceList @client {
       code
       closePrice
-    }
-  }
-`;
-
-export const GET_GLOBAL_VARIABLES = gql`
-  {
-    globalVariables @client {
-      startDate
-      endDate
-      codeList
     }
   }
 `;
