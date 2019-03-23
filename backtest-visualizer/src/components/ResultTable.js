@@ -40,7 +40,7 @@ const ResultTable = props => {
     };
   });
 
-  return <Table dataSource={dataSource} columns={columns} />;
+  return <Table dataSource={dataSource} columns={columns} size="small" />;
 };
 
 export default ResultTable;
