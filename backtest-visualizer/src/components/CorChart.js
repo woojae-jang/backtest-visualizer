@@ -157,7 +157,6 @@ var options = {
     enabled: false
   },
   colors: colors,
-  //   series: data,
   xaxis: {
     type: "category",
     categories: [
