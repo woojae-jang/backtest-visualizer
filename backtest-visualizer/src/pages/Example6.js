@@ -1,9 +1,9 @@
 import React from "react";
-import SelectInput from "../components/SelectInput";
+import CorChart from "components/CorChart";
 
 class Example6 extends React.Component {
   render() {
-    return <SelectInput />;
+    return <CorChart />;
   }
 }
 export default Example6;
