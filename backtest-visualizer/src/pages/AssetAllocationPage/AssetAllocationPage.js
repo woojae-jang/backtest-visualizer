@@ -9,6 +9,7 @@ import { Query } from "react-apollo";
 import { summaryTable } from "utils/simulation";
 import SelectInput from "components/SelectInput";
 import ResultTable from "components/ResultTable";
+import ReturnsChart from "components/ReturnsChart";
 import * as math from "mathjs";
 
 class AssetAllocationPage extends Component {
@@ -29,7 +30,9 @@ class AssetAllocationPage extends Component {
                 <AssetAllocationChart
                   data={this.state.data}
                   fixedAllocation={table}
+                  client={client}
                 />
+                <ReturnsChart data={data} />
               </div>
             </div>
           );
