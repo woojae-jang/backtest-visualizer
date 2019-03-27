@@ -33,6 +33,7 @@ export const typeDefs = `
         startDate: String
         endDate: String
         codeList: [String]
+        selectedAllocation: []
     }
 
     `;

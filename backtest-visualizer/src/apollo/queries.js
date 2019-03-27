@@ -7,6 +7,7 @@ export const GET_GLOBAL_VARIABLES = gql`
       endDate
       codeList
       selectedCode
+      selectedAllocation
     }
   }
 `;

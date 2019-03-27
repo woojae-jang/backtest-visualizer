@@ -4,7 +4,8 @@ export const defaultsState = {
     startDate: "20170306",
     endDate: "20170928",
     selectedCode: "069500",
-    codeList: ["069500", "232080", "143850"]
+    codeList: ["069500", "232080", "143850"],
+    selectedAllocation: []
   },
   notes: [
     {
