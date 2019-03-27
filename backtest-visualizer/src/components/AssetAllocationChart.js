@@ -125,9 +125,21 @@ class AssetAllocationChart extends Component {
         },
         onClick: event => {
           const activePoints = this.chart.getElementAtEvent(event);
+          const { client } = this.props;
           if (activePoints[0]) {
             const { _datasetIndex, _index } = activePoints[0];
-            console.log(this.chart.data.datasets[_datasetIndex].data[_index]);
+            const point = this.chart.data.datasets[_datasetIndex].data[_index];
+
+            if (point !== null) {
+              client.writeData({
+                data: {
+                  globalVariables: {
+                    __typename: "GlobalVariables",
+                    selectedAllocation: point.labels
+                  }
+                }
+              });
+            }
             // console.log(this.chart.data.datasets[0].data[index].sharpeRatio);
           }
         }
