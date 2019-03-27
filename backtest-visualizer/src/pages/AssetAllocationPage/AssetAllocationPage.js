@@ -10,6 +10,7 @@ import { summaryTable } from "utils/simulation";
 import SelectInput from "components/SelectInput";
 import ResultTable from "components/ResultTable";
 import ReturnsChart from "components/ReturnsChart";
+import DoughnutChart from "components/DoughnutChart";
 import * as math from "mathjs";
 
 class AssetAllocationPage extends Component {
@@ -33,6 +34,7 @@ class AssetAllocationPage extends Component {
                   client={client}
                 />
                 <ReturnsChart data={data} />
+                <DoughnutChart data={data} />
               </div>
             </div>
           );
