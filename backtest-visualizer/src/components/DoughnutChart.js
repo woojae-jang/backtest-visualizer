@@ -20,6 +20,9 @@ class DoughnutChart extends React.Component {
     const options = {
       animation: {
         animateScale: true
+      },
+      legend: {
+        position: "left"
       }
     };
 
