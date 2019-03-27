@@ -32,6 +32,19 @@ const getRandAllocWithFixedWeights = weightsWithfixedWeight => {
   return output;
 };
 
+const getCumPctChange = navList => {
+  const cumPctChangeList = [];
+
+  const basePrice = navList[0];
+  navList.map(price => {
+    const pctChange = ((price - basePrice) / basePrice) * 100;
+    cumPctChangeList.push(pctChange);
+    return null;
+  });
+
+  return cumPctChangeList;
+};
+
 const mStd = (arr, stIdx, enIdx) => {
   return std(arr.slice(stIdx, enIdx));
 };
@@ -57,4 +70,9 @@ const getStdMovingAvg = (pctChange, window) => {
   // let data = sma(pctChange, ma, d => d);
 };
 
-export { getRandomAllocation, getRandAllocWithFixedWeights, getStdMovingAvg };
+export {
+  getRandomAllocation,
+  getRandAllocWithFixedWeights,
+  getStdMovingAvg,
+  getCumPctChange
+};
