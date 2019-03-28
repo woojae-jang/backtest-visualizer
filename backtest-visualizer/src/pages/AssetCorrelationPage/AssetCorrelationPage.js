@@ -1,24 +1,57 @@
 import React, { Component } from "react";
-import { assetCodeList } from "utils/data";
-import CorChart from "components/CorChart";
+import CorrelationChart from "components/CorrelationChart";
 import MarketCalendar from "components/MarketCalendar";
-import { GET_GLOBAL_VARIABLES } from "apollo/queries";
+import { GET_GLOBAL_VARIABLES, GET_COR_PAGE } from "apollo/queries";
 import { Query } from "react-apollo";
-import SelectInput from "components/SelectInput";
-import * as math from "mathjs";
+import { Market } from "market";
+import CompareAssetsSelect from "./CompareAssetsSelect";
+
+const market = new Market();
 
 class AssetCorrelationPage extends Component {
   render() {
     return (
       <Query query={GET_GLOBAL_VARIABLES}>
         {({ loading, error, data, client }) => {
-          const { codeList, startDate, endDate } = data.globalVariables;
+          const { startDate, endDate } = data.globalVariables;
           return (
             <div>
               <div className="asset-allocation-page">
-                <SelectInput data={data} client={client} />
                 <MarketCalendar data={data} client={client} />
-                <CorChart />
+
+                <Query query={GET_COR_PAGE}>
+                  {result => {
+                    const { one, another } = result.data.correlationPage;
+                    const oneReturns = market.getReturnsListInRange(
+                      one,
+                      startDate,
+                      endDate
+                    );
+                    const anotherReturns = market.getReturnsListInRange(
+                      another,
+                      startDate,
+                      endDate
+                    );
+
+                    const chartData = {
+                      data: oneReturns.map((oneReturn, index) => {
+                        return { x: oneReturn, y: anotherReturns[index] };
+                      }),
+                      xLabel: one,
+                      yLabel: another
+                    };
+
+                    return (
+                      <React.Fragment>
+                        <CompareAssetsSelect
+                          data={result.data}
+                          client={client}
+                        />
+                        <CorrelationChart data={chartData} />
+                      </React.Fragment>
+                    );
+                  }}
+                </Query>
               </div>
             </div>
           );
