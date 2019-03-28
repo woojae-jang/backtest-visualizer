@@ -4,9 +4,11 @@ import MarketCalendar from "components/MarketCalendar";
 import { GET_GLOBAL_VARIABLES, GET_COR_PAGE } from "apollo/queries";
 import { Query } from "react-apollo";
 import { Market } from "market";
-import CompareAssetsSelect from "./CompareAssetsSelect";
 import { getAssetName } from "utils/data";
 import * as jStat from "jStat";
+
+import CompareAssetsSelect from "./CompareAssetsSelect";
+import CorTrendChart from "./CorTrendChart";
 
 const market = new Market();
 
@@ -56,6 +58,12 @@ class AssetCorrelationPage extends Component {
                           client={client}
                         />
                         <CorrelationChart data={chartData} />
+                        <CorTrendChart
+                          oneReturns={oneReturns}
+                          anotherReturns={anotherReturns}
+                          startDate={startDate}
+                          endDate={endDate}
+                        />
                       </React.Fragment>
                     );
                   }}
