@@ -6,6 +6,7 @@ import { Query } from "react-apollo";
 import { Market } from "market";
 import CompareAssetsSelect from "./CompareAssetsSelect";
 import { getAssetName } from "utils/data";
+import * as jStat from "jStat";
 
 const market = new Market();
 
@@ -33,6 +34,12 @@ class AssetCorrelationPage extends Component {
                       startDate,
                       endDate
                     );
+
+                    const corrcoeff = jStat.corrcoeff(
+                      oneReturns,
+                      anotherReturns
+                    );
+                    console.log(corrcoeff);
 
                     const chartData = {
                       data: oneReturns.map((oneReturn, index) => {
