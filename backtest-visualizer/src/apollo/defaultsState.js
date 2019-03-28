@@ -7,6 +7,13 @@ export const defaultsState = {
     codeList: ["069500", "232080", "143850"],
     selectedAllocation: []
   },
+
+  correlationPage: {
+    __typename: "CorrelationPage",
+    one: "069500",
+    another: "232080"
+  },
+
   notes: [
     {
       __typename: "Note",

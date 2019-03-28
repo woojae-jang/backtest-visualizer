@@ -12,6 +12,15 @@ export const GET_GLOBAL_VARIABLES = gql`
   }
 `;
 
+export const GET_COR_PAGE = gql`
+  {
+    correlationPage @client {
+      one
+      another
+    }
+  }
+`;
+
 export const GET_NOTES = gql`
   {
     notes @client {

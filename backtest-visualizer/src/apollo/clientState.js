@@ -36,4 +36,9 @@ export const typeDefs = `
         selectedAllocation: []
     }
 
+    correlationPage: {
+        one: String,
+        another: String
+      },
+
     `;
