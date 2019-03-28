@@ -1,4 +1,5 @@
 import * as mathjs from "mathjs";
+import * as jStat from "jStat";
 
 const getRandomAllocation = division => {
   let weight_list = [];
@@ -70,9 +71,29 @@ const getStdMovingAvg = (pctChange, window) => {
   // let data = sma(pctChange, ma, d => d);
 };
 
+const getMovingCor = (onePctChange, anotherPctChange, window) => {
+  if (onePctChange.length !== anotherPctChange.length) {
+    // eslint-disable-next-line no-throw-literal
+    throw "length error";
+  }
+
+  const length = onePctChange.length;
+  const data = [];
+  let corrcoeff = null;
+  for (let i = 0; i < length - window + 1; i++) {
+    corrcoeff = jStat.corrcoeff(
+      onePctChange.slice(i, i + window),
+      anotherPctChange.slice(i, i + window)
+    );
+    data.push(corrcoeff);
+  }
+  return data;
+};
+
 export {
   getRandomAllocation,
   getRandAllocWithFixedWeights,
   getStdMovingAvg,
-  getCumPctChange
+  getCumPctChange,
+  getMovingCor
 };
