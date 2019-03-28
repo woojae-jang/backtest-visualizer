@@ -5,6 +5,7 @@ import { GET_GLOBAL_VARIABLES, GET_COR_PAGE } from "apollo/queries";
 import { Query } from "react-apollo";
 import { Market } from "market";
 import CompareAssetsSelect from "./CompareAssetsSelect";
+import { getAssetName } from "utils/data";
 
 const market = new Market();
 
@@ -37,8 +38,8 @@ class AssetCorrelationPage extends Component {
                       data: oneReturns.map((oneReturn, index) => {
                         return { x: oneReturn, y: anotherReturns[index] };
                       }),
-                      xLabel: one,
-                      yLabel: another
+                      xLabel: getAssetName(one),
+                      yLabel: getAssetName(another)
                     };
 
                     return (
