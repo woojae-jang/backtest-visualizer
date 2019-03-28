@@ -20,6 +20,7 @@ import client from "./apollo/apollo";
 import PriceChartPage from "pages/PriceChartPage/PriceChartPage";
 import AssetAllocationPage from "pages/AssetAllocationPage/AssetAllocationPage";
 import RiskAnalysisPage from "pages/RiskAnalysisPage/RiskAnalysisPage";
+import AssetCorrelationPage from "pages/AssetCorrelationPage/AssetCorrelationPage";
 
 const routing = (
   <Router>
@@ -71,6 +72,11 @@ const routing = (
           </NavLink>
         </li>
         <li>
+          <NavLink activeClassName="active" to="/asset-correlation">
+            AssetCorrelation
+          </NavLink>
+        </li>
+        <li>
           <NavLink activeClassName="active" to="/risk-analysis">
             RiskAnalysis
           </NavLink>
@@ -86,6 +92,7 @@ const routing = (
         <Route path="/example6" component={Example6} />
         <Route path="/price_chart" component={PriceChartPage} />
         <Route path="/asset-allocation" component={AssetAllocationPage} />
+        <Route path="/asset-correlation" component={AssetCorrelationPage} />
         <Route path="/risk-analysis" component={RiskAnalysisPage} />
         <Route component={Notfound} />
       </Switch>
