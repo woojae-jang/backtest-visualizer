@@ -20,7 +20,7 @@ class CorrelationChart extends React.Component {
         animateScale: true
       },
       legend: {
-        position: "left"
+        display: false
       },
       scales: {
         yAxes: [
