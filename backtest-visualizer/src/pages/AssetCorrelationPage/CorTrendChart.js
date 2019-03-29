@@ -42,7 +42,20 @@ class CorTrendChart extends React.Component {
       datasets
     };
 
-    return <Line data={data} />;
+    const options = {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              min: -1,
+              max: 1
+            }
+          }
+        ]
+      }
+    };
+
+    return <Line data={data} options={options} />;
   }
 }
 
