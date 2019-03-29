@@ -1,17 +1,16 @@
 import React, { Component } from "react";
-import { BackTest, BackTestArgsHandler } from "utils/simulation";
-import { getRandAllocWithFixedWeights } from "utils/utils";
-import { assetCodeList } from "utils/data";
+import { Query } from "react-apollo";
+import * as math from "mathjs";
 import AssetAllocationChart from "components/AssetAllocationChart";
 import MarketCalendar from "components/MarketCalendar";
-import { GET_GLOBAL_VARIABLES } from "apollo/queries";
-import { Query } from "react-apollo";
-import { summaryTable } from "utils/simulation";
 import SelectInput from "components/SelectInput";
 import ResultTable from "components/ResultTable";
 import ReturnsChart from "components/ReturnsChart";
 import DoughnutChart from "components/DoughnutChart";
-import * as math from "mathjs";
+import { GET_GLOBAL_VARIABLES } from "apollo/queries";
+import { BackTest, BackTestArgsHandler, summaryTable } from "utils/simulation";
+import { getRandAllocWithFixedWeights } from "utils/utils";
+import { assetCodeList } from "utils/data";
 
 class AssetAllocationPage extends Component {
   render() {
@@ -155,7 +154,7 @@ class AssetAllocationPage extends Component {
 
   handleResetClick(event) {
     this.setState({
-      data: "reset"
+      data: []
     });
   }
 }

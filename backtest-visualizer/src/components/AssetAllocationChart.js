@@ -61,15 +61,13 @@ class AssetAllocationChart extends Component {
     };
 
     return (
-      <div id="chart">
-        <Scatter
-          data={data}
-          options={options}
-          width={800}
-          height={450}
-          getElementAtEvent={this.handleGetElementAtEvent}
-        />
-      </div>
+      <Scatter
+        data={data}
+        options={options}
+        width={800}
+        height={450}
+        getElementAtEvent={this.handleGetElementAtEvent}
+      />
     );
   }
 
@@ -81,7 +79,7 @@ class AssetAllocationChart extends Component {
       const { _datasetIndex, _index, _chart } = activePoints[0];
       const point = _chart.data.datasets[_datasetIndex].data[_index];
 
-      if (point !== null) {
+      if (point !== null && point.labels !== undefined) {
         client.writeData({
           data: {
             globalVariables: {
