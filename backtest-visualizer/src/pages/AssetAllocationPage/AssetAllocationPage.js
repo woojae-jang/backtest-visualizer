@@ -148,7 +148,7 @@ class AssetAllocationPage extends Component {
     const globalVariables = data.globalVariables;
     this.simulationLoop(globalVariables);
     this.setState({
-      data: this.tempData
+      data: [...this.state.data, ...this.tempData]
     });
     this.tempData = [];
   }
