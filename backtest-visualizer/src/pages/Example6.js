@@ -1,9 +1,9 @@
 import React from "react";
-import AssetCorrelationPage from "pages/AssetCorrelationPage/AssetCorrelationPage";
+import { WrappedAdvancedSearchForm } from "components/input/form";
 
 class Example6 extends React.Component {
   render() {
-    return <AssetCorrelationPage />;
+    return <WrappedAdvancedSearchForm />;
   }
 }
 export default Example6;
