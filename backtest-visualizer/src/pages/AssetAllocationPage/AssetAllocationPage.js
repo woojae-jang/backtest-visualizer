@@ -26,6 +26,10 @@ class AssetAllocationPage extends Component {
                 <MarketCalendar data={data} client={client} />
                 {table ? <ResultTable data={table} /> : null}
                 <button onClick={e => this.handleOnClick(e, data)}>Run</button>
+                <button onClick={e => this.handlePlayClick(e, data)}>
+                  Play
+                </button>
+                <button onClick={this.stopSimulation}>stop</button>
                 <button onClick={this.handleResetClick}>Reset</button>
                 <AssetAllocationChart
                   data={this.state.data}
@@ -48,8 +52,11 @@ class AssetAllocationPage extends Component {
     this.simulationLoop = this.simulationLoop.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
+    this.handlePlayClick = this.handlePlayClick.bind(this);
+    this.stopSimulation = this.stopSimulation.bind(this);
     this.state = {
-      data: []
+      data: [],
+      play: false
     };
     this.tempData = [];
   }
@@ -82,18 +89,34 @@ class AssetAllocationPage extends Component {
     backTest.run();
     backTest.createMetaData();
     const result = backTest.result();
-    this.tempData.push({
+
+    const simulationResult = {
       x: math.round(result.std, 4),
       y: math.round(result.finalReturn, 4),
       labels: newAllocation,
       sharpeRatio: result.sharpeRatio
-    });
-
-    return {
-      allocation: newAllocation,
-      finalReturn: result.finalReturn,
-      result: result
     };
+
+    this.tempData.push(simulationResult);
+    return simulationResult;
+  }
+
+  handlePlayClick(event, variables) {
+    const globalVariables = variables.globalVariables;
+
+    this.setState({ play: true });
+
+    this.player = setInterval(() => {
+      const result = this.simulationOnce(globalVariables);
+      this.setState({
+        data: [...this.state.data, result]
+      });
+    }, 1);
+  }
+
+  stopSimulation() {
+    this.setState({ play: false });
+    clearInterval(this.player);
   }
 
   simulationLoop(variables) {
