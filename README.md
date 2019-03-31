@@ -21,12 +21,14 @@
 
 - [x] Market Calendar UI(2019.03.17)
 
-- [ ] Optimal Portfolio Selection
+- [ ] Asset Allocation Page
 
   - [ ] Asset Allocation 시각화
+
     - [x] scatter chart(2019.03.22)
-    - [ ] efficient frontier
-    - [ ] Capital Allocation Line - CAL
+    - [x] weights of portfolio(2019.03.27)
+
+- [ ] Asset Correlation Page
 
 - [ ] 분위 알고리즘
   - [ ] 예시 web 시각화
