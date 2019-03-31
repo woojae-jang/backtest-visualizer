@@ -97,28 +97,10 @@ class AssetAllocationPage extends Component {
   }
 
   simulationLoop(variables) {
-    // let i = 0;
     const startTime = Date.now();
     let curTime = Date.now();
-    // let bestAllocation = null;
     while (true) {
-      // if(i == 5000) break;
-
       this.simulationOnce(variables);
-      // let resultObject = this.simulationOnce();
-      // if(bestAllocation === null){
-      // bestAllocation = resultObject;
-      // } else {
-      // if(resultObject.finalReturn > bestAllocation.finalReturn){
-      // bestAllocation = resultObject;
-      // // console.log(i);
-      // // console.log(bestAllocation);
-      // // console.log(resultObject.result);
-      // }
-      // }
-
-      // i++;
-
       curTime = Date.now();
       if (curTime - startTime > 1000) break;
     }
