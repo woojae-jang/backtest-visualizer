@@ -23,12 +23,11 @@
 
 - [ ] Asset Allocation Page
 
-  - [ ] Asset Allocation 시각화
-
-    - [x] scatter chart(2019.03.22)
-    - [x] weights of portfolio(2019.03.27)
+  - [x] scatter chart(2019.03.22)
+  - [x] weights of portfolio(2019.03.27)
 
 - [ ] Asset Correlation Page
 
+  - [ ] linear regression line
+
 - [ ] 분위 알고리즘
-  - [ ] 예시 web 시각화
