@@ -105,12 +105,12 @@ class AssetAllocationPage extends Component {
     const globalVariables = variables.globalVariables;
 
     this.setState({ play: true });
-
     this.player = setInterval(() => {
-      const result = this.simulationOnce(globalVariables);
+      this.simulationLoopWithTimeLimit(globalVariables, 100);
       this.setState({
-        data: [...this.state.data, result]
+        data: [...this.state.data, ...this.tempData]
       });
+      this.tempData = [];
     }, 1);
   }
 
@@ -129,21 +129,21 @@ class AssetAllocationPage extends Component {
     }
   }
 
-  simulationLoopWithTimeLimit(limitTime = 1000) {
+  simulationLoopWithTimeLimit(variables, limitTime = 1000) {
     const startTime = Date.now();
     let curTime = Date.now();
     while (true) {
-      this.simulationOnce();
+      this.simulationOnce(variables);
       curTime = Date.now();
       if (curTime - startTime > limitTime) break;
     }
   }
 
-  simulationLoopWithCountsLimit(limitCounts = 1000) {
+  simulationLoopWithCountsLimit(variables, limitCounts = 1000) {
     let i = 0;
     while (true) {
       if (i === limitCounts) break;
-      this.simulationOnce();
+      this.simulationOnce(variables);
       i++;
     }
   }

@@ -64,8 +64,8 @@ class AssetAllocationChart extends Component {
       <Scatter
         data={data}
         options={options}
-        width={800}
-        height={450}
+        width={300}
+        height={150}
         getElementAtEvent={this.handleGetElementAtEvent}
       />
     );
