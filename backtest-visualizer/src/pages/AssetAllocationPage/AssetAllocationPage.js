@@ -11,6 +11,7 @@ import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import { BackTest, BackTestArgsHandler, summaryTable } from "utils/simulation";
 import { getRandAllocWithFixedWeights } from "utils/utils";
 import { assetCodeList } from "utils/data";
+import { Button } from "antd";
 
 class AssetAllocationPage extends Component {
   render() {
@@ -25,12 +26,19 @@ class AssetAllocationPage extends Component {
                 <SelectInput data={data} client={client} />
                 <MarketCalendar data={data} client={client} />
                 {table ? <ResultTable data={table} /> : null}
-                <button onClick={e => this.handleOnClick(e, data)}>Run</button>
-                <button onClick={e => this.handlePlayClick(e, data)}>
+                <Button
+                  type="primary"
+                  onClick={e => this.handleOnClick(e, data)}
+                >
+                  Run
+                </Button>
+                <Button onClick={e => this.handlePlayClick(e, data)}>
                   Play
-                </button>
-                <button onClick={this.stopSimulation}>stop</button>
-                <button onClick={this.handleResetClick}>Reset</button>
+                </Button>
+                <Button onClick={this.stopSimulation}>Stop</Button>
+                <Button type="danger" onClick={this.handleResetClick}>
+                  Reset
+                </Button>
                 <AssetAllocationChart
                   data={this.state.data}
                   fixedAllocation={table}
