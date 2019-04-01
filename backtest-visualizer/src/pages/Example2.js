@@ -1,18 +1,9 @@
 import React from "react";
+import WeightsInputTable2 from "components/WeightsInputTable2";
 
 class Example2 extends React.Component {
-  onSubmit = () => {
-    this.props.history.push("/");
-  };
-
   render() {
-    return (
-      <form>
-        <input placeholder="name" type="name" />
-        <input placeholder="email" type="email" />
-        <button onClick={this.onSubmit}>Submit</button>
-      </form>
-    );
+    return <WeightsInputTable2 />;
   }
 }
 export default Example2;
