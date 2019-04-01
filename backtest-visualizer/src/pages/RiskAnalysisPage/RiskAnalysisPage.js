@@ -12,6 +12,7 @@ class RiskAnalysisPage extends React.Component {
     return (
       <div id="chart">
         <h1>RiskAnalysisPage</h1>
+        <p>자산의 Rolling Standard Deviation 을 보여줌</p>
         <Query query={GET_GLOBAL_VARIABLES}>
           {({ loading, error, data, client }) => {
             return (
