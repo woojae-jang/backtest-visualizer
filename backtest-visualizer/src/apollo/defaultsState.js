@@ -11,7 +11,9 @@ export const defaultsState = {
   correlationPage: {
     __typename: "CorrelationPage",
     one: "069500",
-    another: "232080"
+    another: "232080",
+    rolling: null,
+    baseDate: null
   },
 
   notes: [

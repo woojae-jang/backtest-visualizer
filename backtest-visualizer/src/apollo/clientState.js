@@ -39,6 +39,8 @@ export const typeDefs = `
     correlationPage: {
         one: String,
         another: String
+        rolling: Int,
+        baseDate: String
       },
 
     `;

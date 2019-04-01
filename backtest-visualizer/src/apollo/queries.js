@@ -17,6 +17,8 @@ export const GET_COR_PAGE = gql`
     correlationPage @client {
       one
       another
+      rolling
+      baseDate
     }
   }
 `;
