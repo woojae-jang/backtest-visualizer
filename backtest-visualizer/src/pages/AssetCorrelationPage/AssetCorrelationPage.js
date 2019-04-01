@@ -6,7 +6,7 @@ import { Query } from "react-apollo";
 import { Market } from "market";
 import { getAssetName } from "utils/data";
 import * as jStat from "jStat";
-
+import { tradingDateList } from "utils/data";
 import CompareAssetsSelect from "./CompareAssetsSelect";
 import CorTrendChart from "./CorTrendChart";
 
@@ -25,7 +25,12 @@ class AssetCorrelationPage extends Component {
 
                 <Query query={GET_COR_PAGE}>
                   {result => {
-                    const { one, another } = result.data.correlationPage;
+                    const {
+                      one,
+                      another,
+                      rolling,
+                      baseDate
+                    } = result.data.correlationPage;
                     const oneReturns = market.getReturnsListInRange(
                       one,
                       startDate,
@@ -43,13 +48,45 @@ class AssetCorrelationPage extends Component {
                     );
                     console.log(corrcoeff);
 
+                    const nameOfOne = getAssetName(one);
+                    const nameOfAnother = getAssetName(another);
+
                     const chartData = {
                       data: oneReturns.map((oneReturn, index) => {
                         return { x: oneReturn, y: anotherReturns[index] };
                       }),
-                      xLabel: getAssetName(one),
-                      yLabel: getAssetName(another)
+                      xLabel: nameOfOne,
+                      yLabel: nameOfAnother
                     };
+
+                    const subEndDate = baseDate;
+                    const idxOfSubEndDate = tradingDateList.indexOf(subEndDate);
+                    const subStartDate =
+                      tradingDateList[idxOfSubEndDate - rolling + 1];
+
+                    let subChartData = null;
+                    if (subStartDate && subEndDate) {
+                      const subOneReturns = market.getReturnsListInRange(
+                        one,
+                        subStartDate,
+                        subEndDate
+                      );
+                      const subAnotherReturns = market.getReturnsListInRange(
+                        another,
+                        subStartDate,
+                        subEndDate
+                      );
+                      subChartData = {
+                        data: subOneReturns.map((subOneReturn, index) => {
+                          return {
+                            x: subOneReturn,
+                            y: subAnotherReturns[index]
+                          };
+                        }),
+                        xLabel: nameOfOne,
+                        yLabel: nameOfAnother
+                      };
+                    }
 
                     return (
                       <React.Fragment>
@@ -63,7 +100,11 @@ class AssetCorrelationPage extends Component {
                           anotherReturns={anotherReturns}
                           startDate={startDate}
                           endDate={endDate}
+                          client={client}
                         />
+                        {subChartData ? (
+                          <CorrelationChart data={subChartData} />
+                        ) : null}
                       </React.Fragment>
                     );
                   }}
