@@ -38,9 +38,13 @@ export const typeDefs = `
 
     correlationPage: {
         one: String,
-        another: String
+        another: String,
         rolling: Int,
         baseDate: String
-      },
+    }
+
+    assetAllocationPage: {
+        weightLimit: Object
+    }
 
     `;

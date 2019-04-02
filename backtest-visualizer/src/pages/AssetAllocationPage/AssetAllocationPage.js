@@ -27,7 +27,7 @@ class AssetAllocationPage extends Component {
                 <SelectInput data={data} client={client} />
                 <MarketCalendar data={data} client={client} />
                 {table ? <ResultTable data={table} /> : null}
-                <WeightsInputTable2 data={data} />
+                <WeightsInputTable2 data={data} client={client} />
                 <Button
                   type="primary"
                   onClick={e => this.handleOnClick(e, data)}

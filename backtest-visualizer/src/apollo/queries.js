@@ -23,6 +23,14 @@ export const GET_COR_PAGE = gql`
   }
 `;
 
+export const GET_ASSET_ALO_PAGE = gql`
+  {
+    assetAllocationPage @client {
+      weightLimit
+    }
+  }
+`;
+
 export const GET_NOTES = gql`
   {
     notes @client {
