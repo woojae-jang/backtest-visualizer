@@ -90,6 +90,15 @@ const getMovingCor = (onePctChange, anotherPctChange, window) => {
   return data;
 };
 
+const createLinearReturns = (finalReturn, length) => {
+  const step = Math.pow(finalReturn, 1 / length);
+  const array = new Array(length).fill(step);
+  return array;
+};
+
+const result = createLinearReturns(20, 5);
+console.log(result);
+
 export {
   getRandomAllocation,
   getRandAllocWithFixedWeights,
