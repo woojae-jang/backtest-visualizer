@@ -41,23 +41,21 @@ class WeightsInputTable2 extends React.Component {
         code
       };
     });
-    dataSource.forEach((data, index) => {
-      dataSource[index].minWeight = (
-        <InputNumber
-          min={0}
-          max={100}
-          defaultValue={0}
-          onChange={val => this.onChange(val, data.key, "minWeight")}
-        />
-      );
 
-      dataSource[index].maxWeight = (
-        <InputNumber
-          min={0}
-          max={100}
-          defaultValue={100}
-          onChange={val => this.onChange(val, data.key, "maxWeight")}
-        />
+    dataSource.forEach((data, index) => {
+      [
+        { col: "minWeight", defaultValue: 0 },
+        { col: "maxWeight", defaultValue: 100 }
+      ].forEach(
+        obj =>
+          (dataSource[index][obj.col] = (
+            <InputNumber
+              min={0}
+              max={100}
+              defaultValue={obj.defaultValue}
+              onChange={val => this.onChange(val, data.key, obj.col)}
+            />
+          ))
       );
     });
     return dataSource;
