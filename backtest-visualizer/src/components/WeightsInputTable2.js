@@ -6,64 +6,65 @@ function onChange(value, index, col) {
   console.log("changed", value, index, col);
 }
 
-const codeList = ["123456", "654321", "111111", "222222", "333333"];
-const defaultDataSource = codeList.map((code, index) => {
-  return {
-    key: index,
-    code
-  };
-});
+const createDataSource = codeList => {
+  const dataSource = codeList.map((code, index) => {
+    return {
+      key: index,
+      code
+    };
+  });
+  dataSource.forEach((data, index) => {
+    dataSource[index].minWeight = (
+      <InputNumber
+        min={0}
+        max={100}
+        defaultValue={0}
+        onChange={val => onChange(val, data.key, "minWeight")}
+      />
+    );
 
-defaultDataSource.forEach((data, index) => {
-  defaultDataSource[index].minWeight = (
-    <InputNumber
-      min={0}
-      max={100}
-      defaultValue={0}
-      onChange={val => onChange(val, data.key, "minWeight")}
-    />
-  );
-
-  defaultDataSource[index].maxWeight = (
-    <InputNumber
-      min={0}
-      max={100}
-      defaultValue={100}
-      onChange={val => onChange(val, data.key, "maxWeight")}
-    />
-  );
-});
+    dataSource[index].maxWeight = (
+      <InputNumber
+        min={0}
+        max={100}
+        defaultValue={100}
+        onChange={val => onChange(val, data.key, "maxWeight")}
+      />
+    );
+  });
+  return dataSource;
+};
 
 class WeightsInputTable2 extends React.Component {
   render() {
+    const { codeList } = this.props.data.globalVariables;
+    const dataSource = createDataSource(codeList);
+    const columns = [
+      {
+        title: "Code",
+        dataIndex: "code",
+        key: "code"
+      },
+      {
+        title: "MinWeight",
+        dataIndex: "minWeight",
+        key: "minWeight"
+      },
+      {
+        title: "MaxWeight",
+        dataIndex: "maxWeight",
+        key: "maxWeight"
+      }
+    ];
+
     return (
-      <Table dataSource={this.state.dataSource} columns={this.state.columns} />
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        size="small"
+        bordered={true}
+      />
     );
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSource: defaultDataSource,
-
-      columns: [
-        {
-          title: "Code",
-          dataIndex: "code",
-          key: "code"
-        },
-        {
-          title: "MinWeight",
-          dataIndex: "minWeight",
-          key: "minWeight"
-        },
-        {
-          title: "MaxWeight",
-          dataIndex: "maxWeight",
-          key: "maxWeight"
-        }
-      ]
-    };
   }
 }
 

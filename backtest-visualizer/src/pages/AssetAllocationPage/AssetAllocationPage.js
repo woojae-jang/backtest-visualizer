@@ -12,6 +12,7 @@ import { BackTest, BackTestArgsHandler, summaryTable } from "utils/simulation";
 import { getRandAllocWithFixedWeights } from "utils/utils";
 import { assetCodeList } from "utils/data";
 import { Button } from "antd";
+import WeightsInputTable2 from "components/WeightsInputTable2";
 
 class AssetAllocationPage extends Component {
   render() {
@@ -26,6 +27,7 @@ class AssetAllocationPage extends Component {
                 <SelectInput data={data} client={client} />
                 <MarketCalendar data={data} client={client} />
                 {table ? <ResultTable data={table} /> : null}
+                <WeightsInputTable2 data={data} />
                 <Button
                   type="primary"
                   onClick={e => this.handleOnClick(e, data)}
