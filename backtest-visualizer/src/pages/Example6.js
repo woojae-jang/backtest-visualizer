@@ -1,5 +1,5 @@
 import React from "react";
-import { WrappedAdvancedSearchForm } from "components/input/form";
+import { WrappedAdvancedSearchForm } from "components/Input/form";
 
 class Example6 extends React.Component {
   render() {
