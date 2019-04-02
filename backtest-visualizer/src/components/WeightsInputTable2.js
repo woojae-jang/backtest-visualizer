@@ -2,43 +2,10 @@ import { Table } from "antd";
 import React from "react";
 import { InputNumber } from "antd";
 
-function onChange(value, index, col) {
-  console.log("changed", value, index, col);
-}
-
-const createDataSource = codeList => {
-  const dataSource = codeList.map((code, index) => {
-    return {
-      key: index,
-      code
-    };
-  });
-  dataSource.forEach((data, index) => {
-    dataSource[index].minWeight = (
-      <InputNumber
-        min={0}
-        max={100}
-        defaultValue={0}
-        onChange={val => onChange(val, data.key, "minWeight")}
-      />
-    );
-
-    dataSource[index].maxWeight = (
-      <InputNumber
-        min={0}
-        max={100}
-        defaultValue={100}
-        onChange={val => onChange(val, data.key, "maxWeight")}
-      />
-    );
-  });
-  return dataSource;
-};
-
 class WeightsInputTable2 extends React.Component {
   render() {
     const { codeList } = this.props.data.globalVariables;
-    const dataSource = createDataSource(codeList);
+    const dataSource = this.createDataSource(codeList);
     const columns = [
       {
         title: "Code",
@@ -66,6 +33,44 @@ class WeightsInputTable2 extends React.Component {
       />
     );
   }
+
+  createDataSource = codeList => {
+    const dataSource = codeList.map((code, index) => {
+      return {
+        key: index,
+        code
+      };
+    });
+    dataSource.forEach((data, index) => {
+      dataSource[index].minWeight = (
+        <InputNumber
+          min={0}
+          max={100}
+          defaultValue={0}
+          onChange={val => this.onChange(val, data.key, "minWeight")}
+        />
+      );
+
+      dataSource[index].maxWeight = (
+        <InputNumber
+          min={0}
+          max={100}
+          defaultValue={100}
+          onChange={val => this.onChange(val, data.key, "maxWeight")}
+        />
+      );
+    });
+    return dataSource;
+  };
+
+  onChange = (value, index, col) => {
+    const client = this.props.client;
+    const code = this.props.data.globalVariables.codeList[index];
+
+    console.log(client);
+    console.log(code);
+    console.log("changed", value, index, col);
+  };
 }
 
 export default WeightsInputTable2;
