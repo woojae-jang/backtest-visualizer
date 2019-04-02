@@ -57,7 +57,6 @@ class AssetAllocationPage extends Component {
   constructor(props) {
     super(props);
     this.simulationOnce = this.simulationOnce.bind(this);
-    this.simulationLoop = this.simulationLoop.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
     this.handlePlayClick = this.handlePlayClick.bind(this);
@@ -127,16 +126,6 @@ class AssetAllocationPage extends Component {
     clearInterval(this.player);
   }
 
-  simulationLoop(variables) {
-    const startTime = Date.now();
-    let curTime = Date.now();
-    while (true) {
-      this.simulationOnce(variables);
-      curTime = Date.now();
-      if (curTime - startTime > 1000) break;
-    }
-  }
-
   simulationLoopWithTimeLimit(variables, limitTime = 1000) {
     const startTime = Date.now();
     let curTime = Date.now();
@@ -158,7 +147,7 @@ class AssetAllocationPage extends Component {
 
   handleOnClick(event, data) {
     const globalVariables = data.globalVariables;
-    this.simulationLoop(globalVariables);
+    this.simulationLoopWithTimeLimit(globalVariables);
     this.setState({
       data: [...this.state.data, ...this.tempData]
     });
