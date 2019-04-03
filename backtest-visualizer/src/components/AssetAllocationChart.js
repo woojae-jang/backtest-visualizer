@@ -32,7 +32,17 @@ class AssetAllocationChart extends Component {
         xAxes: [
           {
             type: "linear",
-            position: "bottom"
+            position: "bottom",
+            ticks: {
+              min: 0
+            }
+          }
+        ],
+        yAxes: [
+          {
+            ticks: {
+              min: 0
+            }
           }
         ]
       },
