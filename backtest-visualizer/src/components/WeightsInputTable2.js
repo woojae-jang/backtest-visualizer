@@ -1,6 +1,7 @@
 import { Table } from "antd";
 import React from "react";
 import { InputNumber } from "antd";
+import { getAssetName } from "utils/data";
 
 class WeightsInputTable2 extends React.Component {
   render() {
@@ -11,6 +12,11 @@ class WeightsInputTable2 extends React.Component {
         title: "Code",
         dataIndex: "code",
         key: "code"
+      },
+      {
+        title: "Name",
+        dataIndex: "name",
+        key: "name"
       },
       {
         title: "Weight",
@@ -43,7 +49,8 @@ class WeightsInputTable2 extends React.Component {
     const dataSource = codeList.map((code, index) => {
       return {
         key: index,
-        code
+        code,
+        name: getAssetName(code)
       };
     });
 
