@@ -13,6 +13,11 @@ class WeightsInputTable2 extends React.Component {
         key: "code"
       },
       {
+        title: "Weight",
+        dataIndex: "weight",
+        key: "weight"
+      },
+      {
         title: "MinWeight",
         dataIndex: "minWeight",
         key: "minWeight"
@@ -44,6 +49,7 @@ class WeightsInputTable2 extends React.Component {
 
     dataSource.forEach((data, index) => {
       [
+        { col: "weight", defaultValue: null },
         { col: "minWeight", defaultValue: 0 },
         { col: "maxWeight", defaultValue: 100 }
       ].forEach(
