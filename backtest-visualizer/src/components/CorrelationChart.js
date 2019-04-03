@@ -16,9 +16,7 @@ class CorrelationChart extends React.Component {
     };
 
     const options = {
-      animation: {
-        animateScale: true
-      },
+      animation: false,
       legend: {
         display: false
       },
@@ -28,6 +26,10 @@ class CorrelationChart extends React.Component {
             scaleLabel: {
               display: true,
               labelString: yLabel
+            },
+            ticks: {
+              min: -3,
+              max: 3
             }
           }
         ],
@@ -36,13 +38,17 @@ class CorrelationChart extends React.Component {
             scaleLabel: {
               display: true,
               labelString: xLabel
+            },
+            ticks: {
+              min: -3,
+              max: 3
             }
           }
         ]
       }
     };
 
-    return <Scatter data={data} options={options} width={600} height={250} />;
+    return <Scatter data={data} options={options} width={700} height={700} />;
   }
 }
 
