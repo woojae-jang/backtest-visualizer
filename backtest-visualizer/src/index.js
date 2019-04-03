@@ -21,6 +21,7 @@ import PriceChartPage from "pages/PriceChartPage/PriceChartPage";
 import AssetAllocationPage from "pages/AssetAllocationPage/AssetAllocationPage";
 import RiskAnalysisPage from "pages/RiskAnalysisPage/RiskAnalysisPage";
 import AssetCorrelationPage from "pages/AssetCorrelationPage/AssetCorrelationPage";
+import BackTestPage from "pages/BackTestPage/BackTestPage";
 
 const routing = (
   <Router>
@@ -81,6 +82,11 @@ const routing = (
             RiskAnalysis
           </NavLink>
         </li>
+        <li>
+          <NavLink activeClassName="active" to="/backtest">
+            BackTest
+          </NavLink>
+        </li>
       </ul>
       <Switch>
         <Route exact path="/" component={App} />
@@ -94,6 +100,7 @@ const routing = (
         <Route path="/asset-allocation" component={AssetAllocationPage} />
         <Route path="/asset-correlation" component={AssetCorrelationPage} />
         <Route path="/risk-analysis" component={RiskAnalysisPage} />
+        <Route path="/backtest" component={BackTestPage} />
         <Route component={Notfound} />
       </Switch>
     </div>
