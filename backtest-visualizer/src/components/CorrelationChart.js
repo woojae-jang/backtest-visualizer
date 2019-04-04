@@ -1,16 +1,37 @@
 import React from "react";
 import { Scatter } from "react-chartjs-2";
+import regression from "regression";
+import { getLineDataFromEquation } from "utils/chartUtil";
 
 class CorrelationChart extends React.Component {
   render() {
-    const { xLabel, yLabel } = this.props.data;
+    const { data, xLabel, yLabel } = this.props.data;
+    const result = regression.linear(
+      data.map(point => {
+        return [point.x, point.y];
+      })
+    );
+    const gradient = result.equation[0];
+    const yIntercept = result.equation[1];
+    const lineData = getLineDataFromEquation(gradient, yIntercept);
 
-    const data = {
+    const chartData = {
       datasets: [
         {
-          data: this.props.data.data,
+          type: "scatter",
+          data,
           backgroundColor: "#FF6384",
-          hoverBackgroundColor: "#FF6384"
+          hoverBackgroundColor: "#FF6384",
+          showLine: false,
+          label: "scatter"
+        },
+        {
+          type: "line",
+          data: lineData,
+          backgroundColor: "black",
+          hoverBackgroundColor: "black",
+          fill: false,
+          label: "line"
         }
       ]
     };
@@ -48,7 +69,9 @@ class CorrelationChart extends React.Component {
       }
     };
 
-    return <Scatter data={data} options={options} width={700} height={700} />;
+    return (
+      <Scatter data={chartData} options={options} width={700} height={700} />
+    );
   }
 }
 
