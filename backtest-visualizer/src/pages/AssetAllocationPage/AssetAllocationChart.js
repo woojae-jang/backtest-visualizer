@@ -41,7 +41,7 @@ class AssetAllocationChart extends Component {
         yAxes: [
           {
             ticks: {
-              min: 0
+              min: -0.2
             }
           }
         ]

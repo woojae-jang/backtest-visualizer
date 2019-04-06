@@ -54,19 +54,19 @@ class AssetAllocationContainer extends Component {
 
     const tmpArray = new Array(16).fill(0);
 
-    const weightLimit = {
-      "069500": 20
-    };
+    // const weightLimit = {
+    //   "069500": 20
+    // };
 
     codeList.forEach(code => {
       const codeIndex = assetCodeList.indexOf(code);
       if (codeIndex !== -1) {
         tmpArray[codeIndex] = null;
 
-        const isInweightLimit = Object.keys(weightLimit).indexOf(code);
-        if (isInweightLimit !== -1) {
-          tmpArray[codeIndex] = weightLimit[code];
-        }
+        // const isInweightLimit = Object.keys(weightLimit).indexOf(code);
+        // if (isInweightLimit !== -1) {
+        //   tmpArray[codeIndex] = weightLimit[code];
+        // }
       }
     });
 
