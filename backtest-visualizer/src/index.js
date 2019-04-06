@@ -17,11 +17,11 @@ import Example6 from "./pages/Example6";
 import Notfound from "./pages/notfound";
 import { ApolloProvider } from "react-apollo";
 import client from "./apollo/apollo";
-import PriceChartPage from "pages/PriceChartPage/PriceChartPage";
-import AssetAllocationPage from "pages/AssetAllocationPage/AssetAllocationPage";
-import RiskAnalysisPage from "pages/RiskAnalysisPage/RiskAnalysisPage";
-import AssetCorrelationPage from "pages/AssetCorrelationPage/AssetCorrelationPage";
-import BackTestPage from "pages/BackTestPage/BackTestPage";
+import PriceChartPage from "pages/PriceChartPage";
+import AssetAllocationPage from "pages/AssetAllocationPage";
+import RiskAnalysisPage from "pages/RiskAnalysisPage";
+import AssetCorrelationPage from "pages/AssetCorrelationPage";
+import BackTestPage from "pages/BackTestPage";
 
 const routing = (
   <Router>
