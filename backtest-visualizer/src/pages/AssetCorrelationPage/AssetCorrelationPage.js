@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import CorrelationChart from "./CorrelationChart";
+import { Query } from "react-apollo";
+import * as jStat from "jStat";
+
 import MarketCalendar from "components/MarketCalendar";
 import { GET_GLOBAL_VARIABLES, GET_COR_PAGE } from "apollo/queries";
-import { Query } from "react-apollo";
 import { Market } from "market";
 import { getAssetName } from "utils/data";
-import * as jStat from "jStat";
 import { tradingDateList } from "utils/data";
+
+import CorrelationChart from "./CorrelationChart";
 import CompareAssetsSelect from "./CompareAssetsSelect";
 import CorTrendChart from "./CorTrendChart";
 

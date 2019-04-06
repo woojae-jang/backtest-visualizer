@@ -1,20 +1,13 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import * as math from "mathjs";
-import AssetAllocationChart from "./AssetAllocationChart";
-import MarketCalendar from "components/MarketCalendar";
-import SelectInput from "components/SelectInput";
-import ResultTable from "components/ResultTable";
-import ReturnsChart from "components/ReturnsChart";
-import DoughnutChart from "components/DoughnutChart";
 import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import { BackTest, BackTestArgsHandler, summaryTable } from "utils/simulation";
 import { getRandAllocWithFixedWeights } from "utils/utils";
 import { assetCodeList } from "utils/data";
-import { Button } from "antd";
-import WeightsInputTable2 from "components/WeightsInputTable2";
+import AssetAllocationPresenter from "./AssetAllocationPresenter";
 
-class AssetAllocationPage extends Component {
+class AssetAllocationContainer extends Component {
   render() {
     return (
       <Query query={GET_GLOBAL_VARIABLES}>
@@ -24,30 +17,16 @@ class AssetAllocationPage extends Component {
           return (
             <div>
               <div className="asset-allocation-page">
-                <SelectInput data={data} client={client} />
-                <MarketCalendar data={data} client={client} />
-                {table ? <ResultTable data={table} /> : null}
-                <WeightsInputTable2 data={data} client={client} />
-                <Button
-                  type="primary"
-                  onClick={e => this.handleOnClick(e, data)}
-                >
-                  Run
-                </Button>
-                <Button onClick={e => this.handlePlayClick(e, data)}>
-                  Play
-                </Button>
-                <Button onClick={this.stopSimulation}>Stop</Button>
-                <Button type="danger" onClick={this.handleResetClick}>
-                  Reset
-                </Button>
-                <AssetAllocationChart
-                  data={this.state.data}
-                  fixedAllocation={table}
+                <AssetAllocationPresenter
+                  data={data}
                   client={client}
+                  table={table}
+                  handleOnClick={this.handleOnClick}
+                  handlePlayClick={this.handlePlayClick}
+                  stopSimulation={this.stopSimulation}
+                  handleResetClick={this.handleResetClick}
+                  stateData={this.state.data}
                 />
-                <ReturnsChart data={data} />
-                <DoughnutChart data={data} />
               </div>
             </div>
           );
@@ -173,4 +152,4 @@ class AssetAllocationPage extends Component {
   }
 }
 
-export default AssetAllocationPage;
+export default AssetAllocationContainer;

@@ -1,1 +1,1 @@
-export { default } from "./AssetAllocationPage";
+export { default } from "./AssetAllocationContainer";
