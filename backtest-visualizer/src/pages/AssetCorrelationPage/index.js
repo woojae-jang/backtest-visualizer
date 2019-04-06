@@ -1,1 +1,1 @@
-export { default } from "./AssetCorrelationPage";
+export { default } from "./AssetCorrelationContainer";
