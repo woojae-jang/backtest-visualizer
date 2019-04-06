@@ -1,9 +1,9 @@
 import React from "react";
-import { Market } from "../market";
+import { Market } from "market";
 import * as math from "mathjs";
 import * as $ from "jquery";
 import Chart from "chart.js";
-import { dynamicColors } from "../utils/chartUtil";
+import { dynamicColors } from "utils/chartUtil";
 
 const market = new Market("20161207");
 

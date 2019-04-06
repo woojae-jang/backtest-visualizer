@@ -3,7 +3,7 @@ import "./PriceChartPage.css";
 import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import "antd/dist/antd.css";
 import { Query } from "react-apollo";
-import PriceChart from "components/PriceChart";
+import PriceChart from "./PriceChart";
 import MarketCalendar from "components/MarketCalendar";
 import SelectInput from "components/SelectInput";
 
