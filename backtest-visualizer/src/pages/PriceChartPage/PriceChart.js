@@ -123,7 +123,7 @@ class PriceChart extends React.Component {
         responsive: true,
         title: {
           display: true,
-          text: "Chart.js Line Chart"
+          text: "asset's returns"
         },
         tooltips: {
           mode: "index",
