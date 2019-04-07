@@ -2,6 +2,7 @@ import React from "react";
 import { DatePicker } from "antd";
 import * as moment from "moment";
 import { tradingDateList } from "../utils/data";
+import { Button } from "antd";
 
 const { RangePicker } = DatePicker;
 
@@ -12,19 +13,24 @@ class MarketCalendar extends React.Component {
     const { client, data } = this.props;
     const { startDate, endDate } = data.globalVariables;
     return (
-      <RangePicker
-        onChange={date => this.onChnage(date, client)}
-        defaultValue={[
-          moment(startDate, dateFormat),
-          moment(endDate, dateFormat)
-        ]}
-        format={dateFormat}
-        disabledDate={this.disabledDate}
-      />
+      <React.Fragment>
+        <RangePicker
+          onChange={date => this.onChange(date, client)}
+          value={[moment(startDate, dateFormat), moment(endDate, dateFormat)]}
+          format={dateFormat}
+          disabledDate={this.disabledDate}
+        />
+        <Button type="default" onClick={() => this.setStartDate(client)}>
+          최초일
+        </Button>
+        <Button type="default" onClick={() => this.setEndDate(client)}>
+          최종일
+        </Button>
+      </React.Fragment>
     );
   }
 
-  onChnage = (date, client) => {
+  onChange = (date, client) => {
     const startDate = date[0].format(dateFormat);
     const endDate = date[1].format(dateFormat);
     client.writeData({
@@ -32,6 +38,30 @@ class MarketCalendar extends React.Component {
         globalVariables: {
           __typename: "GlobalVariables",
           startDate,
+          endDate
+        }
+      }
+    });
+  };
+
+  setStartDate = client => {
+    const startDate = tradingDateList[0];
+    client.writeData({
+      data: {
+        globalVariables: {
+          __typename: "GlobalVariables",
+          startDate
+        }
+      }
+    });
+  };
+
+  setEndDate = client => {
+    const endDate = tradingDateList[tradingDateList.length - 1];
+    client.writeData({
+      data: {
+        globalVariables: {
+          __typename: "GlobalVariables",
           endDate
         }
       }
