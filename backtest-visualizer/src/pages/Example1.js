@@ -48,21 +48,13 @@ const items = [
   // }
 ];
 
-const addOneDay = _date => {
-  const year = _date.slice(0, 4);
-  const month = _date.slice(4, 6);
-  const day = _date.slice(6, 8);
-
-  const date = new Date(year, month, day);
-  console.log(date);
-
-  const newDate = new Date();
-  const tomorrow = newDate.setTime(date.getTime() + 86400000); // 86400000 하루 ms
-
-  console.log(tomorrow);
+const addOneDay = date => {
+  const tomorrow = new Date();
+  tomorrow.setTime(date.getTime() + 86400000); // 86400000 하루 ms
+  return tomorrow;
 };
 
-addOneDay("20190408");
+// addOneDay("20190408");
 
 tradingDateList.forEach(tradingDay => {
   const year = tradingDay.slice(0, 4);
@@ -73,7 +65,7 @@ tradingDateList.forEach(tradingDay => {
 
   items.push({
     start: date,
-    end: date,
+    end: addOneDay(date),
     type: "background",
     style: "background-color: blue;"
   });
