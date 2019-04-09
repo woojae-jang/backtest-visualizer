@@ -112,8 +112,16 @@ class Example1 extends React.Component {
   };
 
   _itemUpdataHandler = (event, properties, senderId) => {
-    console.log(properties);
-    const newData = properties.data;
+    const { items, data } = properties;
+
+    items.forEach((item, index) => {
+      if (item === "validRange") {
+        const itemData = data[index];
+        const { start, end } = itemData;
+        console.log(start);
+        console.log(end);
+      }
+    });
   };
 
   _show = () => {
