@@ -41,6 +41,7 @@ const options = {
 
 const items = [
   {
+    id: "validRange",
     start: new Date(2017, 7, 15),
     end: new Date(2018, 8, 2) // end is optional
   }
@@ -87,6 +88,9 @@ class Example1 extends React.Component {
         <Button type="default" onClick={this._reset}>
           reset
         </Button>
+        <Button type="default" onClick={this._show}>
+          show data
+        </Button>
       </React.Fragment>
     );
   }
@@ -97,6 +101,8 @@ class Example1 extends React.Component {
 
     this.timeline = timeline;
     this.customTimeId = customTimeId;
+
+    timeline.itemsData.on("*", this._itemUpdataHandler);
   }
 
   _fit = () => {
@@ -105,11 +111,23 @@ class Example1 extends React.Component {
     timeline.fit();
   };
 
+  _itemUpdataHandler = (event, properties, senderId) => {
+    console.log(properties);
+    const newData = properties.data;
+  };
+
+  _show = () => {
+    const timeline = this.timeline;
+    console.log(timeline);
+    // console.log(timeline.items);
+    console.log(timeline.options);
+  };
+
   _createCustomTime = () => {
     const timeline = this.timeline;
     const id = this.customTimeId;
 
-    timeline.addCustomTime("2017-10-20 13:00:00");
+    timeline.addCustomTime("2017-10-20 13:00:00", id);
   };
 
   _play = () => {
