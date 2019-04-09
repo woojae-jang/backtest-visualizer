@@ -91,15 +91,25 @@ class Example1 extends React.Component {
     );
   }
 
-  _fit = () => {
+  componentDidMount() {
     const timeline = this.refs.timeline.$el;
+    const customTimeId = "id";
+
+    this.timeline = timeline;
+    this.customTimeId = customTimeId;
+  }
+
+  _fit = () => {
+    const timeline = this.timeline;
+
     timeline.fit();
   };
 
   _createCustomTime = () => {
-    const timeline = this.refs.timeline.$el;
-    this.customTimeId = "id";
-    timeline.addCustomTime("2017-10-20 13:00:00", this.customTimeId);
+    const timeline = this.timeline;
+    const id = this.customTimeId;
+
+    timeline.addCustomTime("2017-10-20 13:00:00");
   };
 
   _play = () => {
@@ -111,13 +121,14 @@ class Example1 extends React.Component {
   };
 
   _reset = () => {
-    const timeline = this.refs.timeline.$el;
+    const timeline = this.timeline;
     const id = this.customTimeId;
+
     timeline.removeCustomTime(id);
   };
 
   _addOneDayToCustomTime = () => {
-    const timeline = this.refs.timeline.$el;
+    const timeline = this.timeline;
     const id = this.customTimeId;
 
     const customTime = timeline.getCustomTime(id);
