@@ -12,19 +12,23 @@ const options = {
   },
   // clickToUse: true,
 
+  orientation: {
+    axis: "top"
+  },
+
   // limit of visible range
   min: new Date(2016, 1, 10),
   max: new Date(2019, 5, 10),
 
   // limit of zoom
   zoomMin: 1000 * 60 * 60 * 24 * 4, // 4 day  최소 4일 해야 시간값 안나옴
-  zoomMax: 1000 * 60 * 60 * 24 * 365 * 10 // about 10 year
+  zoomMax: 1000 * 60 * 60 * 24 * 365 * 10, // about 10 year
 
   // width: "100%",
-  // height: "60px",
+  height: "100px",
   // stack: false,
   // showMajorLabels: true,
-  // showCurrentTime: true,
+  showCurrentTime: true
   // zoomMin: 1000000,
   // type: "background",
   // format: {
@@ -40,12 +44,6 @@ const items = [
     start: new Date(2017, 7, 15),
     end: new Date(2018, 8, 2) // end is optional
   }
-  // {
-  //   start: new Date(2010, 7, 15),
-  //   end: new Date(2010, 8, 2),
-  //   type: "background",
-  //   style: "background-color: blue;"
-  // }
 ];
 
 const addOneDay = date => {
@@ -53,8 +51,6 @@ const addOneDay = date => {
   tomorrow.setTime(date.getTime() + 86400000); // 86400000 하루 ms
   return tomorrow;
 };
-
-// addOneDay("20190408");
 
 tradingDateList.forEach(tradingDay => {
   const year = tradingDay.slice(0, 4);
@@ -67,7 +63,7 @@ tradingDateList.forEach(tradingDay => {
     start: date,
     end: addOneDay(date),
     type: "background",
-    style: "background-color: blue;"
+    style: "background-color: #7fb0ff;"
   });
 });
 
@@ -79,6 +75,15 @@ class Example1 extends React.Component {
         <Button type="default" onClick={this._fit}>
           fit
         </Button>
+        <Button type="default" onClick={this._play}>
+          play
+        </Button>
+        <Button type="default" onClick={this._stop}>
+          stop
+        </Button>
+        <Button type="default" onClick={this._reset}>
+          reset
+        </Button>
       </React.Fragment>
     );
   }
@@ -86,6 +91,32 @@ class Example1 extends React.Component {
   _fit = () => {
     const timeline = this.refs.timeline.$el;
     timeline.fit();
+
+    const id = "test";
+    timeline.addCustomTime("2017-10-20 13:00:00", id);
+  };
+
+  _play = () => {
+    this.intervalId = setInterval(this._addOneDayToCustomTime, 100);
+  };
+
+  _stop = () => {
+    clearInterval(this.intervalId);
+  };
+
+  _reset = () => {
+    const id = "test";
+    const timeline = this.refs.timeline.$el;
+    timeline.removeCustomTime(id);
+  };
+
+  _addOneDayToCustomTime = () => {
+    const timeline = this.refs.timeline.$el;
+
+    const id = "test";
+    const customTime = timeline.getCustomTime(id);
+    const newCustomTime = addOneDay(customTime);
+    timeline.setCustomTime(newCustomTime, id);
   };
 }
 export default Example1;
