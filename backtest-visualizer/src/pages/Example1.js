@@ -75,6 +75,9 @@ class Example1 extends React.Component {
         <Button type="default" onClick={this._fit}>
           fit
         </Button>
+        <Button type="default" onClick={this._createCustomTime}>
+          create custom time
+        </Button>
         <Button type="default" onClick={this._play}>
           play
         </Button>
@@ -91,9 +94,12 @@ class Example1 extends React.Component {
   _fit = () => {
     const timeline = this.refs.timeline.$el;
     timeline.fit();
+  };
 
-    const id = "test";
-    timeline.addCustomTime("2017-10-20 13:00:00", id);
+  _createCustomTime = () => {
+    const timeline = this.refs.timeline.$el;
+    this.customTimeId = "id";
+    timeline.addCustomTime("2017-10-20 13:00:00", this.customTimeId);
   };
 
   _play = () => {
@@ -105,15 +111,15 @@ class Example1 extends React.Component {
   };
 
   _reset = () => {
-    const id = "test";
     const timeline = this.refs.timeline.$el;
+    const id = this.customTimeId;
     timeline.removeCustomTime(id);
   };
 
   _addOneDayToCustomTime = () => {
     const timeline = this.refs.timeline.$el;
+    const id = this.customTimeId;
 
-    const id = "test";
     const customTime = timeline.getCustomTime(id);
     const newCustomTime = addOneDay(customTime);
     timeline.setCustomTime(newCustomTime, id);
