@@ -3,6 +3,7 @@ import { DatePicker } from "antd";
 import * as moment from "moment";
 import { tradingDateList } from "../utils/data";
 import { Button } from "antd";
+import MarketTimeLine from "./MarketTimeLine";
 
 const { RangePicker } = DatePicker;
 
@@ -26,6 +27,7 @@ class MarketCalendar extends React.Component {
         <Button type="default" onClick={() => this.setEndDate(client)}>
           최종일
         </Button>
+        <MarketTimeLine data={{ startDate, endDate }} client={client} />
       </React.Fragment>
     );
   }
