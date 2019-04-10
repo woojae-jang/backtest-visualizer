@@ -30,4 +30,6 @@
 
   - [ ] linear regression line
 
+- [ ] TradingDate Class
+
 - [ ] 분위 알고리즘
