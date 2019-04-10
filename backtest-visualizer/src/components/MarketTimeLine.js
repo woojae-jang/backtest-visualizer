@@ -31,7 +31,7 @@ class MarketTimeLine extends React.Component {
       max: _maxDate,
       zoomMin: 1000 * 60 * 60 * 24 * 4, // 4 day  최소 4일 해야 시간값 안나옴
       zoomMax: 1000 * 60 * 60 * 24 * 365 * 10, // about 10 year
-      height: "100px",
+      height: "130px",
       showCurrentTime: true,
 
       hiddenDates: [
