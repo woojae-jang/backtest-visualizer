@@ -96,13 +96,17 @@ const createLinearReturns = (finalReturn, length) => {
   return array;
 };
 
-const result = createLinearReturns(20, 5);
-console.log(result);
+const addOneDay = date => {
+  const tomorrow = new Date();
+  tomorrow.setTime(date.getTime() + 86400000); // 86400000 하루 ms
+  return tomorrow;
+};
 
 export {
   getRandomAllocation,
   getRandAllocWithFixedWeights,
   getStdMovingAvg,
   getCumPctChange,
-  getMovingCor
+  getMovingCor,
+  addOneDay
 };
