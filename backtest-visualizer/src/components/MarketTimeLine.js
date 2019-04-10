@@ -36,8 +36,8 @@ class MarketTimeLine extends React.Component {
 
       hiddenDates: [
         {
-          start: "2017-03-04 00:00:00",
-          end: "2017-03-06 00:00:00",
+          start: "2016-01-02 00:00:00",
+          end: "2016-01-04 00:00:00",
           repeat: "weekly"
         }
       ]
