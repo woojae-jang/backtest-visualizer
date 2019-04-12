@@ -14,21 +14,6 @@ assetCodeList.forEach(code => {
   });
 });
 
-const result = dataSet.get({
-  filter: item => {
-    const { code } = item;
-    return code === "069500";
-  },
-  order: (item1, item2) => {
-    // date 오름차순
-    if (item1.date > item2.date) {
-      return 1;
-    }
-  },
-  fields: ["price"]
-});
-console.log(result);
-
 export class Market {
   constructor(date) {
     this.date = date;
@@ -66,9 +51,10 @@ export class Market {
           return 1;
         }
       },
-      fields: ["price"]
+      fields: ["price", "date"]
     });
 
+    // console.log(result);
     return result.map(obj => obj.price);
   }
 
