@@ -11417,4 +11417,4 @@ const priceData = {
   }
 };
 
-export default priceData;
+export  {priceData};

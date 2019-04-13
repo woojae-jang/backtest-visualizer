@@ -2,7 +2,7 @@ import React from "react";
 import "antd/dist/antd.css";
 // import "utils/dataframeExample";
 // import "utils/visDataSetExample";
-import newMarket from "newMarket";
+import { Market as newMarket } from "newMarket";
 import { Market as oldMarket } from "market";
 
 const market = new newMarket("20190401");
@@ -11,6 +11,19 @@ const market2 = new oldMarket("20190401");
 // console.log(market2.getPrice("069500"));
 // console.log(market.getPrice("069500"));
 // // getPrice 같음
+
+var iterations = 5;
+console.time("Function #1");
+for (var i = 0; i < iterations; i++) {
+  market2.getPrice("069500");
+}
+console.timeEnd("Function #1");
+
+console.time("Function #2");
+for (var i = 0; i < iterations; i++) {
+  market.getPrice("069500");
+}
+console.timeEnd("Function #2");
 
 // console.log(market2.getPriceList("069500"));
 // console.log(market.getPriceList("069500"));

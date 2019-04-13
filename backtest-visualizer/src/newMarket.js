@@ -1,5 +1,5 @@
 import * as vis from "vis";
-import priceData from "priceData";
+import { priceData } from "priceData";
 import { tradingDateList, assetCodeList } from "utils/data";
 
 const options = {};
@@ -14,7 +14,7 @@ assetCodeList.forEach(code => {
   });
 });
 
-export class Market {
+class Market {
   constructor(date) {
     this.date = date;
   }
@@ -36,7 +36,8 @@ export class Market {
       fields: ["price"]
     });
 
-    return result[0].price;
+    const price = result[0].price;
+    return price;
   }
 
   getPriceList(_code) {
@@ -134,4 +135,4 @@ export class Market {
   }
 }
 
-export default Market;
+export { Market };
