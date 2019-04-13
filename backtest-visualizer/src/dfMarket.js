@@ -2,12 +2,16 @@ import DataFrame from "dataframe-js";
 import { tradingDateList, assetCodeList } from "utils/data";
 import { priceData } from "priceData";
 
-const dataSet = new DataFrame(
-  assetCodeList.map(code => {
-    return priceData[code];
-  }),
-  tradingDateList
-);
+const data = [];
+assetCodeList.forEach(code => {
+  tradingDateList.forEach(date => {
+    data.push([code, date, priceData[code][date]]);
+  });
+});
+
+const df = new DataFrame(data, ["code", "date", "price"]);
+
+DataFrame.sql.registerTable(df, "priceTable");
 
 class Market {
   constructor(date) {
@@ -23,35 +27,19 @@ class Market {
   }
 
   getPrice(_code) {
-    const result = dataSet.get({
-      filter: item => {
-        const { code, date } = item;
-        return code === _code && date === this.date;
-      },
-      fields: ["price"]
-    });
-
-    const price = result[0].price;
+    const QUERY = `SELECT price FROM priceTable WHERE code='${_code}' AND date='${
+      this.date
+    }'`;
+    const res = DataFrame.sql.request(QUERY);
+    const price = res.toArray()[0];
     return price;
   }
 
   getPriceList(_code) {
-    const result = dataSet.get({
-      filter: item => {
-        const { code } = item;
-        return code === _code;
-      },
-      order: (item1, item2) => {
-        // date 오름차순
-        if (item1.date > item2.date) {
-          return 1;
-        }
-      },
-      fields: ["price", "date"]
-    });
-
-    // console.log(result);
-    return result.map(obj => obj.price);
+    const QUERY = `SELECT price FROM priceTable WHERE code='${_code}'`;
+    const res = DataFrame.sql.request(QUERY);
+    const priceList = res.toArray().map(d => d[0]);
+    return priceList;
   }
 
   getPctChange(code) {
@@ -83,21 +71,10 @@ class Market {
   }
 
   getPriceListInRange(_code, _startDate, _endDate) {
-    const result = dataSet.get({
-      filter: item => {
-        const { code, date } = item;
-        return code === _code && (date >= _startDate && date <= _endDate);
-      },
-      order: (item1, item2) => {
-        // date 오름차순
-        if (item1.date > item2.date) {
-          return 1;
-        }
-      },
-      fields: ["price"]
-    });
-
-    return result.map(obj => obj.price);
+    const QUERY = `SELECT price FROM priceTable WHERE code='${_code}' AND date>= ${_startDate} AND date<=${_endDate}`;
+    const res = DataFrame.sql.request(QUERY);
+    const priceList = res.toArray().map(d => d[0]);
+    return priceList;
   }
 
   getReturnsListInRange(code, startDate, endDate) {

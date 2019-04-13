@@ -14,18 +14,24 @@ const market3 = new oldMarket("20190401");
 // console.log(market.getPrice("069500"));
 // // getPrice 같음
 
-var iterations = 5;
+var iterations = 1000;
 console.time("Function #1");
 for (var i = 0; i < iterations; i++) {
   market2.getPrice("069500");
 }
 console.timeEnd("Function #1");
 
-console.time("Function #2");
+// console.time("Function #2");
+// for (var i = 0; i < iterations; i++) {
+//   market.getPrice("069500");
+// }
+// console.timeEnd("Function #2");
+
+console.time("Function #3");
 for (var i = 0; i < iterations; i++) {
-  market.getPrice("069500");
+  market3.getPrice("069500");
 }
-console.timeEnd("Function #2");
+console.timeEnd("Function #3");
 
 // console.log(market2.getPriceList("069500"));
 // console.log(market.getPriceList("069500"));
