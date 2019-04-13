@@ -1,12 +1,14 @@
 import React from "react";
 import "antd/dist/antd.css";
-// import "utils/dataframeExample";
+import "utils/dataFrameExample";
 // import "utils/visDataSetExample";
 import { Market as newMarket } from "newMarket";
 import { Market as oldMarket } from "market";
+import { Market as dfMarket } from "dfMarket";
 
 const market = new newMarket("20190401");
 const market2 = new oldMarket("20190401");
+const market3 = new oldMarket("20190401");
 
 // console.log(market2.getPrice("069500"));
 // console.log(market.getPrice("069500"));
