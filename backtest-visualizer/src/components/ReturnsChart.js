@@ -140,7 +140,7 @@ class ReturnsChart extends React.Component {
         responsive: true,
         title: {
           display: true,
-          text: "Chart.js Line Chart"
+          text: "Portfolio Returns"
         },
         tooltips: {
           mode: "index",
