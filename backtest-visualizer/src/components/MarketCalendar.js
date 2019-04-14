@@ -22,10 +22,10 @@ class MarketCalendar extends React.Component {
           disabledDate={this.disabledDate}
         />
         <Button type="default" onClick={() => this.setStartDate(client)}>
-          최초일
+          최초일({tradingDateList[0]})
         </Button>
         <Button type="default" onClick={() => this.setEndDate(client)}>
-          최종일
+          최종일({tradingDateList[tradingDateList.length - 1]})
         </Button>
         {/* <MarketTimeLine data={{ startDate, endDate }} client={client} /> */}
       </React.Fragment>
