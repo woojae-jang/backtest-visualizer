@@ -11,6 +11,7 @@
     "apollo-link-state": "^0.4.2",
     "babel-loader": "^8.0.5",
     "chart.js": "^2.7.3",
+    "dataframe-js": "^1.4.1",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "jStat": "^1.7.1",
