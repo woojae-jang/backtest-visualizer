@@ -1,6 +1,9 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { assetNameList } from "utils/data";
+import { schemePaired } from "d3-scale-chromatic";
+
+assetNameList.push("현금");
 
 class DoughnutChart extends React.Component {
   render() {
@@ -11,8 +14,8 @@ class DoughnutChart extends React.Component {
       datasets: [
         {
           data: selectedAllocation,
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+          backgroundColor: schemePaired,
+          hoverBackgroundColor: schemePaired
         }
       ]
     };
