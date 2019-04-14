@@ -26,7 +26,7 @@ const AssetAllocationPresenter = props => {
         <SelectInput data={data} client={client} />
         <MarketCalendar data={data} client={client} />
         {table ? <ResultTable data={table} /> : null}
-        <WeightsInputTable2 data={data} client={client} />
+        {/* <WeightsInputTable2 data={data} client={client} /> */}
         <Button type="primary" onClick={e => handleOnClick(e, data)}>
           Run
         </Button>

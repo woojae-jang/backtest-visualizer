@@ -27,7 +27,7 @@ class MarketCalendar extends React.Component {
         <Button type="default" onClick={() => this.setEndDate(client)}>
           최종일
         </Button>
-        <MarketTimeLine data={{ startDate, endDate }} client={client} />
+        {/* <MarketTimeLine data={{ startDate, endDate }} client={client} /> */}
       </React.Fragment>
     );
   }
