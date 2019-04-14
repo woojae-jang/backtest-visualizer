@@ -23,70 +23,70 @@ import RiskAnalysisPage from "pages/RiskAnalysisPage";
 import AssetCorrelationPage from "pages/AssetCorrelationPage";
 import BackTestPage from "pages/BackTestPage";
 
+const onExamplePages = false;
+const onTestPage = false;
+
+let examplePages = [];
+if (onExamplePages) {
+  examplePages = [
+    <NavLink exact activeClassName="active" to="/">
+      Home
+    </NavLink>,
+    <NavLink activeClassName="active" to="/example1">
+      Example1
+    </NavLink>,
+    <NavLink activeClassName="active" to="/example2">
+      Example2
+    </NavLink>,
+    <NavLink activeClassName="active" to="/example3">
+      Example3
+    </NavLink>,
+    <NavLink activeClassName="active" to="/example4">
+      Example4
+    </NavLink>,
+    <NavLink activeClassName="active" to="/example5">
+      Example5
+    </NavLink>,
+    <NavLink activeClassName="active" to="/example6">
+      Example6
+    </NavLink>
+  ];
+}
+
+let prodPages = [
+  <NavLink activeClassName="active" to="/price_chart">
+    PriceChart
+  </NavLink>,
+  <NavLink activeClassName="active" to="/asset-allocation">
+    AssetAllocation
+  </NavLink>,
+  <NavLink activeClassName="active" to="/asset-correlation">
+    AssetCorrelation
+  </NavLink>,
+  <NavLink activeClassName="active" to="/risk-analysis">
+    RiskAnalysis
+  </NavLink>
+];
+
+if (onTestPage) {
+  const testPage = [
+    <NavLink activeClassName="active" to="/backtest">
+      BackTest
+    </NavLink>
+  ];
+  prodPages.concat(testPage);
+}
+
 const routing = (
   <Router>
     <div>
       <ul>
-        <li>
-          <NavLink exact activeClassName="active" to="/">
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/example1">
-            Example1
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/example2">
-            Example2
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/example3">
-            Example3
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/example4">
-            Example4
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/example5">
-            Example5
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/example6">
-            Example6
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/price_chart">
-            PriceChart
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/asset-allocation">
-            AssetAllocation
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/asset-correlation">
-            AssetCorrelation
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/risk-analysis">
-            RiskAnalysis
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/backtest">
-            BackTest
-          </NavLink>
-        </li>
+        {examplePages.map((page, index) => (
+          <li key={index}>{page}</li>
+        ))}
+        {prodPages.map((page, index) => (
+          <li key={index}>{page}</li>
+        ))}
       </ul>
       <Switch>
         <Route exact path="/" component={App} />
