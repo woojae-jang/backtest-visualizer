@@ -4,6 +4,7 @@ import * as math from "mathjs";
 import * as $ from "jquery";
 import Chart from "chart.js";
 import { dynamicColors } from "utils/chartUtil";
+import { schemeCategory10 } from "d3-scale-chromatic";
 
 const market = new Market("20161207");
 
@@ -98,8 +99,8 @@ class PriceChart extends React.Component {
 
   _create_chart(price_data = [], labels = []) {
     const datasets = [];
-    price_data.map(data => {
-      const color = dynamicColors();
+    price_data.map((data, index) => {
+      const color = index < 10 ? schemeCategory10[index] : dynamicColors();
       const dataset = {
         label: data.label,
         backgroundColor: color,
