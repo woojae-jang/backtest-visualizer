@@ -8,24 +8,24 @@ import { Market as dfMarket } from "dfMarket";
 
 const market = new newMarket("20190401");
 const market2 = new oldMarket("20190401");
-const market3 = new oldMarket("20190401");
+const market3 = new dfMarket("20190401");
 
 // console.log(market2.getPrice("069500"));
 // console.log(market.getPrice("069500"));
 // // getPrice 같음
 
-var iterations = 1000;
+var iterations = 100;
 console.time("Function #1");
 for (var i = 0; i < iterations; i++) {
   market2.getPrice("069500");
 }
 console.timeEnd("Function #1");
 
-// console.time("Function #2");
-// for (var i = 0; i < iterations; i++) {
-//   market.getPrice("069500");
-// }
-// console.timeEnd("Function #2");
+console.time("Function #2");
+for (var i = 0; i < iterations; i++) {
+  market.getPrice("069500");
+}
+console.timeEnd("Function #2");
 
 console.time("Function #3");
 for (var i = 0; i < iterations; i++) {
@@ -45,8 +45,8 @@ console.timeEnd("Function #3");
 // console.log(market2.getPriceListInRange("069500", "20190301", "20190401"));
 // console.log(market.getPriceListInRange("069500", "20190301", "20190401"));
 
-console.log(market2.getReturnsListInRange("069500", "20190301", "20190401"));
-console.log(market.getReturnsListInRange("069500", "20190301", "20190401"));
+// console.log(market2.getReturnsListInRange("069500", "20190301", "20190401"));
+// console.log(market.getReturnsListInRange("069500", "20190301", "20190401"));
 // 이전:
 // 이후:
 
