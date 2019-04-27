@@ -1,5 +1,6 @@
 import React from "react";
-import { Market } from "market";
+// import { Market } from "market";
+import { PctMarket as Market } from "utils/pctData";
 import * as math from "mathjs";
 import * as $ from "jquery";
 import Chart from "chart.js";
