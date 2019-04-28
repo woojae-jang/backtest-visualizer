@@ -1,10 +1,21 @@
 import React from "react";
 import "./index.css";
 import * as d3 from "d3";
+import { Query } from "react-apollo";
+import * as jStat from "jStat";
+import { GET_GLOBAL_VARIABLES, GET_COR_PAGE } from "apollo/queries";
+import { Market } from "market";
+
+const market = new Market();
 
 class CorrelationMatrix extends React.Component {
   render() {
-    return <div id="matrix" />;
+    return (
+      <React.Fragment>
+        <div id="matrix" />
+        <Test />
+      </React.Fragment>
+    );
   }
 
   componentDidMount() {
@@ -172,6 +183,57 @@ class CorrelationMatrix extends React.Component {
           .attr("y", aS(d));
       });
     });
+  }
+}
+
+class Test extends React.Component {
+  render() {
+    return (
+      <Query query={GET_GLOBAL_VARIABLES}>
+        {({ loading, error, data, client }) => {
+          const { startDate, endDate } = data.globalVariables;
+          const codeList = [
+            "069500",
+            "232080",
+            "143850",
+            "195930",
+            "238720",
+            "192090",
+            "148070",
+            "136340",
+            "182490",
+            "132030",
+            "130680",
+            "114800",
+            "138230",
+            "139660",
+            "130730"
+          ];
+
+          const listOfPriceList = codeList.map(code =>
+            market.getReturnsListInRange(code, startDate, endDate)
+          );
+
+          console.log(listOfPriceList);
+
+          const corList = [];
+          for (let i = 0; i < codeList.length; i++) {
+            let subCorList = [];
+            for (let j = 0; j < codeList.length; j++) {
+              const corrcoeff = jStat.corrcoeff(
+                listOfPriceList[i],
+                listOfPriceList[j]
+              );
+              subCorList.push(corrcoeff);
+            }
+            corList.push(subCorList);
+          }
+
+          console.log(corList);
+          return null;
+        }}
+      </Query>
+    );
   }
 }
 
