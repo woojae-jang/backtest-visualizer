@@ -12602,6 +12602,61 @@ export class Market {
     return price_data[code]["close_price"][this.date];
   }
 
+  static getPrice(code, date){
+    return price_data[code]["close_price"][date];
+  }
+
+  static getMonthlyPriceList(code){
+    const priceList = firstDateOfMonth.map(date => price_data[code]["close_price"][date])
+    return priceList
+  }
+
+  static getMonthlyPriceListInRange(code, startDate, endDate) {
+    const monthlyPriceList = this.getMonthlyPriceList(code);
+
+    const startDateIdx = firstDateOfMonth.indexOf(startDate);
+    const endDateIdx = firstDateOfMonth.indexOf(endDate);
+
+    const slicedMonthlyPriceList = monthlyPriceList.slice(
+      startDateIdx,
+      endDateIdx + 1
+    );
+
+    return slicedMonthlyPriceList;
+  }
+
+  static getMonthlyReturns(code){
+    const monthlyPriceList = Market.getMonthlyPriceList(code);
+    
+    const pctChangeList = [];
+
+    monthlyPriceList.forEach((price, index) => {
+      if (index === 0) return;
+
+      const prePrice = monthlyPriceList[index - 1];
+      const pctChange = ((price - prePrice) / prePrice) * 100;
+      pctChangeList.push(pctChange);
+    });
+
+    return pctChangeList
+  }
+
+  static getMonthlyReturnsInRange(code, startDate, endDate) {
+    const monthlyPriceList = Market.getMonthlyPriceListInRange(code, startDate, endDate);
+    
+    const pctChangeList = [];
+
+    monthlyPriceList.forEach((price, index) => {
+      if (index === 0) return;
+
+      const prePrice = monthlyPriceList[index - 1];
+      const pctChange = ((price - prePrice) / prePrice) * 100;
+      pctChangeList.push(pctChange);
+    });
+
+    return pctChangeList
+  }
+
   getPriceList(code) {
     return price_data[code]["close_price"];
   }
@@ -12712,3 +12767,10 @@ export class Market {
     return data;
   }
 }
+
+// console.log(Market.getPrice("069500", "20160303"))
+console.log(Market.getMonthlyPriceList("069500"))
+console.log(Market.getMonthlyPriceListInRange("069500", "20160303", "20160901"));
+console.log(Market.getMonthlyReturns("069500"))
+console.log(Market.getMonthlyReturnsInRange("069500", "20160303", "20160901"))
+
