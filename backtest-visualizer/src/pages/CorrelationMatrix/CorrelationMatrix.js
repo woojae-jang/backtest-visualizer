@@ -121,13 +121,13 @@ const generateCorMatrix = _data => {
   //   .attr("x", -xSpace / 2)
   //   .attr("y", -ySpace / 2)
 
-  //edited to fit with v4 update  2/5/18
-  cor
-    .append("rect")
-    .attr("width", xSpace / 10)
-    .attr("height", ySpace / 10)
-    .attr("x", -xSpace / 20)
-    .attr("y", -ySpace / 20);
+  // //edited to fit with v4 update  2/5/18
+  // cor
+  //   .append("rect")
+  //   .attr("width", xSpace / 10)
+  //   .attr("height", ySpace / 10)
+  //   .attr("x", -xSpace / 20)
+  //   .attr("y", -ySpace / 20);
 
   cor
     .filter(function(d) {
