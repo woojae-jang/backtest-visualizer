@@ -1,11 +1,12 @@
 import React from "react";
 import "antd/dist/antd.css";
+import CorrelationMatrix from "pages/CorrelationMatrix/CorrelationMatrix";
 
 class Example5 extends React.Component {
   render() {
     return (
       <div>
-        <h1>Example5</h1>
+        <CorrelationMatrix />
       </div>
     );
   }

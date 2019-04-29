@@ -11,24 +11,42 @@ const market = new Market();
 class CorrelationMatrix extends React.Component {
   render() {
     return (
-      <React.Fragment>
-        <div id="matrix" />
-        <Test />
-      </React.Fragment>
-    );
-  }
+      <Query query={GET_GLOBAL_VARIABLES}>
+        {({ loading, error, data, client }) => {
+          const { startDate, endDate } = data.globalVariables;
+          const codeList = [
+            "069500",
+            "232080",
+            "143850",
+            "195930",
+            "238720",
+            "192090",
+            "148070",
+            "136340",
+            "182490",
+            "132030",
+            "130680",
+            "114800",
+            "138230",
+            "139660",
+            "130730"
+          ];
 
-  componentDidMount() {
-    d3.csv(
-      "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_correlogram.csv"
-    ).then(generateCorMatrix);
+          const result = getCorMatrixData(codeList, startDate, endDate);
+          return (
+            <React.Fragment>
+              <Test corData={result} />
+            </React.Fragment>
+          );
+        }}
+      </Query>
+    );
   }
 }
 
 const generateCorMatrix = _data => {
   var data = [];
 
-  console.log(_data);
   let rows = _data;
 
   rows.forEach(function(d) {
@@ -51,8 +69,8 @@ const generateCorMatrix = _data => {
       bottom: 25,
       left: 25
     },
-    width = 500 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom,
+    width = 800 - margin.left - margin.right,
+    height = 800 - margin.top - margin.bottom,
     domain = d3
       .set(
         data.map(function(d) {
@@ -196,49 +214,25 @@ const getCorMatrixData = (codeList, startDate, endDate) => {
   const corList = [];
   for (let i = 0; i < codeList.length; i++) {
     let row = {};
+    row[""] = codeList[i];
     for (let j = 0; j < codeList.length; j++) {
       const corrcoeff = jStat.corrcoeff(listOfPriceList[i], listOfPriceList[j]);
-      row[codeList[j]] = corrcoeff;
+      row[codeList[j]] = corrcoeff.toString();
     }
     corList.push(row);
   }
 
   corList["columns"] = [""].concat(codeList);
-
-  console.log(corList);
   return corList;
 };
 
 class Test extends React.Component {
   render() {
-    return (
-      <Query query={GET_GLOBAL_VARIABLES}>
-        {({ loading, error, data, client }) => {
-          const { startDate, endDate } = data.globalVariables;
-          const codeList = [
-            "069500",
-            "232080",
-            "143850",
-            "195930",
-            "238720",
-            "192090",
-            "148070",
-            "136340",
-            "182490",
-            "132030",
-            "130680",
-            "114800",
-            "138230",
-            "139660",
-            "130730"
-          ];
+    return <div id="matrix" />;
+  }
 
-          const result = getCorMatrixData(codeList, startDate, endDate);
-          console.log(result);
-          return null;
-        }}
-      </Query>
-    );
+  componentDidMount() {
+    generateCorMatrix(this.props.corData);
   }
 }
 
