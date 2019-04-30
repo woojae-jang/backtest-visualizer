@@ -1,4 +1,27 @@
-import { price_data, firstDateOfMonth } from "./priceData";
+import { firstDateOfMonth } from "./priceData";
+import { assetCodeList as codeList } from "utils/data";
+import * as d3 from "d3";
+// import { price_data, firstDateOfMonth } from "./priceData";
+
+const price_data = {};
+codeList.forEach(code => {
+  price_data[code] = { close_price: {} };
+});
+
+const fillData = data => {
+  const rows = data;
+  rows.forEach(row => {
+    const { date } = row;
+    codeList.forEach(code => {
+      const price = parseFloat(row[code]);
+      price_data[code]["close_price"][date] = price;
+    });
+  });
+};
+
+d3.csv("/adjusted_price.csv").then(data => {
+  fillData(data);
+});
 
 export class Market {
   constructor(date) {

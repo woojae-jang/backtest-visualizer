@@ -1,5 +1,3 @@
-import * as d3 from "d3";
-
 // 국내주식                             40 - 10
 // 069500	KODEX200 					           40 - 0
 // 232080	TIGER코스닥150				        20 - 0
@@ -853,39 +851,4 @@ const firstDateOfMonth = [
   "20190401"
 ];
 
-const codeList = [
-  "069500",
-  "232080",
-  "143850",
-  "195930",
-  "238720",
-  "192090",
-  "148070",
-  "136340",
-  "182490",
-  "132030",
-  "130680",
-  "114800",
-  "138230",
-  "139660",
-  "130730"
-];
-
-const price_data = {};
-codeList.forEach(code => {
-  price_data[code] = { close_price: {} };
-});
-
-d3.csv("adjusted_price.csv").then(data => {
-  const rows = data;
-
-  rows.forEach(row => {
-    const { date } = row;
-    codeList.forEach(code => {
-      const price = parseFloat(row[code]);
-      price_data[code]["close_price"][date] = price;
-    });
-  });
-});
-
-export { price_data, dateList, firstDateOfMonth };
+export { dateList, firstDateOfMonth };
