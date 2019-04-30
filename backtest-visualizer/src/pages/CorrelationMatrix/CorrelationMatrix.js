@@ -1,10 +1,12 @@
 import React from "react";
-import "./index.css";
+import "./CorrelationMatrix.css";
 import * as d3 from "d3";
 import { Query } from "react-apollo";
 import * as jStat from "jStat";
 import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import { Market } from "market";
+import MarketCalendar from "components/MarketCalendar";
+import { assetCodeList, getAssetShortName } from "utils/data";
 
 const market = new Market();
 
@@ -14,28 +16,13 @@ class CorrelationMatrix extends React.Component {
       <Query query={GET_GLOBAL_VARIABLES}>
         {({ loading, error, data, client }) => {
           const { startDate, endDate } = data.globalVariables;
-          const codeList = [
-            "069500",
-            "232080",
-            "143850",
-            "195930",
-            "238720",
-            "192090",
-            "148070",
-            "136340",
-            "182490",
-            "132030",
-            "130680",
-            "114800",
-            "138230",
-            "139660",
-            "130730"
-          ];
+          const codeList = assetCodeList;
 
           const result = getCorMatrixData(codeList, startDate, endDate);
           return (
             <React.Fragment>
-              <Test corData={result} />
+              <MarketCalendar data={data} client={client} />
+              <CorrelationMatrixChart corData={result} />
             </React.Fragment>
           );
         }}
@@ -56,8 +43,8 @@ const generateCorMatrix = _data => {
       var y = prop,
         value = d[prop];
       data.push({
-        x: x,
-        y: y,
+        x: getAssetShortName(x),
+        y: getAssetShortName(y),
         value: +value
       });
     }
@@ -147,6 +134,7 @@ const generateCorMatrix = _data => {
         return d.value.toFixed(2);
       }
     })
+    .style("font-size", "11px")
     .style("fill", function(d) {
       if (d.value === 1) {
         return "#000";
@@ -226,13 +214,39 @@ const getCorMatrixData = (codeList, startDate, endDate) => {
   return corList;
 };
 
-class Test extends React.Component {
+class CorrelationMatrixChart extends React.Component {
   render() {
     return <div id="matrix" />;
   }
 
   componentDidMount() {
     generateCorMatrix(this.props.corData);
+  }
+
+  componentDidUpdate() {
+    var data = [];
+
+    let rows = this.props.corData;
+
+    rows.forEach(function(d) {
+      var x = d[""];
+      delete d[""];
+      for (let prop in d) {
+        var y = prop,
+          value = d[prop];
+        data.push({
+          x: x,
+          y: y,
+          value: +value
+        });
+      }
+    });
+
+    console.log(this.props.corData);
+    // d3.select("#matrix")
+    //   .selectAll(".cor")
+    //   .data(data)
+    //   .update();
   }
 }
 
