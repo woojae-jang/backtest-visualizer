@@ -22,6 +22,7 @@ import AssetAllocationPage from "pages/AssetAllocationPage";
 import RiskAnalysisPage from "pages/RiskAnalysisPage";
 import AssetCorrelationPage from "pages/AssetCorrelationPage";
 import BackTestPage from "pages/BackTestPage";
+import CorrelationMatrix from "pages/CorrelationMatrix/CorrelationMatrix";
 
 const onExamplePages = false;
 const onTestPage = false;
@@ -63,6 +64,9 @@ let prodPages = [
   <NavLink activeClassName="active" to="/asset-correlation">
     AssetCorrelation
   </NavLink>,
+  <NavLink activeClassName="active" to="/correlation-matrix">
+    CorrelationMatrix
+  </NavLink>,
   <NavLink activeClassName="active" to="/risk-analysis">
     RiskAnalysis
   </NavLink>
@@ -101,6 +105,7 @@ const routing = (
         <Route path="/asset-correlation" component={AssetCorrelationPage} />
         <Route path="/risk-analysis" component={RiskAnalysisPage} />
         <Route path="/backtest" component={BackTestPage} />
+        <Route path="/correlation-matrix" component={CorrelationMatrix} />
         <Route component={Notfound} />
       </Switch>
     </div>
