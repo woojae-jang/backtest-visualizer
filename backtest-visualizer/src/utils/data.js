@@ -1172,14 +1172,39 @@ const nameList = [
   "KOSEF단기자금"
 ];
 
+const shortNameList = [
+  "코스피",
+  "코스닥",
+  "S&P500",
+  "유로스탁스",
+  "Nikkei225",
+  "CSI300",
+  "국고채10년",
+  "중기회사채",
+  "하이일드",
+  "골드",
+  "원유",
+  "인버스",
+  "달러",
+  "달러인버스",
+  "단기자금"
+];
+
 const getAssetName = code => {
   const idx = codeList.indexOf(code);
   return nameList[idx];
+};
+
+const getAssetShortName = code => {
+  const idx = codeList.indexOf(code);
+  return shortNameList[idx];
 };
 
 export {
   tradingDateList,
   codeList as assetCodeList,
   nameList as assetNameList,
-  getAssetName
+  shortNameList as assetShortNameList,
+  getAssetName,
+  getAssetShortName
 };
