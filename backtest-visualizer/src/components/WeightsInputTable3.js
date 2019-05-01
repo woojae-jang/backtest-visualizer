@@ -122,9 +122,8 @@ class EditableTable extends React.Component {
 
   handleAdd = () => {
     const { count, dataSource } = this.state;
-    const newData = {
-      key: count,
-      name: `Port #${count}`,
+
+    const defaultData = {
       "069500": 100,
       "232080": 0,
       "143850": 0,
@@ -141,6 +140,18 @@ class EditableTable extends React.Component {
       "139660": 0,
       "130730": 0
     };
+
+    const length = dataSource.length;
+
+    const lastData =
+      length >= 1 ? dataSource[dataSource.length - 1] : defaultData;
+
+    const newData = {
+      ...lastData,
+      key: count,
+      name: `Port #${count}`
+    };
+
     this.setState({
       dataSource: [...dataSource, newData],
       count: count + 1
