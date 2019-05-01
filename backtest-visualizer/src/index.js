@@ -23,6 +23,7 @@ import RiskAnalysisPage from "pages/RiskAnalysisPage";
 import AssetCorrelationPage from "pages/AssetCorrelationPage";
 import BackTestPage from "pages/BackTestPage";
 import CorrelationMatrix from "pages/CorrelationMatrix/CorrelationMatrix";
+import Header from "components/Header/Header";
 
 const onExamplePages = false;
 const onTestPage = false;
@@ -92,6 +93,7 @@ const routing = (
           <li key={index}>{page}</li>
         ))}
       </ul>
+      <Header />
       <Switch>
         <Route exact path="/" component={App} />
         <Route path="/example1" component={Example1} />

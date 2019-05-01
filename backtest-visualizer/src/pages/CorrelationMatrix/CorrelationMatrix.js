@@ -14,14 +14,13 @@ class CorrelationMatrix extends React.Component {
   render() {
     return (
       <Query query={GET_GLOBAL_VARIABLES}>
-        {({ loading, error, data, client }) => {
+        {({ data, client }) => {
           const { startDate, endDate } = data.globalVariables;
           const codeList = assetCodeList;
 
           const result = getCorMatrixData(codeList, startDate, endDate);
           return (
             <React.Fragment>
-              <MarketCalendar data={data} client={client} />
               <CorrelationMatrixChart corData={result} />
             </React.Fragment>
           );
@@ -243,10 +242,6 @@ class CorrelationMatrixChart extends React.Component {
     });
 
     console.log(this.props.corData);
-    // d3.select("#matrix")
-    //   .selectAll(".cor")
-    //   .data(data)
-    //   .update();
   }
 }
 

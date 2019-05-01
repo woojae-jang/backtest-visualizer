@@ -17,7 +17,6 @@ class PriceChartPage extends React.Component {
             return (
               <div>
                 <SelectInput data={data} client={client} />
-                <MarketCalendar data={data} client={client} />
                 <PriceChart data={data} />
               </div>
             );

@@ -18,7 +18,6 @@ class RiskAnalysisPage extends React.Component {
             return (
               <div>
                 <SelectSingleInput data={data} client={client} />
-                <MarketCalendar data={data} client={client} />
                 <RiskChart data={data} />
               </div>
             );

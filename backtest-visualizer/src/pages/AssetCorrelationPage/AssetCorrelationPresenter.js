@@ -22,8 +22,6 @@ const AssetCorrelationPresenter = props => {
   return (
     <div>
       <div className="asset-allocation-page">
-        <MarketCalendar data={data} client={client} />
-
         <CompareAssetsSelect data={result.data} client={client} />
         <CorrelationChart data={chartData} />
         <CorTrendChart
