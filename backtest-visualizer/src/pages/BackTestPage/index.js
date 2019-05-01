@@ -7,6 +7,7 @@ import { assetCodeList } from "utils/data";
 import { Button } from "antd";
 import WeightsInputTable2 from "components/WeightsInputTable2";
 import InputForm from "./InputForm";
+import BackTestContainer from "pages/BackTestPage";
 
 class BackTestPage extends Component {
   render() {
@@ -18,6 +19,7 @@ class BackTestPage extends Component {
             <div>
               <div className="asset-allocation-page">
                 <InputForm />
+                <BackTestContainer />
               </div>
             </div>
           );
