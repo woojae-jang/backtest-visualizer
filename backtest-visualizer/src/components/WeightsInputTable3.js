@@ -94,21 +94,9 @@ class EditableCell extends React.Component {
 class EditableTable extends React.Component {
   constructor(props) {
     super(props);
+    const { columns, dataSource } = props;
     this.columns = [
-      {
-        title: "name",
-        dataIndex: "name",
-        width: "30%",
-        editable: true
-      },
-      {
-        title: "age",
-        dataIndex: "age"
-      },
-      {
-        title: "address",
-        dataIndex: "address"
-      },
+      ...columns,
       {
         title: "operation",
         dataIndex: "operation",
@@ -124,23 +112,7 @@ class EditableTable extends React.Component {
       }
     ];
 
-    this.state = {
-      dataSource: [
-        {
-          key: "0",
-          name: "Edward King 0",
-          age: "32",
-          address: "London, Park Lane no. 0"
-        },
-        {
-          key: "1",
-          name: "Edward King 1",
-          age: "32",
-          address: "London, Park Lane no. 1"
-        }
-      ],
-      count: 2
-    };
+    this.state = dataSource;
   }
 
   handleDelete = key => {
@@ -152,9 +124,22 @@ class EditableTable extends React.Component {
     const { count, dataSource } = this.state;
     const newData = {
       key: count,
-      name: `Edward King ${count}`,
-      age: 32,
-      address: `London, Park Lane no. ${count}`
+      name: `Port #${count}`,
+      "069500": 100,
+      "232080": 0,
+      "143850": 0,
+      "195930": 0,
+      "238720": 0,
+      "192090": 0,
+      "148070": 0,
+      "136340": 0,
+      "182490": 0,
+      "132030": 0,
+      "130680": 0,
+      "114800": 0,
+      "138230": 0,
+      "139660": 0,
+      "130730": 0
     };
     this.setState({
       dataSource: [...dataSource, newData],
@@ -211,6 +196,7 @@ class EditableTable extends React.Component {
           bordered
           dataSource={dataSource}
           columns={columns}
+          size="small"
         />
       </div>
     );
