@@ -3,8 +3,10 @@ import { Query } from "react-apollo";
 import * as math from "mathjs";
 import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import { BackTest, BackTestArgsHandler } from "utils/simulation";
-import { assetCodeList } from "utils/data";
 import BackTestPresenter from "./BackTestPresenter";
+import { getRandAllocWithFixedWeights } from "utils/utils";
+import { assetCodeList } from "utils/data";
+import { Button } from "antd";
 
 class BackTestContainer extends Component {
   render() {
@@ -15,8 +17,10 @@ class BackTestContainer extends Component {
             <BackTestPresenter
               data={data}
               client={client}
-              handleOnClick={this.handleOnClick}
-              stateData={this.state.data}
+              columns={this.columns}
+              dataSource={this.state.dataSource}
+              func={{ runSimulation: this.runSimulation }}
+              resultList={this.state.resultList}
             />
           );
         }}
@@ -26,11 +30,50 @@ class BackTestContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.simulationOnce = this.simulationOnce.bind(this);
+
+    const columns = [
+      {
+        title: "name",
+        dataIndex: "name"
+      }
+    ];
+
+    assetCodeList.forEach(name => {
+      columns.push({ title: name, dataIndex: name, editable: true });
+    });
+
+    this.columns = columns;
+
+    const dataSource = {
+      dataSource: [
+        {
+          key: "0",
+          name: `Port #0`,
+          "069500": 100,
+          "232080": 0,
+          "143850": 0,
+          "195930": 0,
+          "238720": 0,
+          "192090": 0,
+          "148070": 0,
+          "136340": 0,
+          "182490": 0,
+          "132030": 0,
+          "130680": 0,
+          "114800": 0,
+          "138230": 0,
+          "139660": 0,
+          "130730": 0
+        }
+      ],
+      count: 1
+    };
+
+    this.state = { dataSource, resultList: [] };
   }
 
-  simulationOnce(variables, weightsList) {
-    const { startDate, endDate, codeList } = variables;
+  runSimulation = (variables, weightsList, name) => {
+    const { startDate, endDate } = variables;
     let newAllocation = weightsList;
 
     // EF LINE 에 영향을 미침
@@ -49,8 +92,8 @@ class BackTestContainer extends Component {
     backTest.createMetaData();
     const result = backTest.result();
 
-    return result;
-  }
+    this.setState({ resultList: [...this.state.resultList, { result, name }] });
+  };
 }
 
 export default BackTestContainer;

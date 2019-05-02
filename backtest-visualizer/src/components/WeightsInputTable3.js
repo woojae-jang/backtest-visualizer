@@ -1,5 +1,6 @@
-import { Table, Input, Button, Popconfirm, Form } from "antd";
+import { Table, Button, Form, InputNumber } from "antd";
 import React from "react";
+import { assetCodeList } from "utils/data";
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -65,7 +66,7 @@ class EditableCell extends React.Component {
                     ],
                     initialValue: record[dataIndex]
                   })(
-                    <Input
+                    <InputNumber
                       ref={node => (this.input = node)}
                       onPressEnter={this.save}
                       onBlur={this.save}
@@ -75,7 +76,7 @@ class EditableCell extends React.Component {
               ) : (
                 <div
                   className="editable-cell-value-wrap"
-                  style={{ paddingRight: 24 }}
+                  style={{ paddingRight: 5 }}
                   onClick={this.toggleEdit}
                 >
                   {restProps.children}
@@ -102,18 +103,31 @@ class EditableTable extends React.Component {
         dataIndex: "operation",
         render: (text, record) =>
           this.state.dataSource.length >= 1 ? (
-            <Popconfirm
-              title="Sure to delete?"
-              onConfirm={() => this.handleDelete(record.key)}
-            >
-              <a href="javascript:;">Delete</a>
-            </Popconfirm>
+            <React.Fragment>
+              <button onClick={() => this.handleRun(record.key)}>Run</button>
+              <button onClick={() => this.handleDelete(record.key)}>
+                Delete
+              </button>
+            </React.Fragment>
           ) : null
       }
     ];
 
     this.state = dataSource;
   }
+
+  handleRun = key => {
+    const dataSource = [...this.state.dataSource];
+    const data = dataSource.filter(item => item.key === key);
+
+    const weightsList = [];
+    assetCodeList.map(code => {
+      weightsList.push(data[0][code]);
+    });
+    weightsList.push(0);
+
+    this.props.runHandler(weightsList, data[0].name);
+  };
 
   handleDelete = key => {
     const dataSource = [...this.state.dataSource];

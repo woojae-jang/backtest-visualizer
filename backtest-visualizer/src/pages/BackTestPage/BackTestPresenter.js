@@ -1,20 +1,26 @@
 import React from "react";
-import SelectInput from "components/SelectInput";
-import ReturnsChart from "components/ReturnsChart";
-import DoughnutChart from "components/DoughnutChart";
+import PriceChart from "./PriceChart";
 import { Button } from "antd";
-import WeightsInputTable2 from "components/WeightsInputTable2";
+import WeightsInputTable3 from "components/WeightsInputTable3";
+import BackTestResultTable from "./BackTestResultTable";
 
 const BackTestPresenter = props => {
-  const { data, client, stateData } = props;
+  const { data, client, columns, dataSource, func, resultList } = props;
+  const { globalVariables } = data;
+  const resultDataSource = [];
+  const { runSimulation } = func;
 
   return (
     <div>
-      <div className="asset-allocation-page">
-        <SelectInput data={data} client={client} />
-        <ReturnsChart data={data} />
-        <DoughnutChart data={data} />
-      </div>
+      <WeightsInputTable3
+        columns={columns}
+        dataSource={dataSource}
+        runHandler={(weightsList, name) =>
+          runSimulation(globalVariables, weightsList, name)
+        }
+      />
+      <PriceChart data={data} resultList={resultList} />
+      <BackTestResultTable data={resultDataSource} />
     </div>
   );
 };
