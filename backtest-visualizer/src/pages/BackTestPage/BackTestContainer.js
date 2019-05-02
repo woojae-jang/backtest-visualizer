@@ -5,7 +5,7 @@ import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import { BackTest, BackTestArgsHandler } from "utils/simulation";
 import BackTestPresenter from "./BackTestPresenter";
 import { getRandAllocWithFixedWeights } from "utils/utils";
-import { assetCodeList } from "utils/data";
+import { assetCodeList, getAssetShortName } from "utils/data";
 import { Button } from "antd";
 
 class BackTestContainer extends Component {
@@ -38,8 +38,12 @@ class BackTestContainer extends Component {
       }
     ];
 
-    assetCodeList.forEach(name => {
-      columns.push({ title: name, dataIndex: name, editable: true });
+    assetCodeList.forEach(code => {
+      columns.push({
+        title: getAssetShortName(code),
+        dataIndex: code,
+        editable: true
+      });
     });
 
     this.columns = columns;

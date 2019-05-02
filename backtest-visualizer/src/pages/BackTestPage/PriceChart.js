@@ -19,7 +19,6 @@ class PriceChart extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(this.props);
     this.chartUpdate();
   }
 
@@ -48,7 +47,6 @@ class PriceChart extends React.Component {
     // same colors
     const colors = this.chart.data.datasets.map(dataset => dataset.borderColor);
     const datasets = [];
-    console.log(dataList);
     dataList.map((data, index) => {
       const newColor = dynamicColors();
       const dataset = {
@@ -76,7 +74,6 @@ class PriceChart extends React.Component {
 
     const dataList = [];
 
-    console.log(this.props);
     for (let i = 0; i < resultList.length; i++) {
       let price_data = resultList[i].result.cumReturnList;
       let dataset = {};
