@@ -229,6 +229,7 @@ class BackTest {
 
     result["navList"] = this.navList;
     result["returnList"] = this.returnList;
+    result["cumReturnList"] = this.cumReturnList;
     result["orderLog"] = this.orderLog;
     result["eventLog"] = this.eventLog;
 
@@ -304,6 +305,16 @@ class BackTest {
       }
 
       const prevPrice = this.navList[index - 1];
+      const pctChange = ((price - prevPrice) / prevPrice) * 100;
+      return pctChange;
+    });
+
+    this.cumReturnList = this.navList.map((price, index) => {
+      if (index === 0) {
+        return 0;
+      }
+
+      const prevPrice = this.navList[0];
       const pctChange = ((price - prevPrice) / prevPrice) * 100;
       return pctChange;
     });
