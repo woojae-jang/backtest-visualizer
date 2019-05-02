@@ -70,16 +70,15 @@ let prodPages = [
   </NavLink>,
   <NavLink activeClassName="active" to="/risk-analysis">
     RiskAnalysis
+  </NavLink>,
+  <NavLink activeClassName="active" to="/backtest">
+    BackTest
   </NavLink>
 ];
 
 if (onTestPage) {
-  const testPage = [
-    <NavLink activeClassName="active" to="/backtest">
-      BackTest
-    </NavLink>
-  ];
-  prodPages.concat(testPage);
+  const testPage = [];
+  prodPages = prodPages.concat(testPage);
 }
 
 const routing = (
