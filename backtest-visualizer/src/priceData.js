@@ -806,6 +806,22 @@ let dateList = [
 ];
 let firstDateOfMonth = [];
 
+const parseFirstDateOfMonthFromDateList = (
+  dateList,
+  baseYearMonth = "201602"
+) => {
+  let preYearMonth = baseYearMonth;
+  const array = [];
+  dateList.forEach(date => {
+    let yearMonth = date.slice(0, 6);
+    if (yearMonth > preYearMonth) {
+      array.push(date);
+      preYearMonth = yearMonth;
+    }
+  });
+  return array;
+};
+
 firstDateOfMonth = parseFirstDateOfMonthFromDateList(dateList);
 
 // d3.csv("/dateList.csv").then(data => {
@@ -819,22 +835,6 @@ const parseDateListFromCSVData = data => {
   rows.forEach(row => {
     const date = Object.values(row)[0];
     array.push(date);
-  });
-  return array;
-};
-
-const parseFirstDateOfMonthFromDateList = (
-  dateList,
-  baseYearMonth = "201602"
-) => {
-  let preYearMonth = baseYearMonth;
-  const array = [];
-  dateList.forEach(date => {
-    let yearMonth = date.slice(0, 6);
-    if (yearMonth > preYearMonth) {
-      array.push(date);
-      preYearMonth = yearMonth;
-    }
   });
   return array;
 };
