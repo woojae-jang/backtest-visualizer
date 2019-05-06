@@ -5,11 +5,6 @@ import { getAssetName } from "utils/data";
 
 const columns = [
   {
-    title: "Code",
-    dataIndex: "code",
-    key: "code"
-  },
-  {
     title: "Name",
     dataIndex: "name",
     key: "name"
@@ -28,13 +23,12 @@ const columns = [
 
 const BackTestResultTable = props => {
   const dataSource = props.data.map((data, index) => {
-    let { code, returns, std } = data;
+    let { returns, std, name } = data;
     returns = math.round(returns, 4);
     std = math.round(std, 4);
     return {
       key: index,
-      code,
-      name: getAssetName(code),
+      name: name,
       returns,
       std
     };
