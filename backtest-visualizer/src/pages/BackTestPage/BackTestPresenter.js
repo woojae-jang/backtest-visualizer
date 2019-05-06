@@ -1,6 +1,6 @@
 import React from "react";
 import PriceChart from "./PriceChart";
-import WeightsInputTable3 from "./WeightsInputTable3";
+import WeightsInputTable from "./WeightsInputTable";
 import BackTestResultTable from "./BackTestResultTable";
 
 const BackTestPresenter = props => {
@@ -11,7 +11,7 @@ const BackTestPresenter = props => {
 
   return (
     <div>
-      <WeightsInputTable3
+      <WeightsInputTable
         columns={columns}
         dataSource={dataSource}
         runHandler={(weightsList, name) =>
