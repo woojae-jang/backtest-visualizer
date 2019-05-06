@@ -124,6 +124,17 @@ const addOneDay = date => {
   return tomorrow;
 };
 
+const getAnnualizedReturns = (returns, days) => {
+  const numOfTradingDaysOfOneYear = 252;
+  const annualized = days / numOfTradingDaysOfOneYear;
+  return (1 + returns) ** (1 / annualized) - 1;
+};
+
+const getAnnualizedStd = std => {
+  const N = 252;
+  return std * N ** (1 / 2);
+};
+
 export {
   getRandomAllocation,
   getRandAllocWithFixedWeights,
@@ -132,5 +143,7 @@ export {
   getMovingCor,
   addOneDay,
   getIntRandWeights,
-  getFloatRandWeights
+  getFloatRandWeights,
+  getAnnualizedReturns,
+  getAnnualizedStd
 };
