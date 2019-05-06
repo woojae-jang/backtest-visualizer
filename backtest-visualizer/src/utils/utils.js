@@ -13,6 +13,28 @@ const getRandomAllocation = division => {
   return weight_list;
 };
 
+const getIntRandWeights = division => {
+  let randomWeights = getRandomAllocation(division);
+  randomWeights = randomWeights.map(value => mathjs.floor(value));
+  const remainWieght = 100 - mathjs.sum(randomWeights);
+  randomWeights[randomWeights.length - 1] += remainWieght;
+  return randomWeights;
+};
+
+const getFloatRandWeights = (division, digits = 2) => {
+  let randomWeights = getRandomAllocation(division);
+
+  randomWeights = randomWeights.map(value => value * 10 ** digits);
+
+  randomWeights = randomWeights.map(value => mathjs.floor(value));
+  const remainWieght = 100 * 10 ** digits - mathjs.sum(randomWeights);
+  randomWeights[randomWeights.length - 1] += remainWieght;
+
+  randomWeights = randomWeights.map(value => value / 10 ** digits);
+
+  return randomWeights;
+};
+
 const getRandAllocWithFixedWeights = weightsWithfixedWeight => {
   const numOfFreeAssets = weightsWithfixedWeight.filter(d => d === null).length;
   const weightsOfFree =
@@ -108,5 +130,7 @@ export {
   getStdMovingAvg,
   getCumPctChange,
   getMovingCor,
-  addOneDay
+  addOneDay,
+  getIntRandWeights,
+  getFloatRandWeights
 };
