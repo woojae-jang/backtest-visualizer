@@ -1,7 +1,6 @@
 import React from "react";
 import PriceChart from "./PriceChart";
-import { Button } from "antd";
-import WeightsInputTable3 from "components/WeightsInputTable3";
+import WeightsInputTable3 from "./WeightsInputTable3";
 import BackTestResultTable from "./BackTestResultTable";
 
 const BackTestPresenter = props => {
