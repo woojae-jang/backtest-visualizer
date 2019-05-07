@@ -9,22 +9,6 @@ const BackTestPresenter = props => {
   const { globalVariables } = data;
   const { runSimulation } = func;
 
-  console.log(getAnnualizedReturns(0.23, 252));
-  console.log(getAnnualizedStd(0.006736));
-  console.log(resultList);
-
-  const result = resultList.map(data => {
-    const { result, name } = data;
-    const { finalReturn, std, sharpeRatio } = result;
-
-    return {
-      name,
-      returns: finalReturn,
-      std
-    };
-  });
-
-  // const result = [];
   return (
     <div>
       <WeightsInputTable
@@ -35,7 +19,7 @@ const BackTestPresenter = props => {
         }
       />
       <PriceChart data={data} resultList={resultList} />
-      <BackTestResultTable data={result} />
+      <BackTestResultTable data={resultList} />
     </div>
   );
 };

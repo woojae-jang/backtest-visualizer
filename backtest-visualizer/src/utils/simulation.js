@@ -1,6 +1,7 @@
 import { Market } from "../market";
 import * as math from "mathjs";
 import { tradingDateList } from "./data";
+import { getAnnualizedReturns, getAnnualizedStd } from "utils/utils";
 
 const SEED_MONEY = 10000000000;
 // const COMMISION_RATE = 0.015 / 100;
@@ -234,7 +235,10 @@ class BackTest {
     result["eventLog"] = this.eventLog;
 
     result["finalReturn"] = this.getFinalReturn();
+    result["annualizedReturns"] = this.getAnnualizedReturns();
+    result["annualizedStd"] = this.getAnnualizedStd();
     result["sharpeRatio"] = this.getSharpeRatio();
+
     result["std"] = this.getStd();
 
     return result;
@@ -247,15 +251,25 @@ class BackTest {
     return finalReturn;
   }
 
+  getAnnualizedReturns() {
+    const returns = this.getFinalReturn();
+    const days = this.navList.length - 1;
+    return getAnnualizedReturns(returns, days);
+  }
+
+  getAnnualizedStd() {
+    const std = this.getStd();
+    return getAnnualizedStd(std);
+  }
+
   getSharpeRatio() {
-    const newReturnList = [...this.returnList];
-    newReturnList.shift();
-    const sharpeRatio = this.getFinalReturn() / this.getStd();
+    const sharpeRatio = this.getAnnualizedReturns() / this.getAnnualizedStd();
     return sharpeRatio;
   }
 
   getStd() {
-    const newReturnList = [...this.returnList];
+    let newReturnList = this.returnList.map(returns => returns / 100);
+    // let newReturnList = this.returnList.map(returns => returns);
     newReturnList.shift();
     const std = math.std(newReturnList);
     return std;
@@ -387,12 +401,20 @@ const summaryTable = (codeList, startDate, endDate) => {
     const basePrice = market.getPrice(code);
     market.setDate(endDate);
     const finalPrice = market.getPrice(code);
-    result.returns = (finalPrice - basePrice) / basePrice;
+    const HPR = (finalPrice - basePrice) / basePrice;
+    result.returns = HPR;
 
-    const returnsList = market.getReturnsListInRange(code, startDate, endDate);
+    const returnsList = market
+      .getReturnsListInRange(code, startDate, endDate)
+      .map(returns => returns / 100);
     returnsList.shift();
+
+    const period = returnsList.length;
+    result.annualizedReturns = getAnnualizedReturns(HPR, period);
+
     const std = math.std(returnsList);
     result.std = std;
+    result.annualizedStd = getAnnualizedStd(std);
 
     results.push(result);
   });

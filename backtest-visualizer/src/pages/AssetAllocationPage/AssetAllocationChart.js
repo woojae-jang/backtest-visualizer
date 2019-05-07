@@ -5,7 +5,11 @@ class AssetAllocationChart extends Component {
   render() {
     const allocations = this.props.fixedAllocation;
     const fixedAllocationData = allocations.map(alloc => {
-      return { x: alloc.std, y: alloc.returns, code: alloc.code };
+      return {
+        x: alloc.annualizedStd,
+        y: alloc.annualizedReturns,
+        code: alloc.code
+      };
     });
 
     const points = this.props.data;

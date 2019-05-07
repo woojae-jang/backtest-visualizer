@@ -89,8 +89,10 @@ class AssetAllocationContainer extends Component {
     const result = backTest.result();
 
     const simulationResult = {
-      x: math.round(result.std, 4),
-      y: math.round(result.finalReturn, 4),
+      // x: math.round(result.std, 4),
+      // y: math.round(result.finalReturn, 4),
+      x: math.round(result.annualizedStd, 4),
+      y: math.round(result.annualizedReturns, 4),
       labels: newAllocation,
       sharpeRatio: result.sharpeRatio
     };

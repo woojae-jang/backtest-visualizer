@@ -15,28 +15,43 @@ const columns = [
     key: "name"
   },
   {
-    title: "Returns",
+    title: "Returns(%)",
     dataIndex: "returns",
     key: "returns"
   },
   {
-    title: "Std",
+    title: "Std(%)",
     dataIndex: "std",
     key: "std"
+  },
+  {
+    title: "AnnualizedReturns(%)",
+    dataIndex: "annualizedReturns",
+    key: "annualizedReturns"
+  },
+  {
+    title: "AnnualizedStd(%)",
+    dataIndex: "annualizedStd",
+    key: "annualizedStd"
   }
 ];
 
 const ResultTable = props => {
   const dataSource = props.data.map((data, index) => {
-    let { code, returns, std } = data;
+    let { code, returns, std, annualizedReturns, annualizedStd } = data;
     returns = math.round(returns, 4);
     std = math.round(std, 4);
+    annualizedReturns = math.round(annualizedReturns, 4);
+    annualizedStd = math.round(annualizedStd, 4);
+
     return {
       key: index,
       code,
       name: getAssetName(code),
-      returns,
-      std
+      returns: returns * 100 + " %",
+      std: std * 100 + " %",
+      annualizedReturns: annualizedReturns * 100 + " %",
+      annualizedStd: annualizedStd * 100 + " %"
     };
   });
 
