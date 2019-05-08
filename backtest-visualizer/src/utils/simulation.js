@@ -50,7 +50,7 @@ class PortFolio {
     if (amount > 0) {
       this.buy(code, amount);
     } else {
-      this.sell(code, amount);
+      this.sell(code, -amount);
     }
   }
 
@@ -101,10 +101,9 @@ class PortFolio {
     const liquidatedCash = price * amount;
     const commision = price * amount * COMMISION_RATE;
     const tax = price * amount * TAX_RATE;
-
     const cash = liquidatedCash - commision - tax;
 
-    this.assets[code] += amount;
+    this.assets[code] -= amount;
     this.cash += cash;
 
     const log =
@@ -139,6 +138,7 @@ class PortFolio {
       const maximumAmount = this.orderableAmount(orderableMoney, price);
 
       const curAmount = this.assets[code] === undefined ? 0 : this.assets[code];
+
       const amountDelta = maximumAmount - curAmount;
 
       const order = { code: code, amount: amountDelta };
@@ -167,8 +167,8 @@ class PortFolio {
 
     const NAV = this.valuation();
 
-    // // weight 10% 가감
-    // weight *= 0.9;
+    // // weight 5% 가감
+    // weight *= 0.95;
 
     return (NAV / 100) * weight;
   }
@@ -371,6 +371,10 @@ class BackTestArgsHandler {
   setDateRange(startDate, endDate) {
     this.argsObject.startDate = startDate;
     this.argsObject.endDate = endDate;
+  }
+
+  setRebalanceDateList(dateList) {
+    this.argsObject.rebalanceDateList = dateList;
   }
 
   getArgs() {
