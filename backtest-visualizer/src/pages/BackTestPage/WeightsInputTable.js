@@ -2,6 +2,7 @@ import { Table, Button, Form, InputNumber } from "antd";
 import React from "react";
 import { assetCodeList } from "utils/data";
 import { getFloatRandWeights } from "utils/utils";
+import RebalanceSelect from "./RebalanceSelect";
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -100,6 +101,20 @@ class EditableTable extends React.Component {
     this.columns = [
       ...columns,
       {
+        title: "Rebalancing",
+        dataIndex: "rebalancing",
+        render: (text, record) =>
+          this.state.dataSource.length >= 1 ? (
+            <React.Fragment>
+              <RebalanceSelect
+                handleChange={type =>
+                  this.selectRebalanceType(record.key, type)
+                }
+              />
+            </React.Fragment>
+          ) : null
+      },
+      {
         title: "operation",
         dataIndex: "operation",
         render: (text, record) =>
@@ -117,6 +132,15 @@ class EditableTable extends React.Component {
     this.state = dataSource;
   }
 
+  selectRebalanceType = (key, type) => {
+    const { dataSource } = this.state;
+    this.setState({
+      dataSource: dataSource.map(data =>
+        key === data.key ? { ...data, rebalanceType: type } : data
+      )
+    });
+  };
+
   handleRun = key => {
     const dataSource = [...this.state.dataSource];
     const data = dataSource.filter(item => item.key === key);
@@ -127,7 +151,7 @@ class EditableTable extends React.Component {
     });
     weightsList.push(0);
 
-    this.props.runHandler(weightsList, data[0].name);
+    this.props.runHandler(weightsList, data[0].name, data[0].rebalanceType);
   };
 
   handleDelete = key => {
@@ -164,7 +188,8 @@ class EditableTable extends React.Component {
     const newData = {
       ...lastData,
       key: count,
-      name: `Port #${count}`
+      name: `Port #${count}`,
+      rebalanceType: "none"
     };
 
     this.setState({
@@ -204,7 +229,8 @@ class EditableTable extends React.Component {
     const newData = {
       ...weightsData,
       key: count,
-      name: `Port #${count}`
+      name: `Port #${count}`,
+      rebalanceType: "none"
     };
 
     this.setState({

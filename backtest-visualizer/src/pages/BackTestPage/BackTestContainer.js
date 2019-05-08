@@ -7,6 +7,7 @@ import BackTestPresenter from "./BackTestPresenter";
 import { getRandAllocWithFixedWeights } from "utils/utils";
 import { assetCodeList, getAssetShortName } from "utils/data";
 import { Button } from "antd";
+import { dateList, firstDateOfMonth } from "priceData";
 
 class BackTestContainer extends Component {
   render() {
@@ -67,7 +68,8 @@ class BackTestContainer extends Component {
           "114800": 0,
           "138230": 0,
           "139660": 0,
-          "130730": 0
+          "130730": 0,
+          rebalanceType: "none"
         }
       ],
       count: 1
@@ -76,7 +78,8 @@ class BackTestContainer extends Component {
     this.state = { dataSource, resultList: [] };
   }
 
-  runSimulation = (variables, weightsList, name) => {
+  runSimulation = (variables, weightsList, name, rebalanceType = "none") => {
+    console.log(rebalanceType);
     const { startDate, endDate } = variables;
     let newAllocation = weightsList;
 
@@ -88,9 +91,23 @@ class BackTestContainer extends Component {
     const backTestArgsHandler = new BackTestArgsHandler();
     backTestArgsHandler.replaceAllocation(newAllocation);
     backTestArgsHandler.setDateRange(startDate, endDate);
+    if (rebalanceType === "none") {
+      console.log("none");
+      backTestArgsHandler.setRebalanceDateList([]);
+    } else if (rebalanceType === "daily") {
+      console.log("daily");
+      backTestArgsHandler.setRebalanceDateList(dateList);
+    } else if (rebalanceType === "weekly") {
+      console.log("weekly");
+      // backTestArgsHandler.rebalanceDateList = [];
+    } else if (rebalanceType === "monthly") {
+      console.log("monthly");
+      backTestArgsHandler.setRebalanceDateList(firstDateOfMonth);
+    }
 
     const testArgs = backTestArgsHandler.getArgs();
     const backTest = new BackTest();
+
     backTest.init(testArgs);
     backTest.run();
     backTest.createMetaData();
