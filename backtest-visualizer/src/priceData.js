@@ -24,6 +24,8 @@
 // 현금								                 50 - 1
 
 import * as d3 from "d3";
+import * as moment from "moment";
+import TradingDate from "utils/TradingDate";
 
 let dateList = [
   "20160303",
@@ -822,6 +824,39 @@ const parseFirstDateOfMonthFromDateList = (
   return array;
 };
 
+const firstMonday = "20160104";
+const firstFriday = "20160108";
+
+const getFirstDateOfWeekInRange = (
+  startDate = "20160101",
+  endDate = "20191231",
+  dayOfWeek = true // true: first(usually monday), false(usually friday)
+) => {
+  let date = null;
+  if (dayOfWeek) {
+    date = firstMonday;
+  } else {
+    date = firstFriday;
+  }
+
+  const dateMoment = moment(date, "YYYYMMDD");
+  const dateList = [];
+
+  let i = 0;
+  while (true) {
+    const tmpDate = dateMoment.add(7, "days").format("YYYYMMDD");
+    if (tmpDate > endDate) break;
+
+    dateList.push(TradingDate.magnet(tmpDate, true));
+    i += 1;
+  }
+
+  const nonDupulicatedDateList = new Set(dateList);
+  return [...nonDupulicatedDateList];
+};
+
+const firtDateOfWeek = getFirstDateOfWeekInRange();
+
 firstDateOfMonth = parseFirstDateOfMonthFromDateList(dateList);
 
 // d3.csv("/dateList.csv").then(data => {
@@ -839,4 +874,4 @@ const parseDateListFromCSVData = data => {
   return array;
 };
 
-export { dateList, firstDateOfMonth };
+export { dateList, firstDateOfMonth, firtDateOfWeek };

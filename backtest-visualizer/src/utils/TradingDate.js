@@ -54,8 +54,9 @@ class TradingDate {
   addOneDay = () => {};
 }
 
-TradingDate.getDateList(new Date(2017, 1, 5), new Date(2018, 1, 5));
-console.log(TradingDate.magnet(new Date(2017, 1, 5)));
-console.log(TradingDate.magnet(new Date(2017, 1, 5), false));
+// TradingDate.getDateList(new Date(2017, 1, 5), new Date(2018, 1, 5));
+// console.log(TradingDate.magnet(new Date(2017, 1, 5)));
+// console.log(TradingDate.magnet(new Date(2017, 1, 5), false));
+// console.log(TradingDate.magnet("20170105", false));
 
 export default TradingDate;
