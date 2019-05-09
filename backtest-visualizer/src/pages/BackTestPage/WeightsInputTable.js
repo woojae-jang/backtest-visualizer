@@ -1,4 +1,4 @@
-import { Table, Button, Form, InputNumber } from "antd";
+import { Table, Button, Form, InputNumber, Input } from "antd";
 import React from "react";
 import { assetCodeList } from "utils/data";
 import { getFloatRandWeights } from "utils/utils";
@@ -68,7 +68,7 @@ class EditableCell extends React.Component {
                     ],
                     initialValue: record[dataIndex]
                   })(
-                    <InputNumber
+                    <Input
                       ref={node => (this.input = node)}
                       onPressEnter={this.save}
                       onBlur={this.save}

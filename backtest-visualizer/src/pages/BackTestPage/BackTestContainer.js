@@ -4,9 +4,7 @@ import * as math from "mathjs";
 import { GET_GLOBAL_VARIABLES } from "apollo/queries";
 import { BackTest, BackTestArgsHandler } from "utils/simulation";
 import BackTestPresenter from "./BackTestPresenter";
-import { getRandAllocWithFixedWeights } from "utils/utils";
 import { assetCodeList, getAssetShortName } from "utils/data";
-import { Button } from "antd";
 import { dateList, firstDateOfMonth, firtDateOfWeek } from "priceData";
 
 class BackTestContainer extends Component {
@@ -35,7 +33,8 @@ class BackTestContainer extends Component {
     const columns = [
       {
         title: "name",
-        dataIndex: "name"
+        dataIndex: "name",
+        editable: true
       }
     ];
 
