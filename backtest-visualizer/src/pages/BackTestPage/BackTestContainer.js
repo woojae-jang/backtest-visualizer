@@ -20,6 +20,8 @@ class BackTestContainer extends Component {
               dataSource={this.state.dataSource}
               func={{ runSimulation: this.runSimulation }}
               resultList={this.state.resultList}
+              selectPortfolioHandler={this.selectPortfolioHandler}
+              selectedPortfolio={this.state.selectedPortfolio}
             />
           );
         }}
@@ -74,7 +76,7 @@ class BackTestContainer extends Component {
       count: 1
     };
 
-    this.state = { dataSource, resultList: [] };
+    this.state = { dataSource, resultList: [], selectedPortfolio: null };
   }
 
   runSimulation = (variables, weightsList, name, rebalanceType = "none") => {
@@ -108,6 +110,12 @@ class BackTestContainer extends Component {
     const result = backTest.result();
 
     this.setState({ resultList: [...this.state.resultList, { result, name }] });
+  };
+
+  selectPortfolioHandler = (portName, selectedDate) => {
+    this.setState({
+      selectedPortfolio: { name: portName, date: selectedDate }
+    });
   };
 }
 

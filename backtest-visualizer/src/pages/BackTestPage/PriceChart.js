@@ -80,8 +80,28 @@ class PriceChart extends React.Component {
         ]
       }
     };
-    return <Line data={data} options={options} />;
+    return (
+      <Line
+        data={data}
+        options={options}
+        getElementAtEvent={this.handleGetElementAtEvent}
+      />
+    );
   }
+
+  handleGetElementAtEvent = elem => {
+    const activePoints = elem;
+    if (activePoints.length !== 0) {
+      const { _datasetIndex, _index, _chart } = activePoints[0];
+
+      const labelOfDatasets = _chart.data.labels[_index];
+      const labelOfData = _chart.data.datasets[_datasetIndex].label;
+
+      const selectedDate = labelOfDatasets;
+      const portName = labelOfData;
+      this.props.selectPortfolio(portName, selectedDate);
+    }
+  };
 }
 
 export default PriceChart;
