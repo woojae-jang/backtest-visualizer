@@ -220,6 +220,7 @@ class BackTest {
     this.fixedAlloc = allocation;
     this.navList = [];
     this.returnList = [];
+    this.dateList = [];
     this.allocationList = [];
     this.orderLog = [];
     this.eventLog = [];
@@ -233,6 +234,7 @@ class BackTest {
     result["returnList"] = this.returnList;
     result["cumReturnList"] = this.cumReturnList;
     result["allocationList"] = this.allocationList;
+    result["dateList"] = this.dateList;
     result["orderLog"] = this.orderLog;
     result["eventLog"] = this.eventLog;
 
@@ -304,12 +306,12 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      this.dailyLog.push(shortLog);
-
-      this.navList.push(NAV);
-
       const allcation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
       this.allocationList.push(allcation);
+      this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
       this.forwardDate();
