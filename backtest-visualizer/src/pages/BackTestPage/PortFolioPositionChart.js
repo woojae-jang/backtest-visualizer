@@ -5,6 +5,7 @@ import * as $ from "jquery";
 import { dynamicColors } from "utils/chartUtil";
 import { schemeCategory10 } from "d3-scale-chromatic";
 import { Doughnut } from "react-chartjs-2";
+import { getAssetShortName } from "utils/data";
 
 class PortFolioPositionChart extends React.Component {
   render() {
@@ -26,7 +27,13 @@ class PortFolioPositionChart extends React.Component {
 
     allocation.forEach((asset, index) => {
       const color = index < 10 ? schemeCategory10[index] : dynamicColors();
-      labels.push(asset.code);
+
+      if (asset.code !== "cash") {
+        labels.push(getAssetShortName(asset.code));
+      } else {
+        labels.push("현금");
+      }
+
       _data.push(asset.weight);
       _color.push(color);
     });
