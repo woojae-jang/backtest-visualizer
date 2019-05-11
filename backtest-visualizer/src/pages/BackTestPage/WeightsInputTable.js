@@ -3,6 +3,7 @@ import React from "react";
 import { assetCodeList } from "utils/data";
 import { getFloatRandWeights } from "utils/utils";
 import RebalanceSelect from "./RebalanceSelect";
+import StrategySelect from "./StrategySelect";
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -107,6 +108,20 @@ class EditableTable extends React.Component {
           this.state.dataSource.length >= 1 ? (
             <React.Fragment>
               <RebalanceSelect
+                handleChange={type =>
+                  this.selectRebalanceType(record.key, type)
+                }
+              />
+            </React.Fragment>
+          ) : null
+      },
+      {
+        title: "Strategy",
+        dataIndex: "strategy",
+        render: (text, record) =>
+          this.state.dataSource.length >= 1 ? (
+            <React.Fragment>
+              <StrategySelect
                 handleChange={type =>
                   this.selectRebalanceType(record.key, type)
                 }
