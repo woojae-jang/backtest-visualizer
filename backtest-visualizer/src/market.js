@@ -164,6 +164,26 @@ export class Market {
     return slicedClosePriceList;
   }
 
+  getHistoricalPriceListFromDate(code, date, count = 60) {
+    const closePriceObject = this.getPriceList(code);
+    const closePriceList = Object.values(closePriceObject);
+
+    const dateList = Object.keys(closePriceObject);
+    const endDateIdx = dateList.indexOf(date);
+    let startDateIdx = endDateIdx - count + 1;
+
+    if (startDateIdx < 0) {
+      startDateIdx = 0;
+    }
+
+    const slicedClosePriceList = closePriceList.slice(
+      startDateIdx,
+      endDateIdx + 1
+    );
+
+    return slicedClosePriceList;
+  }
+
   getReturnsListInRange(code, startDate, endDate) {
     const closePriceList = this.getPriceListInRange(code, startDate, endDate);
 
