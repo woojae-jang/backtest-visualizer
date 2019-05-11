@@ -106,6 +106,7 @@ class BackTestContainer extends Component {
 
     backTest.init(testArgs);
     backTest.run();
+    // backTest.run2();
     backTest.createMetaData();
     const result = backTest.result();
 

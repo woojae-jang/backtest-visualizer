@@ -1,7 +1,8 @@
 import { Market } from "../market";
 import * as math from "mathjs";
-import { tradingDateList } from "./data";
+import { tradingDateList, assetCodeList } from "./data";
 import { getAnnualizedReturns, getAnnualizedStd } from "utils/utils";
+import { Analyst } from "utils/analyst";
 
 const SEED_MONEY = 10000000000;
 // const COMMISION_RATE = 0.015 / 100;
@@ -131,14 +132,17 @@ class PortFolio {
       totalWeight += weight;
 
       if (code === "cash") return null;
-      if (weight === 0) return null;
 
-      const orderableMoney = this.weightToValue(weight);
-      const price = this.market.getPrice(code);
-      const maximumAmount = this.orderableAmount(orderableMoney, price);
+      let maximumAmount = null;
+      if (weight === 0) {
+        maximumAmount = 0;
+      } else {
+        const orderableMoney = this.weightToValue(weight);
+        const price = this.market.getPrice(code);
+        maximumAmount = this.orderableAmount(orderableMoney, price);
+      }
 
       const curAmount = this.assets[code] === undefined ? 0 : this.assets[code];
-
       const amountDelta = maximumAmount - curAmount;
 
       const order = { code: code, amount: amountDelta };
@@ -303,6 +307,52 @@ class BackTest {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
         this.portfolio.executeAllocation(this.fixedAlloc);
+      }
+      const NAV = this.portfolio.valuation();
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
+      const allcation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
+      this.allocationList.push(allcation);
+      this.dateList.push(this.date);
+
+      if (this.date === this.endDate) break;
+      this.forwardDate();
+    }
+    this.orderLog = this.portfolio.log;
+  }
+
+  run2() {
+    this.portfolio.executeAllocation(this.fixedAlloc);
+    const codeList = assetCodeList;
+    while (true) {
+      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+      if (rebalanceDay !== -1) {
+        const scoreList = [];
+        codeList.forEach((code, index) => {
+          const momentumScore = Analyst.getMomentum1(code, this.date);
+          scoreList.push(momentumScore);
+        });
+
+        let maxScoreIdx = scoreList.indexOf(Math.max(...scoreList));
+        const codeOfMaxScore = codeList[maxScoreIdx];
+
+        const newAllocation = [...codeList, "cash"].map(code => {
+          if (code === codeOfMaxScore) {
+            return {
+              code,
+              weight: 100
+            };
+          } else {
+            return {
+              code,
+              weight: 0
+            };
+          }
+        });
+
+        this.portfolio.executeAllocation(newAllocation);
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
