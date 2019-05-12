@@ -24,8 +24,14 @@ const BackTestPresenter = props => {
       <WeightsInputTable
         columns={columns}
         dataSource={dataSource}
-        runHandler={(weightsList, name, rebalanceType) =>
-          runSimulation(globalVariables, weightsList, name, rebalanceType)
+        runHandler={(weightsList, name, rebalanceType, strategyType) =>
+          runSimulation(
+            globalVariables,
+            weightsList,
+            name,
+            rebalanceType,
+            strategyType
+          )
         }
       />
       <PriceChart

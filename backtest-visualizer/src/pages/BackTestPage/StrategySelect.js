@@ -8,7 +8,7 @@ class StrategySelect extends React.Component {
     return (
       <Select
         defaultValue="none"
-        style={{ width: 80 }}
+        style={{ width: 100 }}
         onChange={this.handleChange}
       >
         <Option value="none">None</Option>

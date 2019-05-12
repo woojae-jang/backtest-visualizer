@@ -79,7 +79,13 @@ class BackTestContainer extends Component {
     this.state = { dataSource, resultList: [], selectedPortfolio: null };
   }
 
-  runSimulation = (variables, weightsList, name, rebalanceType = "none") => {
+  runSimulation = (
+    variables,
+    weightsList,
+    name,
+    rebalanceType = "none",
+    strategyType = "none"
+  ) => {
     const { startDate, endDate } = variables;
     let newAllocation = weightsList;
 
@@ -105,8 +111,13 @@ class BackTestContainer extends Component {
     const backTest = new BackTest();
 
     backTest.init(testArgs);
-    backTest.run();
-    // backTest.run2();
+
+    if (strategyType === "none") {
+      backTest.run();
+    } else if (strategyType === "momentum") {
+      backTest.run2();
+    }
+
     backTest.createMetaData();
     const result = backTest.result();
 

@@ -122,9 +122,7 @@ class EditableTable extends React.Component {
           this.state.dataSource.length >= 1 ? (
             <React.Fragment>
               <StrategySelect
-                handleChange={type =>
-                  this.selectRebalanceType(record.key, type)
-                }
+                handleChange={type => this.selectStrategyType(record.key, type)}
               />
             </React.Fragment>
           ) : null
@@ -156,6 +154,15 @@ class EditableTable extends React.Component {
     });
   };
 
+  selectStrategyType = (key, type) => {
+    const { dataSource } = this.state;
+    this.setState({
+      dataSource: dataSource.map(data =>
+        key === data.key ? { ...data, strategyType: type } : data
+      )
+    });
+  };
+
   handleRun = key => {
     const dataSource = [...this.state.dataSource];
     const data = dataSource.filter(item => item.key === key);
@@ -166,7 +173,9 @@ class EditableTable extends React.Component {
     });
     weightsList.push(0);
 
-    this.props.runHandler(weightsList, data[0].name, data[0].rebalanceType);
+    const { name, rebalanceType, strategyType } = data[0];
+
+    this.props.runHandler(weightsList, name, rebalanceType, strategyType);
   };
 
   handleDelete = key => {
@@ -204,7 +213,8 @@ class EditableTable extends React.Component {
       ...lastData,
       key: count,
       name: `Port #${count}`,
-      rebalanceType: "none"
+      rebalanceType: "none",
+      strategyType: "none"
     };
 
     this.setState({
@@ -245,7 +255,8 @@ class EditableTable extends React.Component {
       ...weightsData,
       key: count,
       name: `Port #${count}`,
-      rebalanceType: "none"
+      rebalanceType: "none",
+      strategyType: "none"
     };
 
     this.setState({
