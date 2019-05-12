@@ -122,10 +122,10 @@ class PriceChart extends React.Component {
       data: data,
       options: {
         responsive: true,
-        title: {
-          display: true,
-          text: "asset's returns"
-        },
+        // title: {
+        //   display: true,
+        //   text: "asset's returns"
+        // },
         tooltips: {
           mode: "index",
           intersect: false
