@@ -470,12 +470,15 @@ class BackTest {
           .filter(d => d.momentumScore > absScore)
           .map(d => d.code);
 
-        const weightOfOneDiv = Math.floor(100 / 6);
+        const numOfFilterdCode = filterdCodeList.length;
 
-        let remainWeight = 100;
+        const weightOfOneDiv = Math.floor(100 / stockCodeList.length);
+
+        const weightOfStock = weightOfOneDiv * numOfFilterdCode;
+        const weightOfBond = 100 - weightOfStock;
+
         const newAllocation = [...codeList, "cash"].map(code => {
           if (filterdCodeList.indexOf(code) !== -1) {
-            remainWeight -= weightOfOneDiv;
             return {
               code,
               weight: weightOfOneDiv
@@ -483,7 +486,7 @@ class BackTest {
           } else if (code === bondCode) {
             return {
               code,
-              weight: remainWeight
+              weight: weightOfBond
             };
           } else {
             return {
