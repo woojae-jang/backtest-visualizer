@@ -212,7 +212,7 @@ class EditableTable extends React.Component {
     const newData = {
       ...lastData,
       key: count,
-      name: `Port #${count}`,
+      name: `Port #${count + 1}`,
       rebalanceType: "none",
       strategyType: "none"
     };
@@ -254,7 +254,7 @@ class EditableTable extends React.Component {
     const newData = {
       ...weightsData,
       key: count,
-      name: `Port #${count}`,
+      name: `Port #${count + 1}`,
       rebalanceType: "none",
       strategyType: "none"
     };
