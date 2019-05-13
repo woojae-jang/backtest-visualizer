@@ -121,6 +121,8 @@ class BackTestContainer extends Component {
     } else if (strategyTypeList[0] === "momentum2") {
       const args = strategyTypeList[1];
       backTest.run3(args);
+    } else if (strategyTypeList[0] === "momentum3") {
+      backTest.run4();
     }
 
     backTest.createMetaData();

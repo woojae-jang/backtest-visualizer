@@ -435,6 +435,83 @@ class BackTest {
     this.orderLog = this.portfolio.log;
   }
 
+  run4() {
+    // 모멘텀 점수 : 최근 3개월(60거래일) 수익률
+    // 리밸런싱 날, 우선적으로 절대모멘텀 점수로 필터링
+    // 필터링된 주가지수 n개
+    // n 의 크기에 따라 주식:채권 비중 결정
+
+    // 절대모멘텀 필터 점수
+    const absScore = 0;
+
+    // 채권
+    const bondCode = "182490";
+
+    this.portfolio.executeAllocation(this.fixedAlloc);
+    const codeList = assetCodeList;
+    const stockCodeList = codeList.slice(0, 6);
+    while (true) {
+      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+      if (rebalanceDay !== -1) {
+        const scoreList = [];
+
+        stockCodeList.forEach((code, index) => {
+          const momentumScore = Analyst.getMomentum1(code, this.date);
+          scoreList.push(momentumScore);
+        });
+
+        const scoreObjList = [];
+        stockCodeList.forEach((code, i) => {
+          scoreObjList.push({ code, momentumScore: scoreList[i] });
+        });
+
+        // 절대모멘텀 충족 필터
+        const filterdCodeList = scoreObjList
+          .filter(d => d.momentumScore > absScore)
+          .map(d => d.code);
+
+        const weightOfOneDiv = Math.floor(100 / 6);
+
+        let remainWeight = 100;
+        console.log(filterdCodeList);
+        const newAllocation = [...codeList, "cash"].map(code => {
+          if (filterdCodeList.indexOf(code) !== -1) {
+            remainWeight -= weightOfOneDiv;
+            return {
+              code,
+              weight: weightOfOneDiv
+            };
+          } else if (code === bondCode) {
+            return {
+              code,
+              weight: remainWeight
+            };
+          } else {
+            return {
+              code,
+              weight: 0
+            };
+          }
+        });
+
+        console.log(newAllocation);
+        this.portfolio.executeAllocation(newAllocation);
+      }
+      const NAV = this.portfolio.valuation();
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
+      const allcation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
+      this.allocationList.push(allcation);
+      this.dateList.push(this.date);
+
+      if (this.date === this.endDate) break;
+      this.forwardDate();
+    }
+    this.orderLog = this.portfolio.log;
+  }
+
   createMetaData() {
     this.returnList = this.navList.map((price, index) => {
       if (index === 0) {
