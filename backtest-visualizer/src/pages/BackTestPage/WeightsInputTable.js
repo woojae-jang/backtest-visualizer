@@ -4,6 +4,7 @@ import { assetCodeList } from "utils/data";
 import { getFloatRandWeights } from "utils/utils";
 import RebalanceSelect from "./RebalanceSelect";
 import StrategySelect from "./StrategySelect";
+import StrategyArgSelect from "./StrategyArgSelect";
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -128,6 +129,30 @@ class EditableTable extends React.Component {
           ) : null
       },
       {
+        title: "Arg1",
+        dataIndex: "strategyArg1",
+        render: (text, record) =>
+          this.state.dataSource.length >= 1 ? (
+            <React.Fragment>
+              <StrategyArgSelect
+                handleChange={type => this.selectStrategyArg1(record.key, type)}
+              />
+            </React.Fragment>
+          ) : null
+      },
+      {
+        title: "Arg2",
+        dataIndex: "strategyArg2",
+        render: (text, record) =>
+          this.state.dataSource.length >= 1 ? (
+            <React.Fragment>
+              <StrategyArgSelect
+                handleChange={type => this.selectStrategyArg2(record.key, type)}
+              />
+            </React.Fragment>
+          ) : null
+      },
+      {
         title: "operation",
         dataIndex: "operation",
         render: (text, record) =>
@@ -163,6 +188,24 @@ class EditableTable extends React.Component {
     });
   };
 
+  selectStrategyArg1 = (key, type) => {
+    const { dataSource } = this.state;
+    this.setState({
+      dataSource: dataSource.map(data =>
+        key === data.key ? { ...data, strategyArg1: type } : data
+      )
+    });
+  };
+
+  selectStrategyArg2 = (key, type) => {
+    const { dataSource } = this.state;
+    this.setState({
+      dataSource: dataSource.map(data =>
+        key === data.key ? { ...data, strategyArg2: type } : data
+      )
+    });
+  };
+
   handleRun = key => {
     const dataSource = [...this.state.dataSource];
     const data = dataSource.filter(item => item.key === key);
@@ -173,9 +216,22 @@ class EditableTable extends React.Component {
     });
     weightsList.push(0);
 
-    const { name, rebalanceType, strategyType } = data[0];
+    const {
+      name,
+      rebalanceType,
+      strategyType,
+      strategyArg1,
+      strategyArg2
+    } = data[0];
 
-    this.props.runHandler(weightsList, name, rebalanceType, strategyType);
+    this.props.runHandler(
+      weightsList,
+      name,
+      rebalanceType,
+      strategyType,
+      strategyArg1,
+      strategyArg2
+    );
   };
 
   handleDelete = key => {
@@ -214,7 +270,9 @@ class EditableTable extends React.Component {
       key: count,
       name: `Port #${count + 1}`,
       rebalanceType: "none",
-      strategyType: "none"
+      strategyType: "none",
+      strategyArg1: "none",
+      strategyArg2: "none"
     };
 
     this.setState({
@@ -256,7 +314,9 @@ class EditableTable extends React.Component {
       key: count,
       name: `Port #${count + 1}`,
       rebalanceType: "none",
-      strategyType: "none"
+      strategyType: "none",
+      strategyArg1: "none",
+      strategyArg2: "none"
     };
 
     this.setState({

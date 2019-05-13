@@ -84,7 +84,9 @@ class BackTestContainer extends Component {
     weightsList,
     name,
     rebalanceType = "none",
-    strategyType = "none"
+    strategyType = "none",
+    strategyArg1 = "none",
+    strategyArg2 = "none"
   ) => {
     const { startDate, endDate } = variables;
     let newAllocation = weightsList;
@@ -113,6 +115,9 @@ class BackTestContainer extends Component {
     backTest.init(testArgs);
 
     const strategyTypeList = strategyType.split("-");
+
+    console.log("strategyArg1, strategyArg2");
+    console.log(strategyArg1, strategyArg2);
 
     if (strategyTypeList[0] === "none") {
       backTest.run();
