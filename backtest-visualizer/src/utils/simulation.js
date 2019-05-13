@@ -473,7 +473,6 @@ class BackTest {
         const weightOfOneDiv = Math.floor(100 / 6);
 
         let remainWeight = 100;
-        console.log(filterdCodeList);
         const newAllocation = [...codeList, "cash"].map(code => {
           if (filterdCodeList.indexOf(code) !== -1) {
             remainWeight -= weightOfOneDiv;
@@ -493,8 +492,6 @@ class BackTest {
             };
           }
         });
-
-        console.log(newAllocation);
         this.portfolio.executeAllocation(newAllocation);
       }
       const NAV = this.portfolio.valuation();
