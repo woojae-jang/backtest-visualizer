@@ -512,6 +512,67 @@ class BackTest {
     this.orderLog = this.portfolio.log;
   }
 
+  run5() {
+    // 모멘텀 점수 : 최근 3개월(60거래일) 수익률
+    // 리밸런싱 날, 주식지수 6개의 모멘텀 점수 랭크를 메긴 다음, 순위별로 차등 비중
+
+    this.portfolio.executeAllocation(this.fixedAlloc);
+    const codeList = assetCodeList;
+    const stockCodeList = codeList.slice(0, 6);
+    while (true) {
+      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+      if (rebalanceDay !== -1) {
+        const scoreList = [];
+
+        stockCodeList.forEach((code, index) => {
+          const momentumScore = Analyst.getMomentum1(code, this.date);
+          scoreList.push(momentumScore);
+        });
+
+        const scoreObjList = [];
+        stockCodeList.forEach((code, i) => {
+          scoreObjList.push({ code, momentumScore: scoreList[i] });
+        });
+
+        // 모멘텀 점수 내림차순 정렬
+        scoreObjList.sort((a, b) => {
+          return b.momentumScore - a.momentumScore;
+        });
+
+        const rankWeightList = [30, 25, 20, 15, 10, 0];
+
+        const newAllocation = [...codeList, "cash"].map(code => {
+          const stockCodeIdx = stockCodeList.indexOf(code);
+          if (stockCodeIdx !== -1) {
+            return {
+              code,
+              weight: rankWeightList[stockCodeIdx]
+            };
+          } else {
+            return {
+              code,
+              weight: 0
+            };
+          }
+        });
+
+        this.portfolio.executeAllocation(newAllocation);
+      }
+      const NAV = this.portfolio.valuation();
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
+      const allcation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
+      this.allocationList.push(allcation);
+      this.dateList.push(this.date);
+
+      if (this.date === this.endDate) break;
+      this.forwardDate();
+    }
+    this.orderLog = this.portfolio.log;
+  }
+
   createMetaData() {
     this.returnList = this.navList.map((price, index) => {
       if (index === 0) {
