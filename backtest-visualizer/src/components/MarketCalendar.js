@@ -27,6 +27,15 @@ class MarketCalendar extends React.Component {
         <Button type="default" onClick={() => this.setEndDate(client)}>
           최종일({tradingDateList[tradingDateList.length - 1]})
         </Button>
+        <Button type="default" onClick={() => this.setGAPS2018(client)}>
+          GAPS 2018
+        </Button>
+        <Button type="default" onClick={() => this.setGAPS2017(client)}>
+          GAPS 2017
+        </Button>
+        <Button type="default" onClick={() => this.setGAPS2016(client)}>
+          GAPS 2016
+        </Button>
         {/* <MarketTimeLine data={{ startDate, endDate }} client={client} /> */}
       </React.Fragment>
     );
@@ -35,6 +44,48 @@ class MarketCalendar extends React.Component {
   onChange = (date, client) => {
     const startDate = date[0].format(dateFormat);
     const endDate = date[1].format(dateFormat);
+    client.writeData({
+      data: {
+        globalVariables: {
+          __typename: "GlobalVariables",
+          startDate,
+          endDate
+        }
+      }
+    });
+  };
+
+  setGAPS2018 = client => {
+    const startDate = "20180601";
+    const endDate = "20181031";
+    client.writeData({
+      data: {
+        globalVariables: {
+          __typename: "GlobalVariables",
+          startDate,
+          endDate
+        }
+      }
+    });
+  };
+
+  setGAPS2017 = client => {
+    const startDate = "20170601";
+    const endDate = "20171031";
+    client.writeData({
+      data: {
+        globalVariables: {
+          __typename: "GlobalVariables",
+          startDate,
+          endDate
+        }
+      }
+    });
+  };
+
+  setGAPS2016 = client => {
+    const startDate = "20160601";
+    const endDate = "20161031";
     client.writeData({
       data: {
         globalVariables: {
