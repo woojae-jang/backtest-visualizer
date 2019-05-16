@@ -100,8 +100,7 @@ class EditableTable extends React.Component {
   constructor(props) {
     super(props);
     const { columns, dataSource } = props;
-    this.columns = [
-      ...columns,
+    const selectColumn = [
       {
         title: "Rebalancing",
         dataIndex: "rebalancing",
@@ -186,6 +185,9 @@ class EditableTable extends React.Component {
           ) : null
       }
     ];
+
+    this.columns = columns;
+    this.columns.splice(1, 0, ...selectColumn);
 
     this.state = dataSource;
   }
