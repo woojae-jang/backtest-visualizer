@@ -70,7 +70,10 @@ class BackTestContainer extends Component {
           "138230": 0,
           "139660": 0,
           "130730": 0,
-          rebalanceType: "none"
+          rebalanceType: "none",
+          strategyType: "none",
+          strategyArg1: "none",
+          strategyArg2: "none"
         }
       ],
       count: 1
@@ -114,21 +117,20 @@ class BackTestContainer extends Component {
 
     backTest.init(testArgs);
 
-    const strategyTypeList = strategyType.split("-");
-
     console.log("strategyArg1, strategyArg2");
     console.log(strategyArg1, strategyArg2);
 
-    if (strategyTypeList[0] === "none") {
+    if (strategyType === "none") {
       backTest.run();
-    } else if (strategyTypeList[0] === "momentum") {
-      backTest.run2();
-    } else if (strategyTypeList[0] === "momentum2") {
-      const args = strategyTypeList[1];
-      backTest.run3(args);
-    } else if (strategyTypeList[0] === "momentum3") {
+    } else if (strategyType === "momentum") {
+      const momentumWindow = strategyArg1;
+      backTest.run2(momentumWindow);
+    } else if (strategyType === "momentum2") {
+      const topLimit = strategyArg1;
+      backTest.run3(topLimit);
+    } else if (strategyType === "momentum3") {
       backTest.run4();
-    } else if (strategyTypeList[0] === "momentum4") {
+    } else if (strategyType === "momentum4") {
       backTest.run5();
     }
 

@@ -112,6 +112,11 @@ class EditableTable extends React.Component {
                 handleChange={type =>
                   this.selectRebalanceType(record.key, type)
                 }
+                preValue={
+                  this.state.dataSource.filter(
+                    data => record.key === data.key
+                  )[0].rebalanceType
+                }
               />
             </React.Fragment>
           ) : null
@@ -124,6 +129,11 @@ class EditableTable extends React.Component {
             <React.Fragment>
               <StrategySelect
                 handleChange={type => this.selectStrategyType(record.key, type)}
+                preValue={
+                  this.state.dataSource.filter(
+                    data => record.key === data.key
+                  )[0].strategyType
+                }
               />
             </React.Fragment>
           ) : null
@@ -136,6 +146,11 @@ class EditableTable extends React.Component {
             <React.Fragment>
               <StrategyArgSelect
                 handleChange={type => this.selectStrategyArg1(record.key, type)}
+                preValue={
+                  this.state.dataSource.filter(
+                    data => record.key === data.key
+                  )[0].strategyArg1
+                }
               />
             </React.Fragment>
           ) : null
@@ -148,6 +163,11 @@ class EditableTable extends React.Component {
             <React.Fragment>
               <StrategyArgSelect
                 handleChange={type => this.selectStrategyArg2(record.key, type)}
+                preValue={
+                  this.state.dataSource.filter(
+                    data => record.key === data.key
+                  )[0].strategyArg2
+                }
               />
             </React.Fragment>
           ) : null
@@ -268,11 +288,11 @@ class EditableTable extends React.Component {
     const newData = {
       ...lastData,
       key: count,
-      name: `Port #${count + 1}`,
-      rebalanceType: "none",
-      strategyType: "none",
-      strategyArg1: "none",
-      strategyArg2: "none"
+      name: `Port #${count + 1}`
+      // rebalanceType: "none",
+      // strategyType: "none",
+      // strategyArg1: "none",
+      // strategyArg2: "none"
     };
 
     this.setState({

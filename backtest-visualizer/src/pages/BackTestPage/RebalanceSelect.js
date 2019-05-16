@@ -7,7 +7,7 @@ class RebalanceSelect extends React.Component {
   render() {
     return (
       <Select
-        defaultValue="none"
+        defaultValue={this.props.preValue}
         style={{ width: 100 }}
         onChange={this.handleChange}
       >
