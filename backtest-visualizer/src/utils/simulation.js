@@ -323,8 +323,8 @@ class BackTest {
     this.orderLog = this.portfolio.log;
   }
 
-  run2() {
-    // 모멘텀 점수 : 최근 3개월(60거래일) 수익률
+  run2(momentumWindow = 60) {
+    // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 리밸런싱 날, 모멘텀 점수가 가장 높은 자산의 비중을 100
 
     this.portfolio.executeAllocation(this.fixedAlloc);
@@ -334,7 +334,11 @@ class BackTest {
       if (rebalanceDay !== -1) {
         const scoreList = [];
         codeList.forEach((code, index) => {
-          const momentumScore = Analyst.getMomentum1(code, this.date);
+          const momentumScore = Analyst.getMomentum1(
+            code,
+            this.date,
+            momentumWindow
+          );
           scoreList.push(momentumScore);
         });
 
