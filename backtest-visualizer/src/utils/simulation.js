@@ -442,11 +442,14 @@ class BackTest {
     this.orderLog = this.portfolio.log;
   }
 
-  run4() {
-    // 모멘텀 점수 : 최근 3개월(60거래일) 수익률
+  run4(momentumWindow = 60) {
+    // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 리밸런싱 날, 우선적으로 절대모멘텀 점수로 필터링
     // 필터링된 주가지수 n개
-    // n 의 크기에 따라 주식:채권 비중 결정
+    // n 의 크기에 따라 주식:채권 비중 결정 (채권은 하이일드)
+
+    console.log("momentumWindow");
+    console.log(momentumWindow);
 
     // 절대모멘텀 필터 점수
     const absScore = 0;
@@ -463,7 +466,11 @@ class BackTest {
         const scoreList = [];
 
         stockCodeList.forEach((code, index) => {
-          const momentumScore = Analyst.getMomentum1(code, this.date);
+          const momentumScore = Analyst.getMomentum1(
+            code,
+            this.date,
+            momentumWindow
+          );
           scoreList.push(momentumScore);
         });
 
@@ -519,8 +526,8 @@ class BackTest {
     this.orderLog = this.portfolio.log;
   }
 
-  run5() {
-    // 모멘텀 점수 : 최근 3개월(60거래일) 수익률
+  run5(momentumWindow = 60) {
+    // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 리밸런싱 날, 주식지수 6개의 모멘텀 점수 랭크를 메긴 다음, 순위별로 차등 비중
 
     this.portfolio.executeAllocation(this.fixedAlloc);
@@ -532,7 +539,11 @@ class BackTest {
         const scoreList = [];
 
         stockCodeList.forEach((code, index) => {
-          const momentumScore = Analyst.getMomentum1(code, this.date);
+          const momentumScore = Analyst.getMomentum1(
+            code,
+            this.date,
+            momentumWindow
+          );
           scoreList.push(momentumScore);
         });
 
@@ -546,10 +557,11 @@ class BackTest {
           return b.momentumScore - a.momentumScore;
         });
 
+        const orderdCodeList = scoreObjList.map(obj => obj.code);
         const rankWeightList = [30, 25, 20, 15, 10, 0];
 
         const newAllocation = [...codeList, "cash"].map(code => {
-          const stockCodeIdx = stockCodeList.indexOf(code);
+          const stockCodeIdx = orderdCodeList.indexOf(code);
           if (stockCodeIdx !== -1) {
             return {
               code,
