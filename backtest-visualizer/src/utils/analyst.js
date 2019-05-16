@@ -10,8 +10,7 @@ const sampleCount = 80;
 
 class Analyst {
   // 최근 3개월 수익률
-  static getMomentum1 = (code, date) => {
-    const window = 60;
+  static getMomentum1 = (code, date, window=60) => {
     const curPriceList = market.getHistoricalPriceListFromDate(
       code,
       date,
