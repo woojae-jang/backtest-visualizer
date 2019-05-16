@@ -117,9 +117,6 @@ class BackTestContainer extends Component {
 
     backTest.init(testArgs);
 
-    console.log("strategyArg1, strategyArg2");
-    console.log(strategyArg1, strategyArg2);
-
     if (strategyType === "none") {
       backTest.run();
     } else if (strategyType === "momentum") {
@@ -127,7 +124,8 @@ class BackTestContainer extends Component {
       backTest.run2(momentumWindow);
     } else if (strategyType === "momentum2") {
       const topLimit = strategyArg1;
-      backTest.run3(topLimit);
+      const momentumWindow = strategyArg2;
+      backTest.run3(topLimit, momentumWindow);
     } else if (strategyType === "momentum3") {
       backTest.run4();
     } else if (strategyType === "momentum4") {

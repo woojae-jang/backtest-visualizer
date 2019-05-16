@@ -376,10 +376,9 @@ class BackTest {
     this.orderLog = this.portfolio.log;
   }
 
-  run3(top) {
+  run3(top = 1, momentumWindow = 60) {
     // top <= 6
-
-    // 모멘텀 점수 : 최근 3개월(60거래일) 수익률
+    // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 리밸런싱 날, 주식지수 6개중 모멘텀 점수가 높은 top개 지수를 100/top 씩 (동일비중)
 
     this.portfolio.executeAllocation(this.fixedAlloc);
@@ -391,7 +390,11 @@ class BackTest {
         const scoreList = [];
 
         stockCodeList.forEach((code, index) => {
-          const momentumScore = Analyst.getMomentum1(code, this.date);
+          const momentumScore = Analyst.getMomentum1(
+            code,
+            this.date,
+            momentumWindow
+          );
           scoreList.push(momentumScore);
         });
 
