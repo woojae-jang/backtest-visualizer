@@ -448,9 +448,6 @@ class BackTest {
     // 필터링된 주가지수 n개
     // n 의 크기에 따라 주식:채권 비중 결정 (채권은 하이일드)
 
-    console.log("momentumWindow");
-    console.log(momentumWindow);
-
     // 절대모멘텀 필터 점수
     const absScore = 0;
 
@@ -575,6 +572,153 @@ class BackTest {
           }
         });
 
+        this.portfolio.executeAllocation(newAllocation);
+      }
+      const NAV = this.portfolio.valuation();
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
+      const allcation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
+      this.allocationList.push(allcation);
+      this.dateList.push(this.date);
+
+      if (this.date === this.endDate) break;
+      this.forwardDate();
+    }
+    this.orderLog = this.portfolio.log;
+  }
+
+  run6(top = 2) {
+    // 모멘텀 점수 : 1,3,6개월 평균수익률
+    // 리밸런싱 날, 주식지수 6개중 모멘텀 점수가 높은 top개 지수를 100/top 씩 (동일비중)
+
+    this.portfolio.executeAllocation(this.fixedAlloc);
+    const codeList = assetCodeList;
+    const stockCodeList = codeList.slice(0, 6);
+    while (true) {
+      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+      if (rebalanceDay !== -1) {
+        const scoreList = [];
+
+        stockCodeList.forEach((code, index) => {
+          const momentumScore = Analyst.getMomentum2(code, this.date);
+          scoreList.push(momentumScore);
+        });
+
+        const scoreObjList = [];
+        stockCodeList.forEach((code, i) => {
+          scoreObjList.push({ code, momentumScore: scoreList[i] });
+        });
+
+        // 모멘텀 점수 내림차순 정렬
+        scoreObjList.sort((a, b) => {
+          return b.momentumScore - a.momentumScore;
+        });
+
+        const topCodesList = scoreObjList.slice(0, top).map(d => d.code);
+        const equalWeigth = 100 / top;
+
+        const newAllocation = [...codeList, "cash"].map(code => {
+          if (topCodesList.indexOf(code) !== -1) {
+            return {
+              code,
+              weight: equalWeigth
+            };
+          } else {
+            return {
+              code,
+              weight: 0
+            };
+          }
+        });
+
+        this.portfolio.executeAllocation(newAllocation);
+      }
+      const NAV = this.portfolio.valuation();
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
+      const allcation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
+      this.allocationList.push(allcation);
+      this.dateList.push(this.date);
+
+      if (this.date === this.endDate) break;
+      this.forwardDate();
+    }
+    this.orderLog = this.portfolio.log;
+  }
+
+  run7(momentumWindow = 60, absScore = 0) {
+    // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
+    // 리밸런싱 날, 우선적으로 절대모멘텀 점수로 필터링
+    // 필터링된 주가지수 n개
+    // n 의 크기에 따라 주식:채권,달러 비중 결정 (채권은 하이일드)
+    // absScore 절대모멘텀 필터 점수
+
+    // 채권
+    const bondCode = "182490";
+    const dollarCode = "138230";
+
+    this.portfolio.executeAllocation(this.fixedAlloc);
+    const codeList = assetCodeList;
+    const stockCodeList = codeList.slice(0, 6);
+    while (true) {
+      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+      if (rebalanceDay !== -1) {
+        const scoreList = [];
+
+        stockCodeList.forEach((code, index) => {
+          const momentumScore = Analyst.getMomentum1(
+            code,
+            this.date,
+            momentumWindow
+          );
+          scoreList.push(momentumScore);
+        });
+
+        const scoreObjList = [];
+        stockCodeList.forEach((code, i) => {
+          scoreObjList.push({ code, momentumScore: scoreList[i] });
+        });
+
+        // 절대모멘텀 충족 필터
+        const filterdCodeList = scoreObjList
+          .filter(d => d.momentumScore > absScore)
+          .map(d => d.code);
+
+        const numOfFilterdCode = filterdCodeList.length;
+
+        const weightOfOneDiv = Math.floor(100 / stockCodeList.length);
+
+        const weightOfStock = weightOfOneDiv * numOfFilterdCode;
+        const weightOfBond = (100 - weightOfStock) / 2;
+        const weightOfDollar = (100 - weightOfStock) / 2;
+
+        const newAllocation = [...codeList, "cash"].map(code => {
+          if (filterdCodeList.indexOf(code) !== -1) {
+            return {
+              code,
+              weight: weightOfOneDiv
+            };
+          } else if (code === bondCode) {
+            return {
+              code,
+              weight: weightOfBond
+            };
+          } else if (code === dollarCode) {
+            return {
+              code,
+              weight: weightOfDollar
+            };
+          } else {
+            return {
+              code,
+              weight: 0
+            };
+          }
+        });
         this.portfolio.executeAllocation(newAllocation);
       }
       const NAV = this.portfolio.valuation();

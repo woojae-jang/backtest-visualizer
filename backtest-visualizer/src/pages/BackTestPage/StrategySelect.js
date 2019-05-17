@@ -16,6 +16,8 @@ class StrategySelect extends React.Component {
         <Option value="momentum2">Momentum2</Option>
         <Option value="momentum3">Momentum3</Option>
         <Option value="momentum4">Momentum4</Option>
+        <Option value="momentum5">Momentum5</Option>
+        <Option value="momentum6">Momentum6</Option>
       </Select>
     );
   }

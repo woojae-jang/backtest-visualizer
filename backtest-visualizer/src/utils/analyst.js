@@ -10,7 +10,7 @@ const sampleCount = 80;
 
 class Analyst {
   // 최근 3개월 수익률
-  static getMomentum1 = (code, date, window=60) => {
+  static getMomentum1 = (code, date, window = 60) => {
     const curPriceList = market.getHistoricalPriceListFromDate(
       code,
       date,
@@ -22,6 +22,14 @@ class Analyst {
 
     const returns = (endPrice - startPrice) / startPrice;
     return returns;
+  };
+
+  // 최근 1,3,6개월 평균수익률
+  static getMomentum2 = (code, date) => {
+    const oneMonthReturns = Analyst.getMomentum1(code, date, 20);
+    const threeMonthReturns = Analyst.getMomentum1(code, date, 60);
+    const sixMonthReturns = Analyst.getMomentum1(code, date, 120);
+    return (oneMonthReturns + threeMonthReturns + sixMonthReturns) / 3;
   };
 }
 
