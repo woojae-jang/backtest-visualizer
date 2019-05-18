@@ -4,6 +4,7 @@ import WeightsInputTable from "./WeightsInputTable";
 import BackTestResultTable from "./BackTestResultTable";
 import PortFolioPositionChart from "./PortFolioPositionChart";
 import { getAnnualizedReturns, getAnnualizedStd } from "utils/utils";
+import { Button } from "antd";
 
 const BackTestPresenter = props => {
   const {
@@ -14,7 +15,9 @@ const BackTestPresenter = props => {
     func,
     resultList,
     selectedPortfolio,
-    selectPortfolioHandler
+    selectPortfolioHandler,
+    refreshHandler,
+    rootComp
   } = props;
   const { globalVariables } = data;
   const { runSimulation } = func;
@@ -24,7 +27,14 @@ const BackTestPresenter = props => {
       <WeightsInputTable
         columns={columns}
         dataSource={dataSource}
-        runHandler={(weightsList, name, rebalanceType, strategyType, strategyArg1,strategyArg2) =>
+        runHandler={(
+          weightsList,
+          name,
+          rebalanceType,
+          strategyType,
+          strategyArg1,
+          strategyArg2
+        ) =>
           runSimulation(
             globalVariables,
             weightsList,
@@ -35,17 +45,21 @@ const BackTestPresenter = props => {
             strategyArg2
           )
         }
+        rootComp={rootComp}
       />
+      <Button type="default" onClick={() => refreshHandler(globalVariables)}>
+        Refresh
+      </Button>
       <PriceChart
         data={data}
         resultList={resultList}
         selectPortfolio={selectPortfolioHandler}
       />
+      <BackTestResultTable data={resultList} />
       <PortFolioPositionChart
         resultList={resultList}
         portInfo={selectedPortfolio}
       />
-      <BackTestResultTable data={resultList} />
     </div>
   );
 };

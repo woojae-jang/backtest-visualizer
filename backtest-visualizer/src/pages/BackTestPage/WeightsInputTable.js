@@ -408,6 +408,25 @@ class EditableTable extends React.Component {
       </div>
     );
   }
+
+  componentDidUpdate() {
+    const rootComp = this.props.rootComp;
+    const { dataSource, count } = this.state;
+
+    const preState = rootComp.state.dataSource;
+    const newState = this.state;
+
+    const didChange = JSON.stringify(preState) !== JSON.stringify(newState);
+
+    if (didChange) {
+      rootComp.setState({
+        dataSource: {
+          dataSource,
+          count
+        }
+      });
+    }
+  }
 }
 
 export default EditableTable;

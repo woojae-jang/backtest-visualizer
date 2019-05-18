@@ -14,6 +14,7 @@ class BackTestContainer extends Component {
         {({ loading, error, data, client }) => {
           return (
             <BackTestPresenter
+              rootComp={this}
               data={data}
               client={client}
               columns={this.columns}
@@ -22,6 +23,7 @@ class BackTestContainer extends Component {
               resultList={this.state.resultList}
               selectPortfolioHandler={this.selectPortfolioHandler}
               selectedPortfolio={this.state.selectedPortfolio}
+              refreshHandler={this.refreshHandler}
             />
           );
         }}
@@ -147,9 +149,121 @@ class BackTestContainer extends Component {
     this.setState({ resultList: [...this.state.resultList, { result, name }] });
   };
 
+  refreshSimulations = (
+    variables,
+    weightsList,
+    name,
+    rebalanceType = "none",
+    strategyType = "none",
+    strategyArg1 = "none",
+    strategyArg2 = "none"
+  ) => {
+    const { startDate, endDate } = variables;
+    let newAllocation = weightsList;
+
+    // EF LINE 에 영향을 미침
+    newAllocation = newAllocation.map(value => math.floor(value));
+    const remainWieght = 100 - math.sum(newAllocation);
+    newAllocation[newAllocation.length - 1] += remainWieght;
+
+    const backTestArgsHandler = new BackTestArgsHandler();
+    backTestArgsHandler.replaceAllocation(newAllocation);
+    backTestArgsHandler.setDateRange(startDate, endDate);
+    if (rebalanceType === "none") {
+      backTestArgsHandler.setRebalanceDateList([]);
+    } else if (rebalanceType === "daily") {
+      backTestArgsHandler.setRebalanceDateList(dateList);
+    } else if (rebalanceType === "weekly") {
+      backTestArgsHandler.setRebalanceDateList(firtDateOfWeek);
+    } else if (rebalanceType === "monthly") {
+      backTestArgsHandler.setRebalanceDateList(firstDateOfMonth);
+    }
+
+    const testArgs = backTestArgsHandler.getArgs();
+    const backTest = new BackTest();
+
+    backTest.init(testArgs);
+
+    if (strategyType === "none") {
+      backTest.run();
+    } else if (strategyType === "momentum") {
+      const momentumWindow = strategyArg1;
+      backTest.run2(momentumWindow);
+    } else if (strategyType === "momentum2") {
+      const topLimit = strategyArg1;
+      const momentumWindow = strategyArg2;
+      backTest.run3(topLimit, momentumWindow);
+    } else if (strategyType === "momentum3") {
+      const momentumWindow = strategyArg1;
+      backTest.run4(momentumWindow);
+    } else if (strategyType === "momentum4") {
+      const momentumWindow = strategyArg1;
+      backTest.run5(momentumWindow);
+    } else if (strategyType === "momentum5") {
+      const topLimit = strategyArg1;
+      backTest.run6(topLimit);
+    } else if (strategyType === "momentum6") {
+      const momentumWindow = strategyArg1;
+      const absScore = strategyArg2 / 100;
+      backTest.run7(momentumWindow, absScore);
+    }
+
+    backTest.createMetaData();
+    const result = backTest.result();
+
+    return { result, name };
+  };
+
   selectPortfolioHandler = (portName, selectedDate) => {
     this.setState({
       selectedPortfolio: { name: portName, date: selectedDate }
+    });
+  };
+
+  refreshHandler = variables => {
+    console.log("refreshHandler");
+    const { dataSource } = this.state.dataSource;
+
+    const resultList = this.state.resultList;
+
+    const numOfPreSimulation = resultList.length;
+
+    console.log("resultList");
+    console.log(resultList);
+
+    const newResultList = [];
+
+    for (let i = 0; i < numOfPreSimulation; i++) {
+      const data = dataSource[i];
+      console.log(data);
+      const weightsList = [];
+      assetCodeList.map(code => {
+        weightsList.push(data[code]);
+      });
+      weightsList.push(0);
+
+      const {
+        name,
+        rebalanceType,
+        strategyType,
+        strategyArg1,
+        strategyArg2
+      } = data;
+
+      const result = this.refreshSimulations(
+        variables,
+        weightsList,
+        name,
+        rebalanceType,
+        strategyType,
+        strategyArg1,
+        strategyArg2
+      );
+      newResultList.push(result);
+    }
+
+    this.setState({
+      resultList: newResultList
     });
   };
 }
