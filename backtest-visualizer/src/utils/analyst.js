@@ -31,6 +31,13 @@ class Analyst {
     const sixMonthReturns = Analyst.getMomentum1(code, date, 120);
     return (oneMonthReturns + threeMonthReturns + sixMonthReturns) / 3;
   };
+
+  // 최근 t개월 수익률 - 최근 1개월 수익률
+  static getMomentum3 = (code, date, t = 30) => {
+    const oneMonthReturns = Analyst.getMomentum1(code, date, 20);
+    const threeMonthReturns = Analyst.getMomentum1(code, date, 60);
+    return threeMonthReturns - oneMonthReturns;
+  };
 }
 
 const func = () => {
