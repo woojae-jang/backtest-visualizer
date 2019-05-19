@@ -46,11 +46,11 @@ const BackTestResultTable = props => {
     return {
       key: index,
       name: name,
-      returns: returns * 100 + " %",
-      std: std * 100 + " %",
-      annualizedReturns: annualizedReturns * 100 + " %",
-      annualizedStd: annualizedStd * 100 + " %",
-      sharpeRatio: math.round(annualizedReturns / annualizedStd, 2)
+      returns: (returns * 100).toFixed(2) + " %",
+      std: (std * 100).toFixed(2) + " %",
+      annualizedReturns: (annualizedReturns * 100).toFixed(2) + " %",
+      annualizedStd: (annualizedStd * 100).toFixed(2) + " %",
+      sharpeRatio: math.round(annualizedReturns / annualizedStd, 2).toFixed(2)
     };
   });
 
