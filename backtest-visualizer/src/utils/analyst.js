@@ -2,12 +2,6 @@ import { Market } from "../market";
 
 const market = new Market("20160101");
 
-const sampleCode = "069500";
-const sampleDate = "20160801";
-const sampleCount = 80;
-
-// setTimeout(() => func(), 2000);
-
 class Analyst {
   // 최근 3개월 수익률
   static getMomentum1 = (code, date, window = 60) => {
@@ -38,13 +32,28 @@ class Analyst {
     const threeMonthReturns = Analyst.getMomentum1(code, date, 60);
     return threeMonthReturns - oneMonthReturns;
   };
+
+  // 평균 모멘텀 스코어 systrader79
+  static getMomentum4 = (code, date) => {
+    const curPriceList = market.getHistoricalPriceListFromDate(code, date, 241);
+
+    const price = {};
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].forEach(t => {
+      const curIdx = curPriceList.length - 1;
+      price[`D-${t * 20}`] = curPriceList[curIdx - t * 20];
+    });
+
+    console.log(price);
+  };
 }
 
 const func = () => {
-  //   const result = market.getHistoricalPriceListFromDate(sampleCode, sampleDate);
-  //   console.log(result);
-  const result = Analyst.getMomentum1(sampleCode, sampleDate);
+  const sampleCode = "069500";
+  const sampleDate = "20170601";
+  const result = Analyst.getMomentum4(sampleCode, sampleDate);
   console.log(result);
 };
+
+setTimeout(() => func(), 2000);
 
 export { Analyst };
