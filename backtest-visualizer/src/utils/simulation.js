@@ -736,6 +736,71 @@ class BackTest {
     this.orderLog = this.portfolio.log;
   }
 
+  run8(top = 1, momentumWindow = 60) {
+    // top <= 15
+    // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
+    // 리밸런싱 날, 모멘텀 점수가 높은 top개 지수를 100/top 씩 (동일비중)
+
+    this.portfolio.executeAllocation(this.fixedAlloc);
+    const codeList = assetCodeList;
+    while (true) {
+      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+      if (rebalanceDay !== -1) {
+        const scoreList = [];
+
+        codeList.forEach((code, index) => {
+          const momentumScore = Analyst.getMomentum1(
+            code,
+            this.date,
+            momentumWindow
+          );
+          scoreList.push(momentumScore);
+        });
+
+        const scoreObjList = [];
+        codeList.forEach((code, i) => {
+          scoreObjList.push({ code, momentumScore: scoreList[i] });
+        });
+
+        // 모멘텀 점수 내림차순 정렬
+        scoreObjList.sort((a, b) => {
+          return b.momentumScore - a.momentumScore;
+        });
+
+        const topCodesList = scoreObjList.slice(0, top).map(d => d.code);
+        const equalWeigth = 100 / top;
+
+        const newAllocation = [...codeList, "cash"].map(code => {
+          if (topCodesList.indexOf(code) !== -1) {
+            return {
+              code,
+              weight: equalWeigth
+            };
+          } else {
+            return {
+              code,
+              weight: 0
+            };
+          }
+        });
+
+        this.portfolio.executeAllocation(newAllocation);
+      }
+      const NAV = this.portfolio.valuation();
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
+      const allcation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
+      this.allocationList.push(allcation);
+      this.dateList.push(this.date);
+
+      if (this.date === this.endDate) break;
+      this.forwardDate();
+    }
+    this.orderLog = this.portfolio.log;
+  }
+
   createMetaData() {
     this.returnList = this.navList.map((price, index) => {
       if (index === 0) {

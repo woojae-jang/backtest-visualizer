@@ -141,6 +141,10 @@ class BackTestContainer extends Component {
       const momentumWindow = strategyArg1;
       const absScore = strategyArg2 / 100;
       backTest.run7(momentumWindow, absScore);
+    } else if (strategyType === "momentum7") {
+      const topLimit = strategyArg1;
+      const momentumWindow = strategyArg2;
+      backTest.run8(topLimit, momentumWindow);
     }
 
     backTest.createMetaData();
