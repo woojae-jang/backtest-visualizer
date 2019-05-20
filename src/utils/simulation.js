@@ -801,7 +801,7 @@ class BackTest {
     this.orderLog = this.portfolio.log;
   }
 	
-	  run9(momentumWindow, selectedAsset="069500") {
+	  run9(momentumWindow, selectedAsset) {
     // 절대모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 상승장일경우, 주식 100
 	  // 하락장일경우, 현금 100

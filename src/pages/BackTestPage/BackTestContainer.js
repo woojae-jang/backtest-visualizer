@@ -76,8 +76,7 @@ class BackTestContainer extends Component {
           strategyType: "none",
           strategyArg1: "none",
           strategyArg2: "none",
-		selectedAsset: "none"
-			
+          selectedAsset: "none"
         }
       ],
       count: 1
@@ -94,7 +93,7 @@ class BackTestContainer extends Component {
     strategyType = "none",
     strategyArg1 = "none",
     strategyArg2 = "none",
-	  selectedAsset = "none"
+    selectedAsset = "none"
   ) => {
     const { startDate, endDate } = variables;
     let newAllocation = weightsList;
@@ -148,12 +147,11 @@ class BackTestContainer extends Component {
       const topLimit = strategyArg1;
       const momentumWindow = strategyArg2;
       backTest.run8(topLimit, momentumWindow);
-    }else if (strategyType === "momentum8") {
+    } else if (strategyType === "momentum8") {
       const momentumWindow = strategyArg1;
-		const asset = selectedAsset
+      const asset = selectedAsset;
       backTest.run9(momentumWindow, asset);
     }
-	  
 
     backTest.createMetaData();
     const result = backTest.result();
@@ -169,7 +167,7 @@ class BackTestContainer extends Component {
     strategyType = "none",
     strategyArg1 = "none",
     strategyArg2 = "none",
-	  selectedAsset = "none"
+    selectedAsset = "none"
   ) => {
     const { startDate, endDate } = variables;
     let newAllocation = weightsList;
@@ -219,13 +217,13 @@ class BackTestContainer extends Component {
       const momentumWindow = strategyArg1;
       const absScore = strategyArg2 / 100;
       backTest.run7(momentumWindow, absScore);
-    }else if (strategyType === "momentum7") {
+    } else if (strategyType === "momentum7") {
       const topLimit = strategyArg1;
       const momentumWindow = strategyArg2;
       backTest.run8(topLimit, momentumWindow);
-    }else if (strategyType === "momentum8") {
+    } else if (strategyType === "momentum8") {
       const momentumWindow = strategyArg1;
-		const asset = selectedAsset
+      const asset = selectedAsset;
       backTest.run9(momentumWindow, asset);
     }
 
@@ -242,23 +240,15 @@ class BackTestContainer extends Component {
   };
 
   refreshHandler = variables => {
-    console.log("refreshHandler");
     const { dataSource } = this.state.dataSource;
-
     const resultList = this.state.resultList;
-
     const numOfPreSimulation = resultList.length;
-
-    console.log("resultList");
-    console.log(resultList);
-
     const newResultList = [];
 
     for (let i = 0; i < numOfPreSimulation; i++) {
       const data = dataSource[i];
-      console.log(data);
       const weightsList = [];
-      assetCodeList.map(code => {
+      assetCodeList.forEach(code => {
         weightsList.push(data[code]);
       });
       weightsList.push(0);
@@ -269,7 +259,7 @@ class BackTestContainer extends Component {
         strategyType,
         strategyArg1,
         strategyArg2,
-		selectedAsset
+        selectedAsset
       } = data;
 
       const result = this.refreshSimulations(
@@ -280,7 +270,7 @@ class BackTestContainer extends Component {
         strategyType,
         strategyArg1,
         strategyArg2,
-	  selectedAsset
+        selectedAsset
       );
       newResultList.push(result);
     }
