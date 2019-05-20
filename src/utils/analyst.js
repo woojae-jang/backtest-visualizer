@@ -1,4 +1,5 @@
 import { Market } from "../market";
+import * as math from "mathjs";
 
 const market = new Market("20160101");
 
@@ -37,18 +38,30 @@ class Analyst {
   static getMomentum4 = (code, date) => {
     const curPriceList = market.getHistoricalPriceListFromDate(code, date, 241);
 
-    const price = {};
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].forEach(t => {
+    const pickedPriceList = [];
+	  const recentMonthList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    recentMonthList.forEach(t => {
       const curIdx = curPriceList.length - 1;
-      price[`D-${t * 20}`] = curPriceList[curIdx - t * 20];
+      // price[`D-${t * 20}`] = curPriceList[curIdx - t * 20];
+	const price = curPriceList[curIdx - t * 20];
+		pickedPriceList.push(price);
     });
 
-    console.log(price);
+	  const curPrice = pickedPriceList[0]
+	  
+	const momentumScoreList = pickedPriceList.slice(1,pickedPriceList.length).map(price => {
+		  if(curPrice > price) return 1;
+		else return 0;
+	  })
+	
+	const meanOfmomentumScore = math.sum(momentumScoreList) / 12;
+    
+  	return meanOfmomentumScore;
   };
 }
 
 const func = () => {
-  const sampleCode = "069500";
+  const sampleCode = "232080";
   const sampleDate = "20170601";
   const result = Analyst.getMomentum4(sampleCode, sampleDate);
   console.log(result);
