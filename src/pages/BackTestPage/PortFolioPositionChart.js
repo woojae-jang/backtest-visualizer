@@ -25,6 +25,9 @@ class PortFolioPositionChart extends React.Component {
     const _data = [];
     const _color = [];
 
+    if (allocation === undefined) {
+      return null;
+    }
     allocation.forEach((asset, index) => {
       const color = index < 10 ? schemeCategory10[index] : dynamicColors();
 
