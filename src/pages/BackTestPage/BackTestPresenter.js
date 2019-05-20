@@ -33,7 +33,8 @@ const BackTestPresenter = props => {
           rebalanceType,
           strategyType,
           strategyArg1,
-          strategyArg2
+          strategyArg2,
+		  selectedAsset
         ) =>
           runSimulation(
             globalVariables,
@@ -42,7 +43,8 @@ const BackTestPresenter = props => {
             rebalanceType,
             strategyType,
             strategyArg1,
-            strategyArg2
+            strategyArg2,
+		  selectedAsset
           )
         }
         rootComp={rootComp}

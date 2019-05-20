@@ -800,6 +800,68 @@ class BackTest {
     }
     this.orderLog = this.portfolio.log;
   }
+	
+	  run9(momentumWindow, selectedAsset="069500") {
+    // 절대모멘텀 점수 : 최근 momentumWindow 거래일 수익률
+    // 상승장일경우, 주식 100
+	  // 하락장일경우, 현금 100
+
+    this.portfolio.executeAllocation(this.fixedAlloc);
+    const codeList = assetCodeList;
+    while (true) {
+      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+      if (rebalanceDay !== -1) {
+        const momentumScore = Analyst.getMomentum1(
+            selectedAsset,
+            this.date,
+            momentumWindow
+          );
+		  
+		let stockWeight, cashWeight;
+	  	if(momentumScore>0){
+			stockWeight = 100;
+			cashWeight = 0;
+		} else {
+			stockWeight = 0;
+			cashWeight = 100;
+		}
+
+        const newAllocation = [...codeList, "cash"].map(code => {
+          if (code === selectedAsset) {
+            return {
+              code,
+              weight: stockWeight
+            };
+          } else if(code === 'cash') {
+			  return {
+              code,
+              weight: cashWeight
+            };
+		  }
+			else {
+            return {
+              code,
+              weight: 0
+            };
+          }
+        });
+
+        this.portfolio.executeAllocation(newAllocation);
+      }
+      const NAV = this.portfolio.valuation();
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
+      const allcation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
+      this.allocationList.push(allcation);
+      this.dateList.push(this.date);
+
+      if (this.date === this.endDate) break;
+      this.forwardDate();
+    }
+    this.orderLog = this.portfolio.log;
+  }
 
   createMetaData() {
     this.returnList = this.navList.map((price, index) => {

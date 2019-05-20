@@ -5,6 +5,7 @@ import { getFloatRandWeights } from "utils/utils";
 import RebalanceSelect from "./RebalanceSelect";
 import StrategySelect from "./StrategySelect";
 import StrategyArgSelect from "./StrategyArgSelect";
+import AssetSelect from "./AssetSelect";
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -171,6 +172,23 @@ class EditableTable extends React.Component {
             </React.Fragment>
           ) : null
       },
+		      {
+        title: "Asset",
+        dataIndex: "selectedAsset",
+        render: (text, record) =>
+          this.state.dataSource.length >= 1 ? (
+            <React.Fragment>
+              <AssetSelect
+                handleChange={type => this.selectAsset(record.key, type)}
+                preValue={
+                  this.state.dataSource.filter(
+                    data => record.key === data.key
+                  )[0].selectedAsset
+                }
+              />
+            </React.Fragment>
+          ) : null
+      },
       {
         title: "operation",
         dataIndex: "operation",
@@ -228,6 +246,17 @@ class EditableTable extends React.Component {
     });
   };
 
+  selectAsset = (key, type) => {
+    const { dataSource } = this.state;
+    this.setState({
+      dataSource: dataSource.map(data =>
+        key === data.key ? { ...data, selectedAsset: type } : data
+      )
+    });
+  };
+
+
+
   handleRun = key => {
     const dataSource = [...this.state.dataSource];
     const data = dataSource.filter(item => item.key === key);
@@ -243,7 +272,8 @@ class EditableTable extends React.Component {
       rebalanceType,
       strategyType,
       strategyArg1,
-      strategyArg2
+      strategyArg2,
+	selectedAsset
     } = data[0];
 
     this.props.runHandler(
@@ -252,7 +282,8 @@ class EditableTable extends React.Component {
       rebalanceType,
       strategyType,
       strategyArg1,
-      strategyArg2
+      strategyArg2,
+	selectedAsset	
     );
   };
 

@@ -75,7 +75,9 @@ class BackTestContainer extends Component {
           rebalanceType: "none",
           strategyType: "none",
           strategyArg1: "none",
-          strategyArg2: "none"
+          strategyArg2: "none",
+		selectedAsset: "none"
+			
         }
       ],
       count: 1
@@ -91,7 +93,8 @@ class BackTestContainer extends Component {
     rebalanceType = "none",
     strategyType = "none",
     strategyArg1 = "none",
-    strategyArg2 = "none"
+    strategyArg2 = "none",
+	  selectedAsset = "none"
   ) => {
     const { startDate, endDate } = variables;
     let newAllocation = weightsList;
@@ -145,7 +148,12 @@ class BackTestContainer extends Component {
       const topLimit = strategyArg1;
       const momentumWindow = strategyArg2;
       backTest.run8(topLimit, momentumWindow);
+    }else if (strategyType === "momentum8") {
+      const momentumWindow = strategyArg1;
+		const asset = selectedAsset
+      backTest.run9(momentumWindow, asset);
     }
+	  
 
     backTest.createMetaData();
     const result = backTest.result();
@@ -160,7 +168,8 @@ class BackTestContainer extends Component {
     rebalanceType = "none",
     strategyType = "none",
     strategyArg1 = "none",
-    strategyArg2 = "none"
+    strategyArg2 = "none",
+	  selectedAsset = "none"
   ) => {
     const { startDate, endDate } = variables;
     let newAllocation = weightsList;
@@ -210,6 +219,14 @@ class BackTestContainer extends Component {
       const momentumWindow = strategyArg1;
       const absScore = strategyArg2 / 100;
       backTest.run7(momentumWindow, absScore);
+    }else if (strategyType === "momentum7") {
+      const topLimit = strategyArg1;
+      const momentumWindow = strategyArg2;
+      backTest.run8(topLimit, momentumWindow);
+    }else if (strategyType === "momentum8") {
+      const momentumWindow = strategyArg1;
+		const asset = selectedAsset
+      backTest.run9(momentumWindow, asset);
     }
 
     backTest.createMetaData();
@@ -251,7 +268,8 @@ class BackTestContainer extends Component {
         rebalanceType,
         strategyType,
         strategyArg1,
-        strategyArg2
+        strategyArg2,
+		selectedAsset
       } = data;
 
       const result = this.refreshSimulations(
@@ -261,7 +279,8 @@ class BackTestContainer extends Component {
         rebalanceType,
         strategyType,
         strategyArg1,
-        strategyArg2
+        strategyArg2,
+	  selectedAsset
       );
       newResultList.push(result);
     }
