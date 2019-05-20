@@ -172,7 +172,7 @@ class EditableTable extends React.Component {
             </React.Fragment>
           ) : null
       },
-		      {
+      {
         title: "Asset",
         dataIndex: "selectedAsset",
         render: (text, record) =>
@@ -255,8 +255,6 @@ class EditableTable extends React.Component {
     });
   };
 
-
-
   handleRun = key => {
     const dataSource = [...this.state.dataSource];
     const data = dataSource.filter(item => item.key === key);
@@ -273,7 +271,7 @@ class EditableTable extends React.Component {
       strategyType,
       strategyArg1,
       strategyArg2,
-	selectedAsset
+      selectedAsset
     } = data[0];
 
     this.props.runHandler(
@@ -283,7 +281,7 @@ class EditableTable extends React.Component {
       strategyType,
       strategyArg1,
       strategyArg2,
-	selectedAsset	
+      selectedAsset
     );
   };
 
@@ -322,10 +320,6 @@ class EditableTable extends React.Component {
       ...lastData,
       key: count,
       name: `Port #${count + 1}`
-      // rebalanceType: "none",
-      // strategyType: "none",
-      // strategyArg1: "none",
-      // strategyArg2: "none"
     };
 
     this.setState({
@@ -369,7 +363,8 @@ class EditableTable extends React.Component {
       rebalanceType: "none",
       strategyType: "none",
       strategyArg1: "none",
-      strategyArg2: "none"
+      strategyArg2: "none",
+      selectedAsset: "none"
     };
 
     this.setState({
