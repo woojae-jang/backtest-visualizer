@@ -327,7 +327,9 @@ class BackTest {
     // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 리밸런싱 날, 모멘텀 점수가 가장 높은 자산의 비중을 100
 
-    this.portfolio.executeAllocation(this.fixedAlloc);
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
     const codeList = assetCodeList;
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
@@ -381,7 +383,9 @@ class BackTest {
     // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 리밸런싱 날, 주식지수 6개중 모멘텀 점수가 높은 top개 지수를 100/top 씩 (동일비중)
 
-    this.portfolio.executeAllocation(this.fixedAlloc);
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
     while (true) {
@@ -454,7 +458,9 @@ class BackTest {
     // 채권
     const bondCode = "182490";
 
-    this.portfolio.executeAllocation(this.fixedAlloc);
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
     while (true) {
@@ -527,7 +533,9 @@ class BackTest {
     // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 리밸런싱 날, 주식지수 6개의 모멘텀 점수 랭크를 메긴 다음, 순위별로 차등 비중
 
-    this.portfolio.executeAllocation(this.fixedAlloc);
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
     while (true) {
@@ -593,7 +601,9 @@ class BackTest {
     // 모멘텀 점수 : 1,3,6개월 평균수익률
     // 리밸런싱 날, 주식지수 6개중 모멘텀 점수가 높은 top개 지수를 100/top 씩 (동일비중)
 
-    this.portfolio.executeAllocation(this.fixedAlloc);
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
     while (true) {
@@ -661,7 +671,9 @@ class BackTest {
     const bondCode = "182490";
     const dollarCode = "138230";
 
-    this.portfolio.executeAllocation(this.fixedAlloc);
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
     while (true) {
@@ -741,7 +753,9 @@ class BackTest {
     // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 리밸런싱 날, 모멘텀 점수가 높은 top개 지수를 100/top 씩 (동일비중)
 
-    this.portfolio.executeAllocation(this.fixedAlloc);
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
     const codeList = assetCodeList;
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
@@ -800,31 +814,33 @@ class BackTest {
     }
     this.orderLog = this.portfolio.log;
   }
-	
-	  run9(momentumWindow, selectedAsset) {
+
+  run9(momentumWindow, selectedAsset) {
     // 절대모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 상승장일경우, 주식 100
-	  // 하락장일경우, 현금 100
+    // 하락장일경우, 현금 100
 
-    this.portfolio.executeAllocation(this.fixedAlloc);
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
     const codeList = assetCodeList;
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
         const momentumScore = Analyst.getMomentum1(
-            selectedAsset,
-            this.date,
-            momentumWindow
-          );
-		  
-		let stockWeight, cashWeight;
-	  	if(momentumScore>0){
-			stockWeight = 100;
-			cashWeight = 0;
-		} else {
-			stockWeight = 0;
-			cashWeight = 100;
-		}
+          selectedAsset,
+          this.date,
+          momentumWindow
+        );
+
+        let stockWeight, cashWeight;
+        if (momentumScore > 0) {
+          stockWeight = 100;
+          cashWeight = 0;
+        } else {
+          stockWeight = 0;
+          cashWeight = 100;
+        }
 
         const newAllocation = [...codeList, "cash"].map(code => {
           if (code === selectedAsset) {
@@ -832,13 +848,12 @@ class BackTest {
               code,
               weight: stockWeight
             };
-          } else if(code === 'cash') {
-			  return {
+          } else if (code === "cash") {
+            return {
               code,
               weight: cashWeight
             };
-		  }
-			else {
+          } else {
             return {
               code,
               weight: 0
