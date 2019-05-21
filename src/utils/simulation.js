@@ -152,6 +152,7 @@ class PortFolio {
 
     // 결과값이 99.999999 인 경우 핸들링 위해 반올림 하였음
     if (Math.round(totalWeight) !== 100) {
+      console.log(totalWeight);
       // eslint-disable-next-line no-throw-literal
       throw "total weight is not 100";
     }
@@ -852,6 +853,70 @@ class BackTest {
             return {
               code,
               weight: cashWeight
+            };
+          } else {
+            return {
+              code,
+              weight: 0
+            };
+          }
+        });
+
+        this.portfolio.executeAllocation(newAllocation);
+      }
+      const NAV = this.portfolio.valuation();
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
+      const allcation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
+      this.allocationList.push(allcation);
+      this.dateList.push(this.date);
+
+      if (this.date === this.endDate) break;
+      this.forwardDate();
+    }
+    this.orderLog = this.portfolio.log;
+  }
+
+  run10(momentumWindow) {
+    // 절대모멘텀 점수 : 최근 momentumWindow 거래일 수익률
+
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
+    const code4MomentumList = ["069500", "192090"];
+
+    const codeList = assetCodeList;
+    while (true) {
+      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+      if (rebalanceDay !== -1) {
+        const weight_code = { "069500": 0, "192090": 0 };
+        let remainWeight = 100;
+
+        code4MomentumList.forEach(code => {
+          const momentumScore = Analyst.getMomentum1(
+            code,
+            this.date,
+            momentumWindow
+          );
+
+          if (momentumScore > 0) {
+            weight_code[code] = 20;
+            remainWeight -= 20;
+          }
+        });
+
+        const newAllocation = [...codeList, "cash"].map(code => {
+          if (code4MomentumList.indexOf(code) !== -1) {
+            return {
+              code,
+              weight: weight_code[code]
+            };
+          } else if (code === "182490") {
+            return {
+              code,
+              weight: remainWeight
             };
           } else {
             return {

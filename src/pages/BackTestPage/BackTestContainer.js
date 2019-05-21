@@ -151,6 +151,9 @@ class BackTestContainer extends Component {
       const momentumWindow = strategyArg1;
       const asset = selectedAsset;
       backTest.run9(momentumWindow, asset);
+    } else if (strategyType === "momentum9") {
+      const momentumWindow = strategyArg1;
+      backTest.run10(momentumWindow);
     }
 
     backTest.createMetaData();
@@ -225,6 +228,9 @@ class BackTestContainer extends Component {
       const momentumWindow = strategyArg1;
       const asset = selectedAsset;
       backTest.run9(momentumWindow, asset);
+    } else if (strategyType === "momentum9") {
+      const momentumWindow = strategyArg1;
+      backTest.run10(momentumWindow);
     }
 
     backTest.createMetaData();
