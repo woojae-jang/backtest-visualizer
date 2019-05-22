@@ -24,6 +24,9 @@ class MarketCalendar extends React.Component {
         <Button type="default" onClick={() => this.setTestPeriod(client)}>
           TestPeriod
         </Button>
+        <Button type="default" onClick={() => this.setTestPeriod2(client)}>
+          TestPeriod2
+        </Button>
         <Button type="default" onClick={() => this.setStartDate(client)}>
           최초일({tradingDateList[0]})
         </Button>
@@ -60,6 +63,20 @@ class MarketCalendar extends React.Component {
 
   setTestPeriod = client => {
     const startDate = "20160701";
+    const endDate = tradingDateList[tradingDateList.length - 1];
+    client.writeData({
+      data: {
+        globalVariables: {
+          __typename: "GlobalVariables",
+          startDate,
+          endDate
+        }
+      }
+    });
+  };
+
+  setTestPeriod2 = client => {
+    const startDate = "20170403";
     const endDate = tradingDateList[tradingDateList.length - 1];
     client.writeData({
       data: {
