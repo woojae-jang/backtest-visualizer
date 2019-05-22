@@ -891,8 +891,26 @@ class BackTest {
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
-        const weight_code = { "069500": 0, "192090": 0 };
-        let remainWeight = 100;
+        let newAllocation = [
+          { code: "069500", weight: 10 }, // KODEX200
+          { code: "232080", weight: 0 }, // TIGER코스닥150
+          { code: "143850", weight: 10 }, // TIGER미국S&P500선물(H)
+          { code: "195930", weight: 0 }, // TIGER유로스탁스50(합성H)
+          { code: "238720", weight: 0 }, // KINDEX일본Nikkei225(H)
+          { code: "192090", weight: 0 }, // TIGER차이나CSI300
+          { code: "148070", weight: 0 }, // KOSEF국고채10년
+          { code: "136340", weight: 0 }, // KBSTAR중기우량회사채
+          { code: "182490", weight: 5 }, // TIGER단기선진하이일드(합성H)
+          { code: "132030", weight: 0 }, // KODEX골드선물(H)
+          { code: "130680", weight: 0 }, // TIGER원유선물Enhanced(H)
+          { code: "114800", weight: 0 }, // KODEX인버스
+          { code: "138230", weight: 0 }, // KOSEF미국달러선물
+          { code: "139660", weight: 0 }, // KOSEF미국달러선물인버스
+          { code: "130730", weight: 0 }, // KOSEF단기자금
+          { code: "cash", weight: 1 } // 현금
+        ];
+
+        let remainWeight = 100 - 26;
 
         code4MomentumList.forEach(code => {
           const momentumScore = Analyst.getMomentum1(
@@ -902,18 +920,101 @@ class BackTest {
           );
 
           if (momentumScore > 0) {
-            weight_code[code] = 20;
-            remainWeight -= 20;
+            newAllocation = newAllocation.map(asset => {
+              if (asset.code === code) {
+                asset.weight += 15;
+                remainWeight -= 15;
+                return asset;
+              } else {
+                return asset;
+              }
+            });
           }
         });
 
+        // 남은 비중 안전자산에 배분
+        const safetyAssets = ["148070", "136340", "182490", "138230"];
+        const eqaulWeight = remainWeight / safetyAssets.length;
+
+        newAllocation = newAllocation.map(asset => {
+          if (safetyAssets.indexOf(asset.code) !== -1) {
+            asset.weight = eqaulWeight;
+            return asset;
+          } else {
+            return asset;
+          }
+        });
+
+        let accWeight = 0;
+        newAllocation.forEach(asset => (accWeight += asset.weight));
+        newAllocation = newAllocation.map(asset => {
+          if (asset.code === "cash") {
+            asset.weight += 100 - accWeight;
+            return asset;
+          } else {
+            return asset;
+          }
+        });
+
+        this.portfolio.executeAllocation(newAllocation);
+      }
+      const NAV = this.portfolio.valuation();
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
+      const allcation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
+      this.allocationList.push(allcation);
+      this.dateList.push(this.date);
+
+      if (this.date === this.endDate) break;
+      this.forwardDate();
+    }
+    this.orderLog = this.portfolio.log;
+  }
+
+  run11(top = 1, momentumWindow = 60) {
+    // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
+    // 상대모멘텀으로 정렬후 절대모멘텀 충족시 매수
+    // 상위 top개
+
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
+    const codeList = assetCodeList;
+    while (true) {
+      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+      if (rebalanceDay !== -1) {
+        const scoreObjList = [];
+        codeList.forEach((code, index) => {
+          const momentumScore = Analyst.getMomentum1(
+            code,
+            this.date,
+            momentumWindow
+          );
+          scoreObjList.push({ code, momentumScore });
+        });
+
+        // 모멘텀 점수 내림차순 정렬
+        scoreObjList.sort((a, b) => {
+          return b.momentumScore - a.momentumScore;
+        });
+
+        const filterdCodeList = scoreObjList
+          .filter(asset => asset.momentumScore > 0)
+          .map(asset => asset.code)
+          .slice(0, top);
+
+        const equalWeight = 30;
+        const remainWeight = 100 - filterdCodeList.length * equalWeight;
+
         const newAllocation = [...codeList, "cash"].map(code => {
-          if (code4MomentumList.indexOf(code) !== -1) {
+          if (filterdCodeList.indexOf(code) !== -1) {
             return {
               code,
-              weight: weight_code[code]
+              weight: equalWeight
             };
-          } else if (code === "182490") {
+          } else if (code === "cash") {
             return {
               code,
               weight: remainWeight
