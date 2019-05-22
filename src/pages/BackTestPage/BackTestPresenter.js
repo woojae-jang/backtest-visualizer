@@ -3,6 +3,7 @@ import PriceChart from "./PriceChart";
 import WeightsInputTable from "./WeightsInputTable";
 import BackTestResultTable from "./BackTestResultTable";
 import PortFolioPositionChart from "./PortFolioPositionChart";
+import StrategyDescription from "./StrategyDescription";
 import { getAnnualizedReturns, getAnnualizedStd } from "utils/utils";
 import { Button } from "antd";
 
@@ -24,6 +25,7 @@ const BackTestPresenter = props => {
 
   return (
     <div>
+      <StrategyDescription />
       <WeightsInputTable
         columns={columns}
         dataSource={dataSource}
@@ -34,7 +36,7 @@ const BackTestPresenter = props => {
           strategyType,
           strategyArg1,
           strategyArg2,
-		  selectedAsset
+          selectedAsset
         ) =>
           runSimulation(
             globalVariables,
@@ -44,7 +46,7 @@ const BackTestPresenter = props => {
             strategyType,
             strategyArg1,
             strategyArg2,
-		  selectedAsset
+            selectedAsset
           )
         }
         rootComp={rootComp}
