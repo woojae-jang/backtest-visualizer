@@ -885,9 +885,8 @@ class BackTest {
     // 첫 거래일, 초기 비중 설정을 위해
     this.rebalanceDateList.push(this.date);
 
-    const code4MomentumList = ["069500", "192090"];
+    const code4MomentumList = ["069500", "192090", "114800"];
 
-    const codeList = assetCodeList;
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
