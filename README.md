@@ -6,8 +6,6 @@
 - D3
 - Chart.js
 - Apollo
-- GraphQL
-- Python
 
 ### TO-DO List
 
