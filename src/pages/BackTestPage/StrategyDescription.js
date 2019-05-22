@@ -74,7 +74,7 @@ class StrategyDescription extends React.Component {
           <Title level={4}>Asset: selectedAsset</Title>
           절대모멘텀 점수 : 최근 momentumWindow 거래일 수익률
           <br />
-          상승장일경우, 주식 100
+          상승장일경우, 주식(selectedAsset) 100
           <br />
           하락장일경우, 현금 100
         </TabPane>
