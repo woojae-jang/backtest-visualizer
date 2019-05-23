@@ -80,9 +80,16 @@ class StrategyDescription extends React.Component {
         </TabPane>
         <TabPane tab="Momentum9" key="9">
           <Title level={4}>Arg1: momentumWindow</Title>
-          <Title level={4}>Arg2: 사용안함</Title>
+          <Title level={4}>Arg2: top</Title>
           <Title level={4}>Asset: 사용안함</Title>
-          절대모멘텀 점수 : 최근 momentumWindow 거래일 수익률
+          절대모멘텀 점수 : 최근 세계주가지수 momentumWindow 거래일 수익률
+          <br />
+          상승장일경우, 주식 60
+          <br />
+          하락장일경우, 주식 20
+          <br />
+          주가지수 상대모멘텀 상위 top개 매수
+          <br />
         </TabPane>
         <TabPane tab="Momentum10" key="10">
           <Title level={4}>Arg1: top</Title>
