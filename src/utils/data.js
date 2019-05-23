@@ -1178,7 +1178,8 @@ const codeList = [
   "114800",
   "138230",
   "139660",
-  "130730"
+  "130730",
+  "WORLD_STOCK"
 ];
 
 const nameList = [
@@ -1196,7 +1197,8 @@ const nameList = [
   "KODEX인버스",
   "KOSEF미국달러선물",
   "KOSEF미국달러선물인버스",
-  "KOSEF단기자금"
+  "KOSEF단기자금",
+  "세계종합주가지수"
 ];
 
 const shortNameList = [
@@ -1214,7 +1216,8 @@ const shortNameList = [
   "인버스",
   "달러",
   "달러인버스",
-  "단기자금"
+  "단기자금",
+  "세계주가지수"
 ];
 
 const getAssetName = code => {

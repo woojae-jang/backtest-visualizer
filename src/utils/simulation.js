@@ -1094,6 +1094,7 @@ class BackTestArgsHandler {
         { code: "139660", weight: 0 },
 
         { code: "130730", weight: 4 },
+        { code: "WORLD_STOCK", weight: 0 },
         { code: "cash", weight: 1 }
       ]
     };

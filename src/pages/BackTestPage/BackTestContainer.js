@@ -72,6 +72,7 @@ class BackTestContainer extends Component {
           "138230": 0,
           "139660": 0,
           "130730": 0,
+          WORLD_STOCK: 0,
           rebalanceType: "none",
           strategyType: "none",
           strategyArg1: "none",
