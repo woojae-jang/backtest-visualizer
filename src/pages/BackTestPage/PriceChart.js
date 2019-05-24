@@ -18,7 +18,8 @@ class PriceChart extends React.Component {
     const dataList = [];
 
     for (let i = 0; i < resultList.length; i++) {
-      let price_data = resultList[i].result.cumReturnList;
+      // let price_data = resultList[i].result.cumReturnList;
+      let price_data = resultList[i].result.navList.map(d => d / 100000000);
       let dataset = {};
       dataset.data = price_data;
       dataset.label = resultList[i].name;
@@ -44,6 +45,12 @@ class PriceChart extends React.Component {
       labels: labels,
       datasets
     };
+
+    // const minValue = math.min();
+    const allDataPoint = [100];
+    datasets.forEach(dataset => allDataPoint.splice(0, 0, ...dataset.data));
+    const minValue = math.min(allDataPoint);
+    const maxValue = math.max(allDataPoint);
 
     const options = {
       responsive: true,
@@ -71,6 +78,11 @@ class PriceChart extends React.Component {
         ],
         yAxes: [
           {
+            type: "logarithmic",
+            ticks: {
+              min: minValue,
+              max: maxValue
+            },
             display: true,
             scaleLabel: {
               display: true,
