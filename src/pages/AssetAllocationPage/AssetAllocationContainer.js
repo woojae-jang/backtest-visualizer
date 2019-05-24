@@ -52,7 +52,7 @@ class AssetAllocationContainer extends Component {
   simulationOnce(variables) {
     const { startDate, endDate, codeList } = variables;
 
-    const tmpArray = new Array(16).fill(0);
+    const tmpArray = new Array(17).fill(0);
 
     // const weightLimit = {
     //   "069500": 20
