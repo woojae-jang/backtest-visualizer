@@ -329,51 +329,6 @@ class EditableTable extends React.Component {
     });
   };
 
-  handleRandomAdd = () => {
-    const { count, dataSource } = this.state;
-
-    let randomWeights = getFloatRandWeights(15, 2);
-
-    const codeList = [
-      "069500",
-      "232080",
-      "143850",
-      "195930",
-      "238720",
-      "192090",
-      "148070",
-      "136340",
-      "182490",
-      "132030",
-      "130680",
-      "114800",
-      "138230",
-      "139660",
-      "130730"
-    ];
-
-    const weightsData = {};
-    codeList.forEach((code, index) => {
-      weightsData[code] = randomWeights[index];
-    });
-
-    const newData = {
-      ...weightsData,
-      key: count,
-      name: `Port #${count + 1}`,
-      rebalanceType: "none",
-      strategyType: "none",
-      strategyArg1: "none",
-      strategyArg2: "none",
-      selectedAsset: "none"
-    };
-
-    this.setState({
-      dataSource: [...dataSource, newData],
-      count: count + 1
-    });
-  };
-
   handleSave = row => {
     const newData = [...this.state.dataSource];
     const index = newData.findIndex(item => row.key === item.key);
@@ -417,13 +372,6 @@ class EditableTable extends React.Component {
           style={{ marginBottom: 16 }}
         >
           Add a row
-        </Button>
-        <Button
-          onClick={this.handleRandomAdd}
-          type="primary"
-          style={{ marginBottom: 16 }}
-        >
-          Add a random row
         </Button>
         <br />
         <BatchSelect batchSelection={this.props.batchSelection} />
