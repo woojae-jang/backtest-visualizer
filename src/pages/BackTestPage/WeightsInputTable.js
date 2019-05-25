@@ -113,8 +113,13 @@ class EditableTable extends React.Component {
                   this.selectHandler("rebalanceType", record.key, type)
                 }
                 preValue={
-                  this.state.dataSource[this.state.dataSource.length - 1]
-                    .rebalanceType
+                  this.state.dataSource.filter(
+                    data => data.key === record.key
+                  )[0]
+                    ? this.state.dataSource.filter(
+                        data => data.key === record.key
+                      )[0].rebalanceType
+                    : "none"
                 }
               />
             </React.Fragment>
@@ -131,8 +136,13 @@ class EditableTable extends React.Component {
                   this.selectHandler("strategyType", record.key, type)
                 }
                 preValue={
-                  this.state.dataSource[this.state.dataSource.length - 1]
-                    .strategyType
+                  this.state.dataSource.filter(
+                    data => data.key === record.key
+                  )[0]
+                    ? this.state.dataSource.filter(
+                        data => data.key === record.key
+                      )[0].strategyType
+                    : "none"
                 }
               />
             </React.Fragment>
@@ -149,8 +159,13 @@ class EditableTable extends React.Component {
                   this.selectHandler("strategyArg1", record.key, type)
                 }
                 preValue={
-                  this.state.dataSource[this.state.dataSource.length - 1]
-                    .strategyArg1
+                  this.state.dataSource.filter(
+                    data => data.key === record.key
+                  )[0]
+                    ? this.state.dataSource.filter(
+                        data => data.key === record.key
+                      )[0].strategyArg1
+                    : "none"
                 }
               />
             </React.Fragment>
@@ -167,8 +182,13 @@ class EditableTable extends React.Component {
                   this.selectHandler("strategyArg2", record.key, type)
                 }
                 preValue={
-                  this.state.dataSource[this.state.dataSource.length - 1]
-                    .strategyArg2
+                  this.state.dataSource.filter(
+                    data => data.key === record.key
+                  )[0]
+                    ? this.state.dataSource.filter(
+                        data => data.key === record.key
+                      )[0].strategyArg2
+                    : "none"
                 }
               />
             </React.Fragment>
@@ -185,8 +205,13 @@ class EditableTable extends React.Component {
                   this.selectHandler("selectedAsset", record.key, type)
                 }
                 preValue={
-                  this.state.dataSource[this.state.dataSource.length - 1]
-                    .selectedAsset
+                  this.state.dataSource.filter(
+                    data => data.key === record.key
+                  )[0]
+                    ? this.state.dataSource.filter(
+                        data => data.key === record.key
+                      )[0].selectedAsset
+                    : "none"
                 }
               />
             </React.Fragment>
