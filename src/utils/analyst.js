@@ -6,14 +6,18 @@ const market = new Market("20160101");
 class Analyst {
   // 최근 3개월 수익률
   static getMomentum1 = (code, date, window = 60) => {
+    // '데이터 미리보기' 오류를 피하기 위해 조회날짜의 전날 까지의 데이터만 접근
+    // window + 1
+    // length - 2
+
     const curPriceList = market.getHistoricalPriceListFromDate(
       code,
       date,
-      window
+      window + 1
     );
 
     const startPrice = curPriceList[0];
-    const endPrice = curPriceList[curPriceList.length - 1];
+    const endPrice = curPriceList[curPriceList.length - 2];
 
     const returns = (endPrice - startPrice) / startPrice;
     return returns;
@@ -39,24 +43,26 @@ class Analyst {
     const curPriceList = market.getHistoricalPriceListFromDate(code, date, 241);
 
     const pickedPriceList = [];
-	  const recentMonthList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    const recentMonthList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     recentMonthList.forEach(t => {
       const curIdx = curPriceList.length - 1;
       // price[`D-${t * 20}`] = curPriceList[curIdx - t * 20];
-	const price = curPriceList[curIdx - t * 20];
-		pickedPriceList.push(price);
+      const price = curPriceList[curIdx - t * 20];
+      pickedPriceList.push(price);
     });
 
-	  const curPrice = pickedPriceList[0]
-	  
-	const momentumScoreList = pickedPriceList.slice(1,pickedPriceList.length).map(price => {
-		  if(curPrice > price) return 1;
-		else return 0;
-	  })
-	
-	const meanOfmomentumScore = math.sum(momentumScoreList) / 12;
-    
-  	return meanOfmomentumScore;
+    const curPrice = pickedPriceList[0];
+
+    const momentumScoreList = pickedPriceList
+      .slice(1, pickedPriceList.length)
+      .map(price => {
+        if (curPrice > price) return 1;
+        else return 0;
+      });
+
+    const meanOfmomentumScore = math.sum(momentumScoreList) / 12;
+
+    return meanOfmomentumScore;
   };
 }
 
