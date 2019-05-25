@@ -110,7 +110,7 @@ class EditableTable extends React.Component {
             <React.Fragment>
               <RebalanceSelect
                 handleChange={type =>
-                  this.selectRebalanceType(record.key, type)
+                  this.selectHandler("rebalanceType", record.key, type)
                 }
                 preValue={
                   this.state.dataSource[this.state.dataSource.length - 1]
@@ -127,7 +127,9 @@ class EditableTable extends React.Component {
           this.state.dataSource.length >= 1 ? (
             <React.Fragment>
               <StrategySelect
-                handleChange={type => this.selectStrategyType(record.key, type)}
+                handleChange={type =>
+                  this.selectHandler("strategyType", record.key, type)
+                }
                 preValue={
                   this.state.dataSource[this.state.dataSource.length - 1]
                     .strategyType
@@ -143,7 +145,9 @@ class EditableTable extends React.Component {
           this.state.dataSource.length >= 1 ? (
             <React.Fragment>
               <StrategyArgSelect
-                handleChange={type => this.selectStrategyArg1(record.key, type)}
+                handleChange={type =>
+                  this.selectHandler("strategyArg1", record.key, type)
+                }
                 preValue={
                   this.state.dataSource[this.state.dataSource.length - 1]
                     .strategyArg1
@@ -159,7 +163,9 @@ class EditableTable extends React.Component {
           this.state.dataSource.length >= 1 ? (
             <React.Fragment>
               <StrategyArgSelect
-                handleChange={type => this.selectStrategyArg2(record.key, type)}
+                handleChange={type =>
+                  this.selectHandler("strategyArg2", record.key, type)
+                }
                 preValue={
                   this.state.dataSource[this.state.dataSource.length - 1]
                     .strategyArg2
@@ -175,7 +181,9 @@ class EditableTable extends React.Component {
           this.state.dataSource.length >= 1 ? (
             <React.Fragment>
               <AssetSelect
-                handleChange={type => this.selectAsset(record.key, type)}
+                handleChange={type =>
+                  this.selectHandler("selectedAsset", record.key, type)
+                }
                 preValue={
                   this.state.dataSource[this.state.dataSource.length - 1]
                     .selectedAsset
@@ -205,47 +213,11 @@ class EditableTable extends React.Component {
     this.state = dataSource;
   }
 
-  selectRebalanceType = (key, type) => {
+  selectHandler = (selectTarget, key, type) => {
     const { dataSource } = this.state;
     this.setState({
       dataSource: dataSource.map(data =>
-        key === data.key ? { ...data, rebalanceType: type } : data
-      )
-    });
-  };
-
-  selectStrategyType = (key, type) => {
-    const { dataSource } = this.state;
-    this.setState({
-      dataSource: dataSource.map(data =>
-        key === data.key ? { ...data, strategyType: type } : data
-      )
-    });
-  };
-
-  selectStrategyArg1 = (key, type) => {
-    const { dataSource } = this.state;
-    this.setState({
-      dataSource: dataSource.map(data =>
-        key === data.key ? { ...data, strategyArg1: type } : data
-      )
-    });
-  };
-
-  selectStrategyArg2 = (key, type) => {
-    const { dataSource } = this.state;
-    this.setState({
-      dataSource: dataSource.map(data =>
-        key === data.key ? { ...data, strategyArg2: type } : data
-      )
-    });
-  };
-
-  selectAsset = (key, type) => {
-    const { dataSource } = this.state;
-    this.setState({
-      dataSource: dataSource.map(data =>
-        key === data.key ? { ...data, selectedAsset: type } : data
+        key === data.key ? { ...data, [selectTarget]: type } : data
       )
     });
   };
