@@ -4,7 +4,7 @@ import WeightsInputTable from "./WeightsInputTable";
 import BackTestResultTable from "./BackTestResultTable";
 import PortFolioPositionChart from "./PortFolioPositionChart";
 import StrategyDescription from "./StrategyDescription";
-import { getAnnualizedReturns, getAnnualizedStd } from "utils/utils";
+import { Switch } from "antd";
 import { Button } from "antd";
 
 const BackTestPresenter = props => {
@@ -18,7 +18,9 @@ const BackTestPresenter = props => {
     selectedPortfolio,
     selectPortfolioHandler,
     refreshHandler,
-    rootComp
+    rootComp,
+    setLogScale,
+    isLogScale
   } = props;
   const { globalVariables } = data;
   const { runSimulation } = func;
@@ -58,7 +60,10 @@ const BackTestPresenter = props => {
         data={data}
         resultList={resultList}
         selectPortfolio={selectPortfolioHandler}
+        isLogScale={isLogScale}
       />
+      <span>Returns Log scale </span>
+      <Switch onChange={setLogScale} />
       <BackTestResultTable data={resultList} />
       <PortFolioPositionChart
         resultList={resultList}

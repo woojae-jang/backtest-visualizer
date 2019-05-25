@@ -24,6 +24,8 @@ class BackTestContainer extends Component {
               selectPortfolioHandler={this.selectPortfolioHandler}
               selectedPortfolio={this.state.selectedPortfolio}
               refreshHandler={this.refreshHandler}
+              setLogScale={this.setLogScale}
+              isLogScale={this.state.logScale}
             />
           );
         }}
@@ -83,7 +85,12 @@ class BackTestContainer extends Component {
       count: 1
     };
 
-    this.state = { dataSource, resultList: [], selectedPortfolio: null };
+    this.state = {
+      dataSource,
+      resultList: [],
+      selectedPortfolio: null,
+      logScale: false
+    };
   }
 
   runSimulation = (
@@ -293,6 +300,12 @@ class BackTestContainer extends Component {
 
     this.setState({
       resultList: newResultList
+    });
+  };
+
+  setLogScale = () => {
+    this.setState({
+      logScale: !this.state.logScale
     });
   };
 }

@@ -1,8 +1,6 @@
 import React from "react";
 import { Market } from "market";
 import * as math from "mathjs";
-import * as $ from "jquery";
-import Chart from "chart.js";
 import { dynamicColors } from "utils/chartUtil";
 import { schemeCategory10 } from "d3-scale-chromatic";
 import { Line } from "react-chartjs-2";
@@ -14,12 +12,18 @@ class PriceChart extends React.Component {
   render() {
     const { startDate, endDate } = this.props.data.globalVariables;
     const resultList = this.props.resultList;
+    const isLogScale = this.props.isLogScale;
 
     const dataList = [];
 
     for (let i = 0; i < resultList.length; i++) {
-      // let price_data = resultList[i].result.cumReturnList;
-      let price_data = resultList[i].result.navList.map(d => d / 100000000);
+      let price_data = null;
+      if (isLogScale) {
+        price_data = resultList[i].result.navList.map(d => d / 100000000);
+      } else {
+        price_data = resultList[i].result.cumReturnList;
+      }
+
       let dataset = {};
       dataset.data = price_data;
       dataset.label = resultList[i].name;
@@ -76,28 +80,41 @@ class PriceChart extends React.Component {
             }
           }
         ],
-        yAxes: [
-          {
-            type: "logarithmic",
-            ticks: {
-              min: minValue,
-              max: maxValue
-            },
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: "Return(%)"
-            }
-          }
-        ]
+        yAxes: isLogScale
+          ? [
+              {
+                type: "logarithmic",
+                ticks: {
+                  min: minValue,
+                  max: maxValue
+                },
+                display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: "Return(%)"
+                }
+              }
+            ]
+          : [
+              {
+                type: "linear",
+                display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: "Return(%)"
+                }
+              }
+            ]
       }
     };
     return (
-      <Line
-        data={data}
-        options={options}
-        getElementAtEvent={this.handleGetElementAtEvent}
-      />
+      <React.Fragment>
+        <Line
+          data={data}
+          options={options}
+          getElementAtEvent={this.handleGetElementAtEvent}
+        />
+      </React.Fragment>
     );
   }
 
