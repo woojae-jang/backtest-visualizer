@@ -1,7 +1,6 @@
-import { Table, Button, Form, InputNumber, Input } from "antd";
+import { Table, Button, Form, Input } from "antd";
 import React from "react";
 import { assetCodeList } from "utils/data";
-import { getFloatRandWeights } from "utils/utils";
 import RebalanceSelect from "./RebalanceSelect";
 import StrategySelect from "./StrategySelect";
 import StrategyArgSelect from "./StrategyArgSelect";
@@ -114,9 +113,8 @@ class EditableTable extends React.Component {
                   this.selectRebalanceType(record.key, type)
                 }
                 preValue={
-                  this.state.dataSource.filter(
-                    data => record.key === data.key
-                  )[0].rebalanceType
+                  this.state.dataSource[this.state.dataSource.length - 1]
+                    .rebalanceType
                 }
               />
             </React.Fragment>
@@ -131,9 +129,8 @@ class EditableTable extends React.Component {
               <StrategySelect
                 handleChange={type => this.selectStrategyType(record.key, type)}
                 preValue={
-                  this.state.dataSource.filter(
-                    data => record.key === data.key
-                  )[0].strategyType
+                  this.state.dataSource[this.state.dataSource.length - 1]
+                    .strategyType
                 }
               />
             </React.Fragment>
@@ -148,9 +145,8 @@ class EditableTable extends React.Component {
               <StrategyArgSelect
                 handleChange={type => this.selectStrategyArg1(record.key, type)}
                 preValue={
-                  this.state.dataSource.filter(
-                    data => record.key === data.key
-                  )[0].strategyArg1
+                  this.state.dataSource[this.state.dataSource.length - 1]
+                    .strategyArg1
                 }
               />
             </React.Fragment>
@@ -165,9 +161,8 @@ class EditableTable extends React.Component {
               <StrategyArgSelect
                 handleChange={type => this.selectStrategyArg2(record.key, type)}
                 preValue={
-                  this.state.dataSource.filter(
-                    data => record.key === data.key
-                  )[0].strategyArg2
+                  this.state.dataSource[this.state.dataSource.length - 1]
+                    .strategyArg2
                 }
               />
             </React.Fragment>
@@ -182,9 +177,8 @@ class EditableTable extends React.Component {
               <AssetSelect
                 handleChange={type => this.selectAsset(record.key, type)}
                 preValue={
-                  this.state.dataSource.filter(
-                    data => record.key === data.key
-                  )[0].selectedAsset
+                  this.state.dataSource[this.state.dataSource.length - 1]
+                    .selectedAsset
                 }
               />
             </React.Fragment>
@@ -329,6 +323,53 @@ class EditableTable extends React.Component {
     });
   };
 
+  handleAddPortfolio = type => {
+    const { count, dataSource } = this.state;
+
+    const newPortfolio = {
+      key: count,
+      name: "",
+      "069500": 0,
+      "232080": 0,
+      "143850": 0,
+      "195930": 0,
+      "238720": 0,
+      "192090": 0,
+      "148070": 0,
+      "136340": 0,
+      "182490": 0,
+      "132030": 0,
+      "130680": 0,
+      "114800": 0,
+      "138230": 0,
+      "139660": 0,
+      "130730": 0,
+      WORLD_STOCK: 0,
+      rebalanceType: "none",
+      strategyType: "none",
+      strategyArg1: "none",
+      strategyArg2: "none",
+      selectedAsset: "none"
+    };
+
+    if (type === "Permanent Portfolio") {
+      newPortfolio.name = "Permanent Portfolio";
+      newPortfolio["143850"] = 25;
+      newPortfolio["182490"] = 25;
+      newPortfolio["132030"] = 25;
+      newPortfolio["130730"] = 25;
+      newPortfolio.rebalanceType = "monthly";
+    } else {
+      console.log(type);
+      throw "invalid portfolio type";
+    }
+
+    this.setState({
+      dataSource: [...dataSource, newPortfolio],
+      count: count + 1
+    });
+  };
+
   handleSave = row => {
     const newData = [...this.state.dataSource];
     const index = newData.findIndex(item => row.key === item.key);
@@ -372,6 +413,13 @@ class EditableTable extends React.Component {
           style={{ marginBottom: 16 }}
         >
           Add a row
+        </Button>
+        <Button
+          onClick={() => this.handleAddPortfolio("Permanent Portfolio")}
+          type="primary"
+          style={{ marginBottom: 16 }}
+        >
+          Add Permanent Portfolio
         </Button>
         <br />
         <BatchSelect batchSelection={this.props.batchSelection} />
