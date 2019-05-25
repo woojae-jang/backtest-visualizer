@@ -9,6 +9,16 @@ const columns = [
     key: "name"
   },
   {
+    title: "Start Date",
+    dataIndex: "startDate",
+    key: "startDate"
+  },
+  {
+    title: "End Date",
+    dataIndex: "endDate",
+    key: "endDate"
+  },
+  {
     title: "Returns(%)",
     dataIndex: "returns",
     key: "returns"
@@ -38,7 +48,15 @@ const columns = [
 const BackTestResultTable = props => {
   const dataSource = props.data.map((d, index) => {
     const { result, name } = d;
-    let { finalReturn, std, annualizedReturns, annualizedStd } = result;
+    let {
+      finalReturn,
+      std,
+      annualizedReturns,
+      annualizedStd,
+      dateList
+    } = result;
+    const startDate = dateList[0];
+    const endDate = dateList[dateList.length - 1];
     const returns = math.round(finalReturn, 4);
     std = math.round(std, 4);
     annualizedReturns = math.round(annualizedReturns, 4);
@@ -46,6 +64,8 @@ const BackTestResultTable = props => {
     return {
       key: index,
       name: name,
+      startDate,
+      endDate,
       returns: (returns * 100).toFixed(2) + " %",
       std: (std * 100).toFixed(2) + " %",
       annualizedReturns: (annualizedReturns * 100).toFixed(2) + " %",
