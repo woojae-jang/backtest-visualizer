@@ -6,6 +6,7 @@ import RebalanceSelect from "./RebalanceSelect";
 import StrategySelect from "./StrategySelect";
 import StrategyArgSelect from "./StrategyArgSelect";
 import AssetSelect from "./AssetSelect";
+import BatchSelect from "./BatchSelect";
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -385,7 +386,7 @@ class EditableTable extends React.Component {
   };
 
   render() {
-    const { dataSource } = this.state;
+    const { dataSource } = this.props.dataSource;
     const components = {
       body: {
         row: EditableFormRow,
@@ -407,6 +408,7 @@ class EditableTable extends React.Component {
         })
       };
     });
+
     return (
       <div>
         <Button
@@ -423,6 +425,8 @@ class EditableTable extends React.Component {
         >
           Add a random row
         </Button>
+        <br />
+        <BatchSelect batchSelection={this.props.batchSelection} />
         <Table
           components={components}
           rowClassName={() => "editable-row"}

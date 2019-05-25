@@ -26,6 +26,7 @@ class BackTestContainer extends Component {
               refreshHandler={this.refreshHandler}
               setLogScale={this.setLogScale}
               isLogScale={this.state.logScale}
+              batchSelection={this.batchSelection}
             />
           );
         }}
@@ -306,6 +307,19 @@ class BackTestContainer extends Component {
   setLogScale = () => {
     this.setState({
       logScale: !this.state.logScale
+    });
+  };
+
+  batchSelection = (column, newValue) => {
+    // column 종류 : rebalanceType, strategyType, strategyArg1, strategyArg2, selectedAsset
+    const { dataSource } = this.state.dataSource;
+
+    const newDataSource = dataSource.map(port => {
+      port[column] = newValue;
+      return port;
+    });
+    this.setState({
+      dataSource: newDataSource
     });
   };
 }

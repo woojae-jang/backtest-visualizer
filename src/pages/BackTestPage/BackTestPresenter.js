@@ -20,7 +20,8 @@ const BackTestPresenter = props => {
     refreshHandler,
     rootComp,
     setLogScale,
-    isLogScale
+    isLogScale,
+    batchSelection
   } = props;
   const { globalVariables } = data;
   const { runSimulation } = func;
@@ -52,6 +53,7 @@ const BackTestPresenter = props => {
           )
         }
         rootComp={rootComp}
+        batchSelection={batchSelection}
       />
       <Button type="default" onClick={() => refreshHandler(globalVariables)}>
         Refresh
