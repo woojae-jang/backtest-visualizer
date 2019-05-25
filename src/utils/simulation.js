@@ -325,8 +325,10 @@ class BackTest {
   }
 
   run2(momentumWindow = 60) {
-    // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
+    // gaps 의 모든 자산에 대한 상대모멘텀
     // 리밸런싱 날, 모멘텀 점수가 가장 높은 자산의 비중을 100
+
+    // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
 
     // 첫 거래일, 초기 비중 설정을 위해
     this.rebalanceDateList.push(this.date);
