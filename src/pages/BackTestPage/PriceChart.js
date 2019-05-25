@@ -1,12 +1,9 @@
 import React from "react";
-import { Market } from "market";
 import * as math from "mathjs";
 import { dynamicColors } from "utils/chartUtil";
 import { schemeCategory10 } from "d3-scale-chromatic";
 import { Line } from "react-chartjs-2";
 import TradingDate from "utils/TradingDate";
-
-const market = new Market("20161207");
 
 class PriceChart extends React.Component {
   render() {
@@ -50,18 +47,13 @@ class PriceChart extends React.Component {
       datasets
     };
 
-    // const minValue = math.min();
-    const allDataPoint = [100];
+    let allDataPoint = [100];
     datasets.forEach(dataset => allDataPoint.splice(0, 0, ...dataset.data));
-    const minValue = math.min(allDataPoint);
-    const maxValue = math.max(allDataPoint);
+    const minValue = math.floor(math.min(allDataPoint));
+    const maxValue = math.ceil(math.max(allDataPoint));
 
     const options = {
       responsive: true,
-      title: {
-        display: true,
-        text: "asset's returns"
-      },
       tooltips: {
         mode: "index",
         intersect: false
@@ -80,40 +72,76 @@ class PriceChart extends React.Component {
             }
           }
         ],
-        yAxes: isLogScale
-          ? [
-              {
-                type: "logarithmic",
-                ticks: {
-                  min: minValue,
-                  max: maxValue
-                },
-                display: true,
-                scaleLabel: {
-                  display: true,
-                  labelString: "Return(%)"
-                }
-              }
-            ]
-          : [
-              {
-                type: "linear",
-                display: true,
-                scaleLabel: {
-                  display: true,
-                  labelString: "Return(%)"
-                }
-              }
-            ]
+        yAxes: [
+          {
+            type: "linear",
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "Return(%)"
+            }
+          }
+        ]
       }
     };
+
+    const logScaleOptions = {
+      responsive: true,
+      tooltips: {
+        mode: "index",
+        intersect: false
+      },
+      hover: {
+        mode: "nearest",
+        intersect: true
+      },
+      scales: {
+        xAxes: [
+          {
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "Date"
+            }
+          }
+        ],
+        yAxes: [
+          {
+            type: "logarithmic",
+            ticks: {
+              min: minValue,
+              max: maxValue,
+              callback: function(value, index, values) {
+                return Number(value.toString()); //pass tick values as a string into Number function
+              }
+            },
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "Return(%)"
+            }
+          }
+        ]
+      }
+    };
+
     return (
       <React.Fragment>
-        <Line
-          data={data}
-          options={options}
-          getElementAtEvent={this.handleGetElementAtEvent}
-        />
+        {isLogScale ? (
+          <Line
+            key="1"
+            data={data}
+            options={logScaleOptions}
+            getElementAtEvent={this.handleGetElementAtEvent}
+          />
+        ) : (
+          <Line
+            key="2"
+            data={data}
+            options={options}
+            getElementAtEvent={this.handleGetElementAtEvent}
+          />
+        )}
       </React.Fragment>
     );
   }
