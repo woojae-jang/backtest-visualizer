@@ -311,11 +311,11 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -368,11 +368,11 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -438,11 +438,11 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -525,11 +525,11 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -595,11 +595,11 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -661,11 +661,11 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -755,11 +755,11 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -825,11 +825,11 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -888,11 +888,11 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -905,8 +905,19 @@ class BackTest {
     // 절대모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 세계주가지수를 절대모멘텀으로 두고
     // 주가지수들의 상대모멘텀으로 자산 배분
-    // 상승장일경우, 주식 60
-    // 하락장일경우, 주식 20
+    // 상승장일경우, 주식 비중 높게
+    // 하락장일경우, 주식 비중 낮게
+
+    // GAPS 비중제한 적용하여
+
+    // top=1, 상위 1개가 코스피인 경우 : 코스피20 미국10
+    // top=1, 상위 1개가 코스닥인 경우 : 코스닥10 미국10
+    // top=1, 상위 1개가 해외인 경우 : 코스피10 해외20
+
+    // top=2, 상위 2개가 코스피,코스닥인 경우 : 코스피20 코스닥10 미국10
+    // top=2, 상위 2개가 코스피,해외인 경우 : 코스피20 해외20
+    // top=2, 상위 2개가 코스닥,해외인 경우 : 코스닥10 해외20
+    // top=2, 상위 2개가 둘다 해외인 경우 : 해외1 20 해외2 20
 
     // 첫 거래일, 초기 비중 설정을 위해
     this.rebalanceDateList.push(this.date);
@@ -961,23 +972,22 @@ class BackTest {
             if (code === "069500") {
               // 코스피
               // 코스피40 미국10
-              allocation.addWeight("069500", 40);
+              allocation.addWeight("069500", 20);
               allocation.addWeight("143850", 10);
             } else if (code === "232080") {
               // 코스닥
               // 코스닥20 미국10
-              allocation.addWeight("232080", 20);
+              allocation.addWeight("232080", 10);
               allocation.addWeight("143850", 10);
             } else {
               // 해외
-              // 해외20
+              // 코스피10 해외20
+              allocation.addWeight("069500", 10);
               allocation.addWeight(code, 20);
             }
           } else if (top == 2) {
             const code1 = topCodesList[0];
             const code2 = topCodesList[1];
-            console.log(code1);
-            console.log(code2);
 
             const condition1 = code1 === "069500" || code2 === "069500";
             const condition2 = code1 === "232080" || code2 === "232080";
@@ -985,16 +995,20 @@ class BackTest {
             if (condition1 && condition2) {
               // 코스피 & 코스닥
               // 코스피20 코스닥20
+              // 미국10
               allocation.addWeight("069500", 20);
-              allocation.addWeight("232080", 20);
+              allocation.addWeight("232080", 10);
+              allocation.addWeight("143850", 10);
             } else if (condition1 || condition2) {
               if (condition1) {
                 // 코스피40
-                allocation.addWeight("069500", 40);
+                allocation.addWeight("069500", 20);
               } else {
                 // 코스닥20
-                allocation.addWeight("232080", 20);
+                allocation.addWeight("232080", 10);
               }
+              // 미국10
+              allocation.addWeight("143850", 10);
             } else {
               //  해외1 20 해외2 20
               allocation.addWeight(code1, 20);
@@ -1004,6 +1018,7 @@ class BackTest {
             console.log(top);
             throw "invalid top arg";
           }
+          allocation.addWeight("132030", 5); // 골드 최소비중
 
           // 남은 비중 중기회사채, 하이일드 배분
           const safetyAssets = ["136340", "182490"];
@@ -1015,13 +1030,19 @@ class BackTest {
           });
         } else {
           // 하락장
+
+          // 코스피10 미국10
+          allocation.addWeight("069500", 10);
+          allocation.addWeight("143850", 10);
+
           // 남은 비중 채권, 인버스, 달러 배분
 
           // KOSEF국고채10년                15
           // KBSTAR중기우량회사채           35
           // TIGER단기선진하이일드(합성H)      10
           const bonds = ["148070", "136340", "182490"];
-          const bondsWeights = [15, 35, 10];
+          // const bondsWeights = [15, 35, 10];
+          const bondsWeights = [20, 20, 20];
 
           bonds.forEach((code, index) => {
             allocation.addWeight(code, bondsWeights[index]);
@@ -1032,11 +1053,11 @@ class BackTest {
             "138230" // KOSEF미국달러선물
           ];
 
-          const eqaulWeight =
+          const equalWeight =
             allocation.getRemainsWeight() / safetyAssets.length;
 
           safetyAssets.forEach(code => {
-            allocation.addWeight(code, eqaulWeight);
+            allocation.addWeight(code, equalWeight);
           });
         }
 
@@ -1047,11 +1068,11 @@ class BackTest {
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -1068,10 +1089,12 @@ class BackTest {
     // 첫 거래일, 초기 비중 설정을 위해
     this.rebalanceDateList.push(this.date);
 
+    const allocation = new PortfolioAllocation();
     const codeList = assetCodeList;
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
+        allocation.reset();
         const scoreObjList = [];
         codeList.forEach((code, index) => {
           const momentumScore = Analyst.getMomentum1(
@@ -1093,36 +1116,21 @@ class BackTest {
           .slice(0, top);
 
         const equalWeight = 30;
-        const remainWeight = 100 - filterdCodeList.length * equalWeight;
-
-        const newAllocation = [...codeList, "cash"].map(code => {
-          if (filterdCodeList.indexOf(code) !== -1) {
-            return {
-              code,
-              weight: equalWeight
-            };
-          } else if (code === "cash") {
-            return {
-              code,
-              weight: remainWeight
-            };
-          } else {
-            return {
-              code,
-              weight: 0
-            };
-          }
+        filterdCodeList.forEach(code => {
+          allocation.addWeight(code, equalWeight);
         });
+        allocation.allocateRemainsWeightToCash();
 
+        const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
@@ -1150,30 +1158,17 @@ class BackTest {
       "192090"
     ];
 
+    const allocation = new PortfolioAllocation();
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
-        let newAllocation = [
-          { code: "069500", weight: 10 }, // KODEX200
-          { code: "232080", weight: 0 }, // TIGER코스닥150
-          { code: "143850", weight: 10 }, // TIGER미국S&P500선물(H)
-          { code: "195930", weight: 0 }, // TIGER유로스탁스50(합성H)
-          { code: "238720", weight: 0 }, // KINDEX일본Nikkei225(H)
-          { code: "192090", weight: 0 }, // TIGER차이나CSI300
-          { code: "148070", weight: 0 }, // KOSEF국고채10년
-          { code: "136340", weight: 0 }, // KBSTAR중기우량회사채
-          { code: "182490", weight: 5 }, // TIGER단기선진하이일드(합성H)
-          { code: "132030", weight: 5 }, // KODEX골드선물(H)
-          { code: "130680", weight: 0 }, // TIGER원유선물Enhanced(H)
-          { code: "114800", weight: 0 }, // KODEX인버스
-          { code: "138230", weight: 0 }, // KOSEF미국달러선물
-          { code: "139660", weight: 0 }, // KOSEF미국달러선물인버스
-          { code: "130730", weight: 0 }, // KOSEF단기자금
-          { code: "WORLD_STOCK", weight: 0 }, // 세계종합주가지수
-          { code: "cash", weight: 1 } // 현금
-        ];
+        allocation.reset();
 
-        let remainWeight = 100 - 26;
+        // 코스피10 미국10 하이일드10 골드5
+        allocation.addWeight("069500", 10);
+        allocation.addWeight("143850", 10);
+        allocation.addWeight("182490", 5);
+        allocation.addWeight("132030", 5);
 
         const marketState = Analyst.getMomentum1(
           "WORLD_STOCK",
@@ -1205,27 +1200,16 @@ class BackTest {
 
           const topCodesList = scoreObjList.slice(0, top).map(d => d.code);
 
-          newAllocation = newAllocation.map(asset => {
-            if (topCodesList.indexOf(asset.code) !== -1) {
-              asset.weight += 20;
-              remainWeight -= 20;
-              return asset;
-            } else {
-              return asset;
-            }
+          topCodesList.forEach(code => {
+            allocation.addWeight(code, 20);
           });
 
           // 남은 비중 중기회사채, 하이일드 배분
           const safetyAssets = ["136340", "182490"];
-          const eqaulWeight = remainWeight / safetyAssets.length;
-
-          newAllocation = newAllocation.map(asset => {
-            if (safetyAssets.indexOf(asset.code) !== -1) {
-              asset.weight = eqaulWeight;
-              return asset;
-            } else {
-              return asset;
-            }
+          const equalWeight =
+            allocation.getRemainsWeight() / safetyAssets.length;
+          safetyAssets.forEach(code => {
+            allocation.addWeight(code, equalWeight);
           });
         } else {
           // 하락장
@@ -1238,38 +1222,24 @@ class BackTest {
             "114800", // KODEX인버스
             "138230" // KOSEF미국달러선물
           ];
-          const eqaulWeight = remainWeight / safetyAssets.length;
-
-          newAllocation = newAllocation.map(asset => {
-            if (safetyAssets.indexOf(asset.code) !== -1) {
-              asset.weight = eqaulWeight;
-              return asset;
-            } else {
-              return asset;
-            }
+          const equalWeight =
+            allocation.getRemainsWeight() / safetyAssets.length;
+          safetyAssets.forEach(code => {
+            allocation.addWeight(code, equalWeight);
           });
         }
+        allocation.allocateRemainsWeightToCash();
 
-        let accWeight = 0;
-        newAllocation.forEach(asset => (accWeight += asset.weight));
-        newAllocation = newAllocation.map(asset => {
-          if (asset.code === "cash") {
-            asset.weight += 100 - accWeight;
-            return asset;
-          } else {
-            return asset;
-          }
-        });
-
+        const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
       const NAV = this.portfolio.valuation();
       const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const allcation = this.portfolio.getCurrentAllocation();
+      const curAllocation = this.portfolio.getCurrentAllocation();
 
       this.dailyLog.push(shortLog);
       this.navList.push(NAV);
-      this.allocationList.push(allcation);
+      this.allocationList.push(curAllocation);
       this.dateList.push(this.date);
 
       if (this.date === this.endDate) break;
