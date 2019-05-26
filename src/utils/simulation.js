@@ -1385,7 +1385,7 @@ class BackTest {
               allocation.addWeight("143850", 10);
             } else if (code === "232080") {
               // 코스닥
-              // 코스닥20 미국10
+              // 코스닥10 미국10
               allocation.addWeight("232080", 10);
               allocation.addWeight("143850", 10);
             } else {
@@ -1439,11 +1439,12 @@ class BackTest {
 
           // 남은 비중 국채, 중기회사채, 하이일드 배분
           const safetyAssets = ["148070", "136340", "182490"];
-          const equalWeight =
-            allocation.getRemainsWeight() / safetyAssets.length;
+          const equalWeight = (allocation.getRemainsWeight() - 10) / 2;
 
-          safetyAssets.forEach(code => {
-            allocation.addWeight(code, equalWeight);
+          const bondsWeights = [equalWeight, equalWeight, 10];
+
+          safetyAssets.forEach((code, index) => {
+            allocation.addWeight(code, bondsWeights[index]);
           });
         } else {
           // 하락장
