@@ -492,7 +492,7 @@ class BackTest {
         filterdCodeList.forEach(code =>
           allocation.addWeight(code, weightOfStock)
         );
-        allocation.add(bondCode, weightOfBond);
+        allocation.addWeight(bondCode, weightOfBond);
 
         const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
