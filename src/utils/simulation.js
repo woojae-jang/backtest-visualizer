@@ -334,9 +334,12 @@ class BackTest {
     this.rebalanceDateList.push(this.date);
 
     const codeList = assetCodeList;
+
+    const allocation = new PortfolioAllocation();
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
+        allocation.reset();
         const scoreList = [];
         codeList.forEach((code, index) => {
           const momentumScore = Analyst.getMomentum1(
@@ -350,19 +353,8 @@ class BackTest {
         let maxScoreIdx = scoreList.indexOf(Math.max(...scoreList));
         const codeOfMaxScore = codeList[maxScoreIdx];
 
-        const newAllocation = [...codeList, "cash"].map(code => {
-          if (code === codeOfMaxScore) {
-            return {
-              code,
-              weight: 100
-            };
-          } else {
-            return {
-              code,
-              weight: 0
-            };
-          }
-        });
+        allocation.addWeight(codeOfMaxScore, 100);
+        const newAllocation = allocation.getAllocation();
 
         this.portfolio.executeAllocation(newAllocation);
       }
@@ -393,9 +385,12 @@ class BackTest {
 
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
+
+    const allocation = new PortfolioAllocation();
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
+        allocation.reset();
         const scoreList = [];
 
         stockCodeList.forEach((code, index) => {
@@ -418,22 +413,11 @@ class BackTest {
         });
 
         const topCodesList = scoreObjList.slice(0, top).map(d => d.code);
-        const equalWeigth = 100 / top;
+        const equalWeight = 100 / top;
 
-        const newAllocation = [...codeList, "cash"].map(code => {
-          if (topCodesList.indexOf(code) !== -1) {
-            return {
-              code,
-              weight: equalWeigth
-            };
-          } else {
-            return {
-              code,
-              weight: 0
-            };
-          }
-        });
+        topCodesList.forEach(code => allocation.addWeight(code, equalWeight));
 
+        const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
       const NAV = this.portfolio.valuation();
@@ -472,9 +456,11 @@ class BackTest {
 
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
+    const allocation = new PortfolioAllocation();
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
+        allocation.reset();
         const scoreList = [];
 
         stockCodeList.forEach((code, index) => {
@@ -503,24 +489,12 @@ class BackTest {
         const weightOfStock = weightOfOneDiv * numOfFilterdCode;
         const weightOfBond = 100 - weightOfStock;
 
-        const newAllocation = [...codeList, "cash"].map(code => {
-          if (filterdCodeList.indexOf(code) !== -1) {
-            return {
-              code,
-              weight: weightOfOneDiv
-            };
-          } else if (code === bondCode) {
-            return {
-              code,
-              weight: weightOfBond
-            };
-          } else {
-            return {
-              code,
-              weight: 0
-            };
-          }
-        });
+        filterdCodeList.forEach(code =>
+          allocation.addWeight(code, weightOfStock)
+        );
+        allocation.add(bondCode, weightOfBond);
+
+        const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
       const NAV = this.portfolio.valuation();
@@ -549,9 +523,11 @@ class BackTest {
 
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
+    const allocation = new PortfolioAllocation();
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
+        allocation.reset();
         const scoreList = [];
 
         stockCodeList.forEach((code, index) => {
@@ -575,21 +551,11 @@ class BackTest {
 
         const orderdCodeList = scoreObjList.map(obj => obj.code);
         const rankWeightList = [30, 25, 20, 15, 10, 0];
+        orderdCodeList.forEach((code, index) =>
+          allocation.addWeight(code, rankWeightList[index])
+        );
 
-        const newAllocation = [...codeList, "cash"].map(code => {
-          const stockCodeIdx = orderdCodeList.indexOf(code);
-          if (stockCodeIdx !== -1) {
-            return {
-              code,
-              weight: rankWeightList[stockCodeIdx]
-            };
-          } else {
-            return {
-              code,
-              weight: 0
-            };
-          }
-        });
+        const newAllocation = allocation.getAllocation();
 
         this.portfolio.executeAllocation(newAllocation);
       }
@@ -620,9 +586,11 @@ class BackTest {
 
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
+    const allocation = new PortfolioAllocation();
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
+        allocation.reset();
         const scoreList = [];
 
         stockCodeList.forEach((code, index) => {
@@ -641,22 +609,13 @@ class BackTest {
         });
 
         const topCodesList = scoreObjList.slice(0, top).map(d => d.code);
-        const equalWeigth = 100 / top;
+        const equalWeight = 100 / top;
 
-        const newAllocation = [...codeList, "cash"].map(code => {
-          if (topCodesList.indexOf(code) !== -1) {
-            return {
-              code,
-              weight: equalWeigth
-            };
-          } else {
-            return {
-              code,
-              weight: 0
-            };
-          }
+        topCodesList.forEach(code => {
+          allocation.addWeight(code, equalWeight);
         });
 
+        const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
       const NAV = this.portfolio.valuation();
@@ -696,9 +655,11 @@ class BackTest {
 
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
+    const allocation = new PortfolioAllocation();
     while (true) {
       const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
       if (rebalanceDay !== -1) {
+        allocation.reset();
         const scoreList = [];
 
         stockCodeList.forEach((code, index) => {
@@ -728,29 +689,13 @@ class BackTest {
         const weightOfBond = (100 - weightOfStock) / 2;
         const weightOfDollar = (100 - weightOfStock) / 2;
 
-        const newAllocation = [...codeList, "cash"].map(code => {
-          if (filterdCodeList.indexOf(code) !== -1) {
-            return {
-              code,
-              weight: weightOfOneDiv
-            };
-          } else if (code === bondCode) {
-            return {
-              code,
-              weight: weightOfBond
-            };
-          } else if (code === dollarCode) {
-            return {
-              code,
-              weight: weightOfDollar
-            };
-          } else {
-            return {
-              code,
-              weight: 0
-            };
-          }
+        filterdCodeList.forEach(code => {
+          allocation.addWeight(code, weightOfOneDiv);
         });
+        allocation.add(bondCode, weightOfBond);
+        allocation.add(dollarCode, weightOfDollar);
+
+        const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
       const NAV = this.portfolio.valuation();
