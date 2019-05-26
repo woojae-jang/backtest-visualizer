@@ -80,6 +80,7 @@ class BackTestContainer extends Component {
           strategyType: "none",
           strategyArg1: "none",
           strategyArg2: "none",
+          strategyArg3: "none",
           selectedAsset: "none"
         }
       ],
@@ -102,6 +103,7 @@ class BackTestContainer extends Component {
     strategyType = "none",
     strategyArg1 = "none",
     strategyArg2 = "none",
+    strategyArg3 = "none",
     selectedAsset = "none"
   ) => {
     const { startDate, endDate } = variables;
@@ -134,6 +136,7 @@ class BackTestContainer extends Component {
       strategyType,
       strategyArg1,
       strategyArg2,
+      strategyArg3,
       selectedAsset
     };
     executeBacktest(backTest, backTestArgs);
@@ -152,6 +155,7 @@ class BackTestContainer extends Component {
     strategyType = "none",
     strategyArg1 = "none",
     strategyArg2 = "none",
+    strategyArg3 = "none",
     selectedAsset = "none"
   ) => {
     const { startDate, endDate } = variables;
@@ -184,6 +188,7 @@ class BackTestContainer extends Component {
       strategyType,
       strategyArg1,
       strategyArg2,
+      strategyArg3,
       selectedAsset
     };
 
@@ -221,6 +226,7 @@ class BackTestContainer extends Component {
         strategyType,
         strategyArg1,
         strategyArg2,
+        strategyArg3,
         selectedAsset
       } = data;
 
@@ -232,6 +238,7 @@ class BackTestContainer extends Component {
         strategyType,
         strategyArg1,
         strategyArg2,
+        strategyArg3,
         selectedAsset
       );
       newResultList.push(result);
@@ -249,7 +256,7 @@ class BackTestContainer extends Component {
   };
 
   batchSelection = (column, newValue) => {
-    // column 종류 : rebalanceType, strategyType, strategyArg1, strategyArg2, selectedAsset
+    // column 종류 : rebalanceType, strategyType, strategyArg1, strategyArg2, strategyArg3, selectedAsset
     const { dataSource } = this.state.dataSource;
 
     const newDataSource = dataSource.map(port => {
@@ -267,6 +274,7 @@ const executeBacktest = (backTest, backTestArgs) => {
     strategyType,
     strategyArg1,
     strategyArg2,
+    strategyArg3,
     selectedAsset
   } = backTestArgs;
 
@@ -308,6 +316,11 @@ const executeBacktest = (backTest, backTestArgs) => {
   } else if (strategyType === "momentum10") {
     const momentumWindow = strategyArg1;
     backTest.run11(momentumWindow);
+  } else if (strategyType === "momentum12") {
+    const momentumWindow = strategyArg1;
+    const top = strategyArg2;
+    const stockWeight = strategyArg3;
+    backTest.run13(momentumWindow, top, stockWeight);
   }
 };
 

@@ -27,6 +27,10 @@ const BatchSelect = props => {
         handleChange={type => batchSelection("strategyArg2", type)}
         preValue="none"
       />
+      <StrategyArgSelect
+        handleChange={type => batchSelection("strategyArg3", type)}
+        preValue="none"
+      />
       <AssetSelect
         handleChange={type => batchSelection("selectedAsset", type)}
         preValue="none"

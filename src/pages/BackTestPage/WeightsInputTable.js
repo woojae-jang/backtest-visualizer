@@ -195,6 +195,29 @@ class EditableTable extends React.Component {
           ) : null
       },
       {
+        title: "Arg3",
+        dataIndex: "strategyArg3",
+        render: (text, record) =>
+          this.state.dataSource.length >= 1 ? (
+            <React.Fragment>
+              <StrategyArgSelect
+                handleChange={type =>
+                  this.selectHandler("strategyArg3", record.key, type)
+                }
+                preValue={
+                  this.state.dataSource.filter(
+                    data => data.key === record.key
+                  )[0]
+                    ? this.state.dataSource.filter(
+                        data => data.key === record.key
+                      )[0].strategyArg3
+                    : "none"
+                }
+              />
+            </React.Fragment>
+          ) : null
+      },
+      {
         title: "Asset",
         dataIndex: "selectedAsset",
         render: (text, record) =>

@@ -39,6 +39,7 @@ const BackTestPresenter = props => {
           strategyType,
           strategyArg1,
           strategyArg2,
+          strategyArg3,
           selectedAsset
         ) =>
           runSimulation(
@@ -49,6 +50,7 @@ const BackTestPresenter = props => {
             strategyType,
             strategyArg1,
             strategyArg2,
+            strategyArg3,
             selectedAsset
           )
         }
