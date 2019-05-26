@@ -73,6 +73,6 @@ const func = () => {
   console.log(result);
 };
 
-setTimeout(() => func(), 2000);
+// setTimeout(() => func(), 2000);
 
 export { Analyst };
