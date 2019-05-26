@@ -34,7 +34,7 @@ class PortFolioPositionChart extends React.Component {
       if (asset.code !== "cash") {
         labels.push(getAssetShortName(asset.code));
       } else {
-        labels.push("현금");
+        labels.push("cash");
       }
 
       _data.push(asset.weight);
