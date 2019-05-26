@@ -490,7 +490,7 @@ class BackTest {
         const weightOfBond = 100 - weightOfStock;
 
         filterdCodeList.forEach(code =>
-          allocation.addWeight(code, weightOfStock)
+          allocation.addWeight(code, weightOfOneDiv)
         );
         allocation.addWeight(bondCode, weightOfBond);
 
@@ -1347,6 +1347,7 @@ class PortfolioAllocation {
 
   getAllocation = () => {
     if (this.getRemainsWeight() !== 0) {
+      console.log(this.getRemainsWeight());
       throw "remainsWeight !== 0";
     }
 
