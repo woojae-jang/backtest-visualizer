@@ -130,46 +130,13 @@ class BackTestContainer extends Component {
 
     backTest.init(testArgs);
 
-    if (strategyType === "none") {
-      backTest.run();
-    } else if (strategyType === "momentum") {
-      const momentumWindow = strategyArg1;
-      backTest.run2(momentumWindow);
-    } else if (strategyType === "momentum2") {
-      const topLimit = strategyArg1;
-      const momentumWindow = strategyArg2;
-      backTest.run3(topLimit, momentumWindow);
-    } else if (strategyType === "momentum3") {
-      const momentumWindow = strategyArg1;
-      const asset = selectedAsset;
-      backTest.run4(momentumWindow, asset);
-    } else if (strategyType === "momentum4") {
-      const momentumWindow = strategyArg1;
-      backTest.run5(momentumWindow);
-    } else if (strategyType === "momentum5") {
-      const topLimit = strategyArg1;
-      backTest.run6(topLimit);
-    } else if (strategyType === "momentum6") {
-      const momentumWindow = strategyArg1;
-      const absScore = strategyArg2 / 100;
-      backTest.run7(momentumWindow, absScore);
-    } else if (strategyType === "momentum7") {
-      const topLimit = strategyArg1;
-      const momentumWindow = strategyArg2;
-      backTest.run8(topLimit, momentumWindow);
-    } else if (strategyType === "momentum8") {
-      const momentumWindow = strategyArg1;
-      const asset = selectedAsset;
-      backTest.run9(momentumWindow, asset);
-    } else if (strategyType === "momentum9") {
-      const momentumWindow = strategyArg1;
-      const top = strategyArg2;
-      backTest.run10(momentumWindow, top);
-    } else if (strategyType === "momentum10") {
-      const topLimit = strategyArg1;
-      const momentumWindow = strategyArg2;
-      backTest.run11(topLimit, momentumWindow);
-    }
+    const backTestArgs = {
+      strategyType,
+      strategyArg1,
+      strategyArg2,
+      selectedAsset
+    };
+    executeBacktest(backTest, backTestArgs);
 
     backTest.createMetaData();
     const result = backTest.result();
@@ -213,45 +180,14 @@ class BackTestContainer extends Component {
 
     backTest.init(testArgs);
 
-    if (strategyType === "none") {
-      backTest.run();
-    } else if (strategyType === "momentum") {
-      const momentumWindow = strategyArg1;
-      backTest.run2(momentumWindow);
-    } else if (strategyType === "momentum2") {
-      const topLimit = strategyArg1;
-      const momentumWindow = strategyArg2;
-      backTest.run3(topLimit, momentumWindow);
-    } else if (strategyType === "momentum3") {
-      const momentumWindow = strategyArg1;
-      const asset = selectedAsset;
-      backTest.run4(momentumWindow, asset);
-    } else if (strategyType === "momentum4") {
-      const momentumWindow = strategyArg1;
-      backTest.run5(momentumWindow);
-    } else if (strategyType === "momentum5") {
-      const topLimit = strategyArg1;
-      backTest.run6(topLimit);
-    } else if (strategyType === "momentum6") {
-      const momentumWindow = strategyArg1;
-      const absScore = strategyArg2 / 100;
-      backTest.run7(momentumWindow, absScore);
-    } else if (strategyType === "momentum7") {
-      const topLimit = strategyArg1;
-      const momentumWindow = strategyArg2;
-      backTest.run8(topLimit, momentumWindow);
-    } else if (strategyType === "momentum8") {
-      const momentumWindow = strategyArg1;
-      const asset = selectedAsset;
-      backTest.run9(momentumWindow, asset);
-    } else if (strategyType === "momentum9") {
-      const momentumWindow = strategyArg1;
-      const top = strategyArg2;
-      backTest.run10(momentumWindow, top);
-    } else if (strategyType === "momentum10") {
-      const momentumWindow = strategyArg1;
-      backTest.run11(momentumWindow);
-    }
+    const backTestArgs = {
+      strategyType,
+      strategyArg1,
+      strategyArg2,
+      selectedAsset
+    };
+
+    executeBacktest(backTest, backTestArgs);
 
     backTest.createMetaData();
     const result = backTest.result();
@@ -325,5 +261,54 @@ class BackTestContainer extends Component {
     });
   };
 }
+
+const executeBacktest = (backTest, backTestArgs) => {
+  const {
+    strategyType,
+    strategyArg1,
+    strategyArg2,
+    selectedAsset
+  } = backTestArgs;
+
+  if (strategyType === "none") {
+    backTest.run();
+  } else if (strategyType === "momentum") {
+    const momentumWindow = strategyArg1;
+    backTest.run2(momentumWindow);
+  } else if (strategyType === "momentum2") {
+    const topLimit = strategyArg1;
+    const momentumWindow = strategyArg2;
+    backTest.run3(topLimit, momentumWindow);
+  } else if (strategyType === "momentum3") {
+    const momentumWindow = strategyArg1;
+    const asset = selectedAsset;
+    backTest.run4(momentumWindow, asset);
+  } else if (strategyType === "momentum4") {
+    const momentumWindow = strategyArg1;
+    backTest.run5(momentumWindow);
+  } else if (strategyType === "momentum5") {
+    const topLimit = strategyArg1;
+    backTest.run6(topLimit);
+  } else if (strategyType === "momentum6") {
+    const momentumWindow = strategyArg1;
+    const absScore = strategyArg2 / 100;
+    backTest.run7(momentumWindow, absScore);
+  } else if (strategyType === "momentum7") {
+    const topLimit = strategyArg1;
+    const momentumWindow = strategyArg2;
+    backTest.run8(topLimit, momentumWindow);
+  } else if (strategyType === "momentum8") {
+    const momentumWindow = strategyArg1;
+    const asset = selectedAsset;
+    backTest.run9(momentumWindow, asset);
+  } else if (strategyType === "momentum9") {
+    const momentumWindow = strategyArg1;
+    const top = strategyArg2;
+    backTest.run10(momentumWindow, top);
+  } else if (strategyType === "momentum10") {
+    const momentumWindow = strategyArg1;
+    backTest.run11(momentumWindow);
+  }
+};
 
 export default BackTestContainer;
