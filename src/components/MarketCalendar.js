@@ -94,7 +94,7 @@ class MarketCalendar extends React.Component {
 
   setTestPeriod3 = client => {
     const startDate = "20161004";
-    const endDate = tradingDateList[tradingDateList.length - 1];
+    const endDate = "20190516";
     client.writeData({
       data: {
         globalVariables: {
