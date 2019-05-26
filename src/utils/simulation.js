@@ -1196,7 +1196,7 @@ class BackTest {
     this.orderLog = this.portfolio.log;
   }
 
-  run13(momentumWindow, top, stockWeight) {
+  run13(momentumWindow, top, stockWeight, asset) {
     // 절대모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 세계주가지수를 절대모멘텀으로 두고
     // 주가지수들의 상대모멘텀으로 자산 배분
@@ -1257,17 +1257,18 @@ class BackTest {
           topCodesList.forEach(code => {
             allocation.addWeight(code, weightOfOneDiv);
           });
-          // 남은 비중 채권배분
-          const safetyAssets = [
-            "148070", // KOSEF국고채10년
-            "136340", // KBSTAR중기우량회사채
-            "182490" // TIGER단기선진하이일드(합성H)
-          ];
-          const equalWeight =
-            allocation.getRemainsWeight() / safetyAssets.length;
-          safetyAssets.forEach(code => {
-            allocation.addWeight(code, equalWeight);
-          });
+          // // 남은 비중 채권배분
+          // const safetyAssets = [
+          //   "148070", // KOSEF국고채10년
+          //   "136340", // KBSTAR중기우량회사채
+          //   "182490" // TIGER단기선진하이일드(합성H)
+          // ];
+          // const equalWeight =
+          //   allocation.getRemainsWeight() / safetyAssets.length;
+          // safetyAssets.forEach(code => {
+          //   allocation.addWeight(code, equalWeight);
+          // });
+          allocation.addWeight(asset, allocation.getRemainsWeight());
         } else {
           //   하락장
           //   custom 비중으로 배분
@@ -1284,9 +1285,10 @@ class BackTest {
           //   safetyAssets.forEach(code => {
           //     allocation.addWeight(code, equalWeight);
           //   });
-          this.fixedAlloc.forEach(asset => {
-            allocation.addWeight(asset.code, asset.weight);
-          });
+          // this.fixedAlloc.forEach(asset => {
+          //   allocation.addWeight(asset.code, asset.weight);
+          // });
+          allocation.addWeight(asset, allocation.getRemainsWeight());
         }
         allocation.allocateRemainsWeightToCash();
         const newAllocation = allocation.getAllocation();

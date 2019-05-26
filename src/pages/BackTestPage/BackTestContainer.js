@@ -316,11 +316,16 @@ const executeBacktest = (backTest, backTestArgs) => {
   } else if (strategyType === "momentum10") {
     const momentumWindow = strategyArg1;
     backTest.run11(momentumWindow);
+  } else if (strategyType === "momentum11") {
+    const top = strategyArg1;
+    const momentumWindow = strategyArg2;
+    backTest.run12(top, momentumWindow);
   } else if (strategyType === "momentum12") {
     const momentumWindow = strategyArg1;
     const top = strategyArg2;
     const stockWeight = strategyArg3;
-    backTest.run13(momentumWindow, top, stockWeight);
+    const asset = selectedAsset;
+    backTest.run13(momentumWindow, top, stockWeight, asset);
   }
 };
 
