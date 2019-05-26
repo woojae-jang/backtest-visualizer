@@ -25,10 +25,15 @@ class StrategyDescription extends React.Component {
           <br /> 주식지수 6개중 모멘텀 점수가 높은 top개 지수를 100/top 씩
           (동일비중)
         </TabPane>
-        <TabPane tab="Momentum3" disabled key="3">
+        <TabPane tab="Momentum3" key="3">
           <Title level={4}>Arg1: momentumWindow</Title>
           <Title level={4}>Arg2: 사용안함</Title>
-          <Title level={4}>Asset: 사용안함</Title>
+          <Title level={4}>Asset: 채권</Title>
+          모멘텀 점수 : 최근 momentumWindow 거래일 수익률
+          <br />
+          리밸런싱 날, 절대모멘텀 수치로 각 주가지수가 상승장인지 판단
+          <br />
+          각각의 주가지수가 상승장일 경우, 비중 16씩, 남은 비중은 채권
         </TabPane>
         <TabPane tab="Momentum4" key="4">
           <Title level={4}>Arg1: momentumWindow</Title>

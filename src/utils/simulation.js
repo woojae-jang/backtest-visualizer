@@ -436,20 +436,23 @@ class BackTest {
   }
 
   // run4
+  // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
   // 리밸런싱 날, 우선적으로 절대모멘텀 점수로 필터링
   // 필터링된 주가지수 n개
-  // n 의 크기에 따라 주식:채권 비중 결정 (채권은 하이일드)
-  run4(momentumWindow = 60) {
+  // n 의 크기에 따라 주식:채권 비중 결정
+  // 채권: selectedAsset
+  run4(momentumWindow = 60, selectedAsset) {
     // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 리밸런싱 날, 우선적으로 절대모멘텀 점수로 필터링
     // 필터링된 주가지수 n개
-    // n 의 크기에 따라 주식:채권 비중 결정 (채권은 하이일드)
+    // n 의 크기에 따라 주식:채권 비중 결정
+    // 채권: selectedAsset
 
     // 절대모멘텀 필터 점수
     const absScore = 0;
 
     // 채권
-    const bondCode = "182490";
+    const bondCode = selectedAsset;
 
     // 첫 거래일, 초기 비중 설정을 위해
     this.rebalanceDateList.push(this.date);
