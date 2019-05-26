@@ -286,6 +286,7 @@ class EditableTable extends React.Component {
       strategyType,
       strategyArg1,
       strategyArg2,
+      strategyArg3,
       selectedAsset
     } = data[0];
 
@@ -296,6 +297,7 @@ class EditableTable extends React.Component {
       strategyType,
       strategyArg1,
       strategyArg2,
+      strategyArg3,
       selectedAsset
     );
   };
@@ -369,6 +371,7 @@ class EditableTable extends React.Component {
       strategyType: "none",
       strategyArg1: "none",
       strategyArg2: "none",
+      strategyArg3: "none",
       selectedAsset: "none"
     };
 
