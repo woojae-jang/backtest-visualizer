@@ -330,6 +330,10 @@ const executeBacktest = (backTest, backTestArgs) => {
     const momentumWindow = strategyArg1;
     const top = strategyArg2;
     backTest.run14(momentumWindow, top);
+  } else if (strategyType === "momentum14") {
+    const momentumWindow = strategyArg1;
+    const top = strategyArg2;
+    backTest.run15(momentumWindow, top);
   }
 };
 

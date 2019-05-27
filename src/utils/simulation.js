@@ -1,7 +1,7 @@
 import { Market } from "../market";
 import * as math from "mathjs";
 import { tradingDateList, assetCodeList } from "./data";
-import { getAnnualizedReturns, getAnnualizedStd } from "utils/utils";
+import { getAnnualizedReturns, getAnnualizedStd, toRank } from "utils/utils";
 import { Analyst } from "utils/analyst";
 
 const SEED_MONEY = 10000000000;
@@ -1478,6 +1478,101 @@ class BackTest {
             allocation.addWeight(code, equalWeight);
           });
         }
+
+        allocation.allocateRemainsWeightToCash();
+        const newAllocation = allocation.getAllocation();
+
+        this.portfolio.executeAllocation(newAllocation);
+      }
+      const NAV = this.portfolio.valuation();
+      const shortLog = "date: " + this.date + " NAV: " + NAV;
+      const curAllocation = this.portfolio.getCurrentAllocation();
+
+      this.dailyLog.push(shortLog);
+      this.navList.push(NAV);
+      this.allocationList.push(curAllocation);
+      this.dateList.push(this.date);
+
+      if (this.date === this.endDate) break;
+      this.forwardDate();
+    }
+    this.orderLog = this.portfolio.log;
+  }
+
+  run15(momentumWindow, top) {
+    // FAA 전략 모멘텀 + 변동성 + 상관성
+
+    // 첫 거래일, 초기 비중 설정을 위해
+    this.rebalanceDateList.push(this.date);
+
+    const assetCodeList = [
+      "069500", // KODEX200
+      "232080", // TIGER코스닥150
+      "143850", // TIGER미국S&P500선물(H)
+      "195930", // TIGER유로스탁스50(합성H)
+      "238720", // KINDEX일본Nikkei225(H)
+      "192090", // TIGER차이나CSI300
+      "148070", // KOSEF국고채10년
+      "136340", // KBSTAR중기우량회사채
+      "182490" // TIGER단기선진하이일드(합성
+      // "132030", // KODEX골드선물(H)
+      // "130680", // TIGER원유선물Enhanced(H)
+      // "138230" // KOSEF미국달러선물
+      // "130730", // KOSEF단기자금
+      // "114800", // KODEX인버스
+      // "139660" // KOSEF미국달러선물인버스
+    ];
+
+    const allocation = new PortfolioAllocation();
+    while (true) {
+      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+      if (rebalanceDay !== -1) {
+        allocation.reset();
+
+        const momentumScores = assetCodeList.map(code =>
+          Analyst.getMomentum1(code, this.date, momentumWindow)
+        );
+        const volatilityScore = assetCodeList.map(code =>
+          Analyst.getStd(code, this.date, momentumWindow)
+        );
+        const corScoreList = Analyst.getCorScore(
+          assetCodeList,
+          this.date,
+          momentumWindow
+        );
+
+        const momentumRank = toRank(momentumScores, true); // 내림차순
+        const volatilityRank = toRank(volatilityScore, false); // 오름차순
+        const corScoreRank = toRank(corScoreList, false); // 오름차순
+
+        const totalScore = [];
+        for (let i = 0; i < assetCodeList.length; i++) {
+          const tempScore =
+            momentumRank[i] + volatilityRank[i] / 2 + corScoreRank[i] / 2;
+          totalScore.push(tempScore);
+        }
+        const totalScoreRank = toRank(corScoreRank, false);
+
+        const scoreObjList = assetCodeList.map((code, i) => {
+          return { code, rank: totalScoreRank[i] };
+        });
+        scoreObjList.sort((a, b) => {
+          return a.rank - b.rank; // 모멘텀 점수 오름차순 정렬
+        });
+        const topCodesList = scoreObjList.slice(0, top).map(d => d.code);
+
+        const div = 25;
+        // 최근 수익률이 0 이상이면 매수
+        topCodesList.forEach(code => {
+          const momentum = Analyst.getMomentum1(
+            code,
+            this.date,
+            momentumWindow
+          );
+          if (momentum > 0) {
+            allocation.addWeight(code, div);
+          }
+        });
 
         allocation.allocateRemainsWeightToCash();
         const newAllocation = allocation.getAllocation();
