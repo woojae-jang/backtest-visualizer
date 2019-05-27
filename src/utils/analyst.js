@@ -1,5 +1,6 @@
 import { Market } from "../market";
 import * as math from "mathjs";
+import * as jStat from "jStat";
 
 const market = new Market("20160101");
 
@@ -64,13 +65,86 @@ class Analyst {
 
     return meanOfmomentumScore;
   };
+
+  static getCorrEff = (returns1, returns2) => {
+    return jStat.corrcoeff(returns1, returns2);
+  };
+
+  static getCorMatrix = (codeList, date, window) => {
+    // '데이터 미리보기' 오류를 피하기 위해 조회날짜의 전날 까지의 데이터만 접근
+    // window + 1
+    // 마지막 날짜 pop() 으로 빼줌
+
+    const listOfPriceList = codeList.map(code => {
+      const returns = market.getHistoricalReturnsFromDate(
+        code,
+        date,
+        window + 1
+      );
+      returns.pop();
+      return returns;
+    });
+
+    const corList = [];
+    for (let i = 0; i < codeList.length; i++) {
+      let row = {};
+      row[""] = codeList[i];
+      for (let j = 0; j < codeList.length; j++) {
+        const corrcoeff = jStat.corrcoeff(
+          listOfPriceList[i],
+          listOfPriceList[j]
+        );
+        row[codeList[j]] = corrcoeff.toString();
+      }
+      corList.push(row);
+    }
+
+    corList["columns"] = [""].concat(codeList);
+    return corList;
+  };
+
+  static getCorScore = (codeList, date, window) => {
+    const corMatrix = Analyst.getCorMatrix(codeList, date, window);
+    const corScoreList = corMatrix.map(rows => {
+      const thisCode = rows[""];
+      delete rows[""];
+
+      const keys = Object.keys(rows);
+      // 자신을 제외한 상관계수 리스트
+      const corList = keys.filter(key => key != thisCode).map(key => rows[key]);
+      return math.sum(corList);
+    });
+    return corScoreList;
+  };
+
+  static getStd = (code, date, wondow) => {
+    // '데이터 미리보기' 오류를 피하기 위해 조회날짜의 전날 까지의 데이터만 접근
+    // window + 1
+    // 마지막 날짜 pop() 으로 빼줌
+    const returns = market.getHistoricalReturnsFromDate(code, date, wondow + 1);
+    returns.pop();
+    return math.std(returns);
+  };
 }
 
 const func = () => {
   const sampleCode = "232080";
   const sampleDate = "20170601";
-  const result = Analyst.getMomentum4(sampleCode, sampleDate);
-  console.log(result);
+  // const result = Analyst.getMomentum4(sampleCode, sampleDate);
+  const result1 = Analyst.getStd(sampleCode, sampleDate, 60);
+  const result2 = Analyst.getCorMatrix(
+    [sampleCode, "069500", "143850"],
+    sampleDate,
+    60
+  );
+  const result3 = Analyst.getCorScore(
+    [sampleCode, "069500", "143850"],
+    sampleDate,
+    60
+  );
+  console.log(result1);
+  console.log(result2);
+  console.log(result3);
 };
 
 // setTimeout(() => func(), 2000);

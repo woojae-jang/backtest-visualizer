@@ -135,6 +135,20 @@ const getAnnualizedStd = std => {
   return std * N ** (1 / 2);
 };
 
+const toRank = (array, des = true) => {
+  const sorted = array.slice().sort((a, b) => {
+    if (des) {
+      return b - a;
+    } else {
+      return a - b;
+    }
+  });
+  const ranks = array.slice().map(v => {
+    return sorted.indexOf(v) + 1;
+  });
+  return ranks;
+};
+
 export {
   getRandomAllocation,
   getRandAllocWithFixedWeights,
@@ -145,5 +159,6 @@ export {
   getIntRandWeights,
   getFloatRandWeights,
   getAnnualizedReturns,
-  getAnnualizedStd
+  getAnnualizedStd,
+  toRank
 };
