@@ -149,6 +149,38 @@ const toRank = (array, des = true) => {
   return ranks;
 };
 
+// const getMaximumDrawDown = valueList => {
+//   let lastPeak = {
+//     value: 0
+//   };
+//   let lastDrawDown = {
+//     startIndex: null,
+//     endIndex: null
+//   };
+//   valueList.forEach((value, index) => {
+//     if (value > lastPeak.value) {
+//       // end last drawdown
+//     } else {
+//       // start new drawdown
+//     }
+//   });
+// };
+
+const getMaximumDrawDown = valueList => {
+  const maxList = [0];
+
+  valueList.forEach((value, index) => {
+    if (index === 0) {
+      return null;
+    } else {
+      maxList.push(Math.max(maxList[index - 1], value));
+    }
+  });
+
+  const maxDrowDown = Math.min(...mathjs.dotDivide(valueList, maxList));
+  return 1 - maxDrowDown;
+};
+
 export {
   getRandomAllocation,
   getRandAllocWithFixedWeights,
@@ -160,5 +192,6 @@ export {
   getFloatRandWeights,
   getAnnualizedReturns,
   getAnnualizedStd,
-  toRank
+  toRank,
+  getMaximumDrawDown
 };

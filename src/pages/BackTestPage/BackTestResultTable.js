@@ -1,6 +1,7 @@
 import { Table } from "antd";
 import React from "react";
 import * as math from "mathjs";
+import { getMaximumDrawDown } from "utils/utils";
 
 const columns = [
   {
@@ -39,6 +40,11 @@ const columns = [
     key: "annualizedStd"
   },
   {
+    title: "MDD(%)",
+    dataIndex: "maximumDrowDown",
+    key: "maximumDrowDown"
+  },
+  {
     title: "SharpeRatio",
     dataIndex: "sharpeRatio",
     key: "sharpeRatio"
@@ -53,11 +59,14 @@ const BackTestResultTable = props => {
       std,
       annualizedReturns,
       annualizedStd,
-      dateList
+      dateList,
+      navList
     } = result;
+
     const startDate = dateList[0];
     const endDate = dateList[dateList.length - 1];
     const returns = math.round(finalReturn, 4);
+    const maximumDrowDown = getMaximumDrawDown(navList);
     std = math.round(std, 4);
     annualizedReturns = math.round(annualizedReturns, 4);
     annualizedStd = math.round(annualizedStd, 4);
@@ -66,6 +75,7 @@ const BackTestResultTable = props => {
       name: name,
       startDate,
       endDate,
+      maximumDrowDown: "-" + (maximumDrowDown * 100).toFixed(2) + " %",
       returns: (returns * 100).toFixed(2) + " %",
       std: (std * 100).toFixed(2) + " %",
       annualizedReturns: (annualizedReturns * 100).toFixed(2) + " %",
