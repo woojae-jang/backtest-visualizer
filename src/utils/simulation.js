@@ -1386,7 +1386,7 @@ class BackTest {
             } else if (code === "232080") {
               // 코스닥
               // 코스닥10 미국10
-              allocation.addWeight("232080", 10);
+              allocation.addWeight("232080", 20);
               allocation.addWeight("143850", 10);
             } else {
               // 해외
@@ -1406,7 +1406,7 @@ class BackTest {
               // 코스피20 코스닥20
               // 미국10
               allocation.addWeight("069500", 20);
-              allocation.addWeight("232080", 10);
+              allocation.addWeight("232080", 20);
               allocation.addWeight("143850", 10);
             } else if (condition1 || condition2) {
               if (condition1) {
@@ -1418,8 +1418,8 @@ class BackTest {
                   allocation.addWeight(code1, 20);
                 }
               } else {
-                // 코스닥10 해외20
-                allocation.addWeight("232080", 10);
+                // 코스닥20 해외20
+                allocation.addWeight("232080", 20);
                 if (code1 === "232080") {
                   allocation.addWeight(code2, 20);
                 } else {
@@ -1439,9 +1439,9 @@ class BackTest {
 
           // 남은 비중 국채, 중기회사채, 하이일드 배분
           const safetyAssets = ["148070", "136340", "182490"];
-          const equalWeight = (allocation.getRemainsWeight() - 10) / 2;
+          const equalWeight = (allocation.getRemainsWeight() - 10) / 3;
 
-          const bondsWeights = [equalWeight, equalWeight, 10];
+          const bondsWeights = [equalWeight * 2, equalWeight, 10];
 
           safetyAssets.forEach((code, index) => {
             allocation.addWeight(code, bondsWeights[index]);
@@ -1467,7 +1467,7 @@ class BackTest {
           });
 
           const safetyAssets = [
-            // "114800", // KODEX인버스
+            "114800", // KODEX인버스
             "138230" // KOSEF미국달러선물
           ];
 
