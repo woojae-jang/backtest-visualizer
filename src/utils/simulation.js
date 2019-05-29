@@ -1439,9 +1439,15 @@ class BackTest {
 
           // 남은 비중 국채, 중기회사채, 하이일드 배분
           const safetyAssets = ["148070", "136340", "182490"];
-          const equalWeight = (allocation.getRemainsWeight() - 10) / 3;
+          let equalWeight = null;
+          let bondsWeights = [];
 
-          const bondsWeights = [equalWeight * 2, equalWeight, 10];
+          if (allocation.getRemainsWeight() > 60) {
+            bondsWeights = [28, 27, 5];
+          } else {
+            equalWeight = (allocation.getRemainsWeight() - 5) / 3;
+            bondsWeights = [equalWeight * 2, equalWeight, 5];
+          }
 
           safetyAssets.forEach((code, index) => {
             allocation.addWeight(code, bondsWeights[index]);
@@ -1460,7 +1466,8 @@ class BackTest {
           // TIGER단기선진하이일드(합성H)
           // 다른 채권과 달리 하이일드는 주식과 양의 상관관계를 가졌기 때문에 낮은 비중 주었음
           const bonds = ["148070", "136340", "182490"];
-          const bondsWeights = [28, 27, 10];
+          const bondsWeights = [28, 27, 5];
+          allocation.addWeight("132030", 5); // 골드 최소비중
 
           bonds.forEach((code, index) => {
             allocation.addWeight(code, bondsWeights[index]);
@@ -1676,27 +1683,29 @@ class BackTestArgsHandler {
   }
 }
 
+const DEFAULT_ALLOCATION = {
+  "069500": 0, // KODEX200
+  "232080": 0, // TIGER코스닥150
+  "143850": 0, // TIGER미국S&P500선물(H)
+  "195930": 0, // TIGER유로스탁스50(합성H)
+  "238720": 0, // KINDEX일본Nikkei225(H)
+  "192090": 0, // TIGER차이나CSI300
+  "148070": 0, // KOSEF국고채10년
+  "136340": 0, // KBSTAR중기우량회사채
+  "182490": 0, // TIGER단기선진하이일드(합성
+  "132030": 0, // KODEX골드선물(H)
+  "130680": 0, // TIGER원유선물Enhanced(H)
+  "114800": 0, // KODEX인버스
+  "138230": 0, // KOSEF미국달러선물
+  "139660": 0, // KOSEF미국달러선물인버스
+  "130730": 0, // KOSEF단기자금
+  WORLD_STOCK: 0, // 세계종합주가지수
+  cash: 0 // 현금
+};
+
 class PortfolioAllocation {
   constructor() {
-    this.allocation = {
-      "069500": 0, // KODEX200
-      "232080": 0, // TIGER코스닥150
-      "143850": 0, // TIGER미국S&P500선물(H)
-      "195930": 0, // TIGER유로스탁스50(합성H)
-      "238720": 0, // KINDEX일본Nikkei225(H)
-      "192090": 0, // TIGER차이나CSI300
-      "148070": 0, // KOSEF국고채10년
-      "136340": 0, // KBSTAR중기우량회사채
-      "182490": 0, // TIGER단기선진하이일드(합성
-      "132030": 0, // KODEX골드선물(H)
-      "130680": 0, // TIGER원유선물Enhanced(H)
-      "114800": 0, // KODEX인버스
-      "138230": 0, // KOSEF미국달러선물
-      "139660": 0, // KOSEF미국달러선물인버스
-      "130730": 0, // KOSEF단기자금
-      WORLD_STOCK: 0, // 세계종합주가지수
-      cash: 0 // 현금
-    };
+    this.allocation = { ...DEFAULT_ALLOCATION };
   }
 
   addWeight = (code, weight) => {
@@ -1711,25 +1720,7 @@ class PortfolioAllocation {
   };
 
   reset = () => {
-    this.allocation = {
-      "069500": 0, // KODEX200
-      "232080": 0, // TIGER코스닥150
-      "143850": 0, // TIGER미국S&P500선물(H)
-      "195930": 0, // TIGER유로스탁스50(합성H)
-      "238720": 0, // KINDEX일본Nikkei225(H)
-      "192090": 0, // TIGER차이나CSI300
-      "148070": 0, // KOSEF국고채10년
-      "136340": 0, // KBSTAR중기우량회사채
-      "182490": 0, // TIGER단기선진하이일드(합성
-      "132030": 0, // KODEX골드선물(H)
-      "130680": 0, // TIGER원유선물Enhanced(H)
-      "114800": 0, // KODEX인버스
-      "138230": 0, // KOSEF미국달러선물
-      "139660": 0, // KOSEF미국달러선물인버스
-      "130730": 0, // KOSEF단기자금
-      WORLD_STOCK: 0, // 세계종합주가지수
-      cash: 0 // 현금
-    };
+    this.allocation = { ...DEFAULT_ALLOCATION };
   };
 
   getRemainsWeight = () => {
