@@ -382,6 +382,11 @@ class EditableTable extends React.Component {
       newPortfolio["132030"] = 25;
       newPortfolio["130730"] = 25;
       newPortfolio.rebalanceType = "monthly";
+    } else if (type === "50:50") {
+      newPortfolio.name = "50:50";
+      newPortfolio["143850"] = 50;
+      newPortfolio["182490"] = 50;
+      newPortfolio.rebalanceType = "monthly";
     } else {
       console.log(type);
       throw "invalid portfolio type";
@@ -443,6 +448,13 @@ class EditableTable extends React.Component {
           style={{ marginBottom: 16 }}
         >
           Add Permanent Portfolio
+        </Button>
+        <Button
+          onClick={() => this.handleAddPortfolio("50:50")}
+          type="primary"
+          style={{ marginBottom: 16 }}
+        >
+          Add 50:50 Portfolio
         </Button>
         <br />
         <BatchSelect batchSelection={this.props.batchSelection} />
