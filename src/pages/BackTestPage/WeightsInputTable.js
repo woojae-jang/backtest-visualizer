@@ -325,7 +325,14 @@ class EditableTable extends React.Component {
       "114800": 0,
       "138230": 0,
       "139660": 0,
-      "130730": 0
+      "130730": 0,
+      WORLD_STOCK: 0,
+      rebalanceType: "none",
+      strategyType: "none",
+      strategyArg1: "none",
+      strategyArg2: "none",
+      strategyArg3: "none",
+      selectedAsset: "none"
     };
 
     const length = dataSource.length;

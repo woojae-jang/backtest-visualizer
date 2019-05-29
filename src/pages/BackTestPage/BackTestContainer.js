@@ -56,35 +56,8 @@ class BackTestContainer extends Component {
     this.columns = columns;
 
     const dataSource = {
-      dataSource: [
-        {
-          key: "0",
-          name: `Port #1`,
-          "069500": 100,
-          "232080": 0,
-          "143850": 0,
-          "195930": 0,
-          "238720": 0,
-          "192090": 0,
-          "148070": 0,
-          "136340": 0,
-          "182490": 0,
-          "132030": 0,
-          "130680": 0,
-          "114800": 0,
-          "138230": 0,
-          "139660": 0,
-          "130730": 0,
-          WORLD_STOCK: 0,
-          rebalanceType: "none",
-          strategyType: "none",
-          strategyArg1: "none",
-          strategyArg2: "none",
-          strategyArg3: "none",
-          selectedAsset: "none"
-        }
-      ],
-      count: 1
+      dataSource: [],
+      count: 0
     };
 
     this.state = {
