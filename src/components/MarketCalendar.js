@@ -9,6 +9,37 @@ const { RangePicker } = DatePicker;
 
 const dateFormat = "YYYYMMDD";
 
+const periodStore = {
+  testPeriod: {
+    startDate: "20160701",
+    endDate: tradingDateList[tradingDateList.length - 1]
+  },
+  testPeriod2: {
+    startDate: "20170403",
+    endDate: tradingDateList[tradingDateList.length - 1]
+  },
+  testPeriod3: {
+    startDate: "20161004",
+    endDate: "20190516"
+  },
+  GAPS2019: {
+    startDate: "20190603",
+    endDate: "20191031"
+  },
+  GAPS2018: {
+    startDate: "20180601",
+    endDate: "20181031"
+  },
+  GAPS2017: {
+    startDate: "20170601",
+    endDate: "20171031"
+  },
+  GAPS2016: {
+    startDate: "20160601",
+    endDate: "20161031"
+  }
+};
+
 class MarketCalendar extends React.Component {
   render() {
     const { client, data } = this.props;
@@ -21,13 +52,22 @@ class MarketCalendar extends React.Component {
           format={dateFormat}
           disabledDate={this.disabledDate}
         />
-        <Button type="default" onClick={() => this.setTestPeriod(client)}>
+        <Button
+          type="default"
+          onClick={() => this.setPeriod(client, "testPeriod")}
+        >
           TestPeriod
         </Button>
-        <Button type="default" onClick={() => this.setTestPeriod2(client)}>
+        <Button
+          type="default"
+          onClick={() => this.setPeriod(client, "testPeriod2")}
+        >
           TestPeriod2
         </Button>
-        <Button type="default" onClick={() => this.setTestPeriod3(client)}>
+        <Button
+          type="default"
+          onClick={() => this.setPeriod(client, "testPeriod3")}
+        >
           TestPeriod3
         </Button>
         <Button type="default" onClick={() => this.setStartDate(client)}>
@@ -36,13 +76,28 @@ class MarketCalendar extends React.Component {
         <Button type="default" onClick={() => this.setEndDate(client)}>
           최종일({tradingDateList[tradingDateList.length - 1]})
         </Button>
-        <Button type="default" onClick={() => this.setGAPS2018(client)}>
+        <Button
+          type="default"
+          onClick={() => this.setPeriod(client, "GAPS2019")}
+        >
+          GAPS 2019
+        </Button>
+        <Button
+          type="default"
+          onClick={() => this.setPeriod(client, "GAPS2018")}
+        >
           GAPS 2018
         </Button>
-        <Button type="default" onClick={() => this.setGAPS2017(client)}>
+        <Button
+          type="default"
+          onClick={() => this.setPeriod(client, "GAPS2017")}
+        >
           GAPS 2017
         </Button>
-        <Button type="default" onClick={() => this.setGAPS2016(client)}>
+        <Button
+          type="default"
+          onClick={() => this.setPeriod(client, "GAPS2016")}
+        >
           GAPS 2016
         </Button>
         {/* <MarketTimeLine data={{ startDate, endDate }} client={client} /> */}
@@ -64,79 +119,8 @@ class MarketCalendar extends React.Component {
     });
   };
 
-  setTestPeriod = client => {
-    const startDate = "20160701";
-    const endDate = tradingDateList[tradingDateList.length - 1];
-    client.writeData({
-      data: {
-        globalVariables: {
-          __typename: "GlobalVariables",
-          startDate,
-          endDate
-        }
-      }
-    });
-  };
-
-  setTestPeriod2 = client => {
-    const startDate = "20170403";
-    const endDate = tradingDateList[tradingDateList.length - 1];
-    client.writeData({
-      data: {
-        globalVariables: {
-          __typename: "GlobalVariables",
-          startDate,
-          endDate
-        }
-      }
-    });
-  };
-
-  setTestPeriod3 = client => {
-    const startDate = "20161004";
-    const endDate = "20190516";
-    client.writeData({
-      data: {
-        globalVariables: {
-          __typename: "GlobalVariables",
-          startDate,
-          endDate
-        }
-      }
-    });
-  };
-
-  setGAPS2018 = client => {
-    const startDate = "20180601";
-    const endDate = "20181031";
-    client.writeData({
-      data: {
-        globalVariables: {
-          __typename: "GlobalVariables",
-          startDate,
-          endDate
-        }
-      }
-    });
-  };
-
-  setGAPS2017 = client => {
-    const startDate = "20170601";
-    const endDate = "20171031";
-    client.writeData({
-      data: {
-        globalVariables: {
-          __typename: "GlobalVariables",
-          startDate,
-          endDate
-        }
-      }
-    });
-  };
-
-  setGAPS2016 = client => {
-    const startDate = "20160601";
-    const endDate = "20161031";
+  setPeriod = (client, periodType) => {
+    const { startDate, endDate } = periodStore[periodType];
     client.writeData({
       data: {
         globalVariables: {
