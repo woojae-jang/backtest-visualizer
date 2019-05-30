@@ -1427,9 +1427,10 @@ class BackTest {
                 }
               }
             } else {
-              //  해외1 20 해외2 20
+              // 해외1 20 해외2 20 코스피10
               allocation.addWeight(code1, 20);
               allocation.addWeight(code2, 20);
+              allocation.addWeight("069500", 10);
             }
           } else {
             console.log(top);
