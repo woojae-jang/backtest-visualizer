@@ -26,7 +26,7 @@
 import * as d3 from "d3";
 import * as moment from "moment";
 import TradingDate from "utils/TradingDate";
-import { tradingDateList as dateList } from "data";
+import { tradingDateList as dateList } from "utils/data";
 
 let firstDateOfMonth = [];
 
