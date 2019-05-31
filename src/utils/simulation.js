@@ -313,11 +313,19 @@ class BackTest {
     this.dateList.push(this.date);
   };
 
+  shouldTrade = () => {
+    const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+    if (rebalanceDay !== -1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   run() {
     this.portfolio.executeAllocation(this.fixedAlloc);
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         this.portfolio.executeAllocation(this.fixedAlloc);
       }
       this.afterMarket();
@@ -341,8 +349,7 @@ class BackTest {
 
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
         const scoreList = [];
         codeList.forEach((code, index) => {
@@ -385,8 +392,7 @@ class BackTest {
 
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
         const scoreList = [];
 
@@ -451,8 +457,7 @@ class BackTest {
     const stockCodeList = codeList.slice(0, 6);
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
         const scoreList = [];
 
@@ -511,8 +516,7 @@ class BackTest {
     const stockCodeList = codeList.slice(0, 6);
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
         const scoreList = [];
 
@@ -567,8 +571,7 @@ class BackTest {
     const stockCodeList = codeList.slice(0, 6);
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
         const scoreList = [];
 
@@ -629,8 +632,7 @@ class BackTest {
     const stockCodeList = codeList.slice(0, 6);
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
         const scoreList = [];
 
@@ -691,8 +693,7 @@ class BackTest {
 
     const codeList = assetCodeList;
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         const scoreList = [];
 
         codeList.forEach((code, index) => {
@@ -751,8 +752,7 @@ class BackTest {
 
     const codeList = assetCodeList;
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         const momentumScore = Analyst.getMomentum1(
           selectedAsset,
           this.date,
@@ -829,8 +829,7 @@ class BackTest {
 
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
 
         const marketState = Analyst.getMomentum1(
@@ -981,8 +980,7 @@ class BackTest {
     const allocation = new PortfolioAllocation();
     const codeList = assetCodeList;
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
         const scoreObjList = [];
         codeList.forEach((code, index) => {
@@ -1042,8 +1040,7 @@ class BackTest {
 
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
 
         // 코스피10 미국10 하이일드10 골드5
@@ -1146,8 +1143,7 @@ class BackTest {
 
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
 
         const marketState = Analyst.getMomentum1(
@@ -1262,8 +1258,7 @@ class BackTest {
 
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
 
         const marketState = Analyst.getMomentum1(
@@ -1449,8 +1444,7 @@ class BackTest {
 
     const allocation = new PortfolioAllocation();
     while (true) {
-      const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-      if (rebalanceDay !== -1) {
+      if (this.shouldTrade()) {
         allocation.reset();
 
         const momentumScores = assetCodeList.map(code =>
