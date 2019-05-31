@@ -14,7 +14,7 @@ class Analyst {
     const curPriceList = market.getHistoricalPriceListFromDate(
       code,
       date,
-      window + 1
+      Number(window) + 1
     );
 
     const startPrice = curPriceList[0];
@@ -79,7 +79,7 @@ class Analyst {
       const returns = market.getHistoricalReturnsFromDate(
         code,
         date,
-        window + 1
+        Number(window) + 1
       );
       returns.pop();
       return returns;
