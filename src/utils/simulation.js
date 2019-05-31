@@ -302,6 +302,17 @@ class BackTest {
     this.rebalanceDateList = dateList;
   }
 
+  afterMarket = () => {
+    const NAV = this.portfolio.valuation();
+    const shortLog = "date: " + this.date + " NAV: " + NAV;
+    const curAllocation = this.portfolio.getCurrentAllocation();
+
+    this.dailyLog.push(shortLog);
+    this.navList.push(NAV);
+    this.allocationList.push(curAllocation);
+    this.dateList.push(this.date);
+  };
+
   run() {
     this.portfolio.executeAllocation(this.fixedAlloc);
     while (true) {
@@ -309,14 +320,7 @@ class BackTest {
       if (rebalanceDay !== -1) {
         this.portfolio.executeAllocation(this.fixedAlloc);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -358,14 +362,7 @@ class BackTest {
 
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -420,14 +417,7 @@ class BackTest {
         const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -500,14 +490,7 @@ class BackTest {
         const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -562,14 +545,7 @@ class BackTest {
 
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -621,14 +597,7 @@ class BackTest {
         const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -701,14 +670,7 @@ class BackTest {
         const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -771,14 +733,7 @@ class BackTest {
 
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -834,14 +789,7 @@ class BackTest {
 
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -1014,14 +962,7 @@ class BackTest {
 
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -1072,14 +1013,7 @@ class BackTest {
         const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -1181,14 +1115,7 @@ class BackTest {
         const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -1294,14 +1221,7 @@ class BackTest {
         const newAllocation = allocation.getAllocation();
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -1495,14 +1415,7 @@ class BackTest {
 
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -1559,7 +1472,7 @@ class BackTest {
         const totalScore = [];
         for (let i = 0; i < assetCodeList.length; i++) {
           const tempScore =
-            momentumRank[i] + volatilityRank[i] / 2 + corScoreRank[i] / 2;
+            momentumRank[i] + volatilityRank[i] * 2 + corScoreRank[i] * 2;
           totalScore.push(tempScore);
         }
         const totalScoreRank = toRank(corScoreRank, false);
@@ -1590,14 +1503,7 @@ class BackTest {
 
         this.portfolio.executeAllocation(newAllocation);
       }
-      const NAV = this.portfolio.valuation();
-      const shortLog = "date: " + this.date + " NAV: " + NAV;
-      const curAllocation = this.portfolio.getCurrentAllocation();
-
-      this.dailyLog.push(shortLog);
-      this.navList.push(NAV);
-      this.allocationList.push(curAllocation);
-      this.dateList.push(this.date);
+      this.afterMarket();
 
       if (this.date === this.endDate) break;
       this.forwardDate();
