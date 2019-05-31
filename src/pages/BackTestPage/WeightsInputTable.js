@@ -398,8 +398,8 @@ class EditableTable extends React.Component {
       newPortfolio.name = "Dual Momentum";
       newPortfolio.rebalanceType = "weekly";
       newPortfolio.strategyType = "momentum13";
-      newPortfolio.strategyArg1 = "10";
-      newPortfolio.strategyArg2 = "1";
+      newPortfolio.strategyArg1 = "80";
+      newPortfolio.strategyArg2 = "2";
     } else {
       console.log(type);
       throw "invalid portfolio type";

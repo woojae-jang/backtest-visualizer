@@ -1444,10 +1444,13 @@ class BackTest {
           let bondsWeights = [];
 
           if (allocation.getRemainsWeight() > 60) {
-            bondsWeights = [28, 27, 5];
+            // bondsWeights = [28, 27, 5];
+            bondsWeights = [20, 20, 20];
           } else {
-            equalWeight = (allocation.getRemainsWeight() - 5) / 3;
-            bondsWeights = [equalWeight * 2, equalWeight, 5];
+            // equalWeight = (allocation.getRemainsWeight() - 5) / 3;
+            equalWeight = allocation.getRemainsWeight() / 3;
+            // bondsWeights = [equalWeight * 2, equalWeight, 5];
+            bondsWeights = [equalWeight, equalWeight, equalWeight];
           }
 
           safetyAssets.forEach((code, index) => {
@@ -1467,7 +1470,7 @@ class BackTest {
           // TIGER단기선진하이일드(합성H)
           // 다른 채권과 달리 하이일드는 주식과 양의 상관관계를 가졌기 때문에 낮은 비중 주었음
           const bonds = ["148070", "136340", "182490"];
-          const bondsWeights = [28, 27, 5];
+          const bondsWeights = [36, 19, 5];
           allocation.addWeight("132030", 5); // 골드 최소비중
 
           bonds.forEach((code, index) => {
