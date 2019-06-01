@@ -254,12 +254,14 @@ const executeBacktest = (backTest, backTestArgs) => {
   if (strategyType === "none") {
     backTest.run();
   } else if (strategyType === "momentum") {
-    const momentumWindow = strategyArg1;
-    backTest.run2(momentumWindow);
+    const simulationArgs = { momentumWindow: strategyArg1 };
+    backTest.run2(simulationArgs);
   } else if (strategyType === "momentum2") {
-    const topLimit = strategyArg1;
-    const momentumWindow = strategyArg2;
-    backTest.run3(topLimit, momentumWindow);
+    const simulationArgs = {
+      top: strategyArg1,
+      momentumWindow: strategyArg2
+    };
+    backTest.run3(simulationArgs);
   } else if (strategyType === "momentum3") {
     const momentumWindow = strategyArg1;
     const asset = selectedAsset;

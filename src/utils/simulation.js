@@ -3,6 +3,7 @@ import * as math from "mathjs";
 import { tradingDateList, assetCodeList } from "./data";
 import { getAnnualizedReturns, getAnnualizedStd, toRank } from "utils/utils";
 import { Analyst } from "utils/analyst";
+import * as Strategy from "core/strategy";
 
 const SEED_MONEY = 10000000000;
 // const COMMISION_RATE = 0.015 / 100;
@@ -199,7 +200,58 @@ class PortFolio {
   }
 }
 
+// context 의 값들은 ref 여야함
+
+const afterMarket = context => {
+  const { backtest, portfolio } = context;
+  const { date } = backtest;
+
+  const NAV = portfolio.valuation();
+  const shortLog = "date: " + date + " NAV: " + NAV;
+  const curAllocation = portfolio.getCurrentAllocation();
+
+  backtest.dailyLog.push(shortLog);
+  backtest.navList.push(NAV);
+  backtest.allocationList.push(curAllocation);
+  backtest.dateList.push(date);
+};
+
+const shouldTrade = context => {
+  const { backtest } = context;
+  const { date } = backtest;
+  const rebalanceDay = backtest.rebalanceDateList.indexOf(date);
+  if (rebalanceDay !== -1) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const intraMarket = (context, strategy) => {
+  strategy(context);
+};
+
 class BackTest {
+  afterMarket = () => {
+    const NAV = this.portfolio.valuation();
+    const shortLog = "date: " + this.date + " NAV: " + NAV;
+    const curAllocation = this.portfolio.getCurrentAllocation();
+
+    this.dailyLog.push(shortLog);
+    this.navList.push(NAV);
+    this.allocationList.push(curAllocation);
+    this.dateList.push(this.date);
+  };
+
+  shouldTrade = () => {
+    const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
+    if (rebalanceDay !== -1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   constructor() {
     this.startDate = null;
     this.endDate = null;
@@ -302,33 +354,18 @@ class BackTest {
     this.rebalanceDateList = dateList;
   }
 
-  afterMarket = () => {
-    const NAV = this.portfolio.valuation();
-    const shortLog = "date: " + this.date + " NAV: " + NAV;
-    const curAllocation = this.portfolio.getCurrentAllocation();
-
-    this.dailyLog.push(shortLog);
-    this.navList.push(NAV);
-    this.allocationList.push(curAllocation);
-    this.dateList.push(this.date);
-  };
-
-  shouldTrade = () => {
-    const rebalanceDay = this.rebalanceDateList.indexOf(this.date);
-    if (rebalanceDay !== -1) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   run() {
+    const context = {
+      backtest: this,
+      portfolio: this.portfolio
+    };
+
     this.portfolio.executeAllocation(this.fixedAlloc);
     while (true) {
-      if (this.shouldTrade()) {
+      if (shouldTrade(context)) {
         this.portfolio.executeAllocation(this.fixedAlloc);
       }
-      this.afterMarket();
+      afterMarket(context);
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -339,37 +376,30 @@ class BackTest {
   // run2
   // gaps 의 '모든 자산'에 대한 상대모멘텀
   // 리밸런싱 날, 모멘텀 점수가 가장 높은 자산의 비중을 100
-  run2(momentumWindow = 60) {
+  run2(simulationArgs) {
     // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
+
+    // const { momentumWindow } = simulationArgs;
+
+    const codeList = assetCodeList;
+    const allocation = new PortfolioAllocation();
+
+    const context = {
+      backtest: this,
+      portfolio: this.portfolio,
+      allocation,
+      codeList,
+      simulationArgs
+    };
 
     // 첫 거래일, 초기 비중 설정을 위해
     this.rebalanceDateList.push(this.date);
 
-    const codeList = assetCodeList;
-
-    const allocation = new PortfolioAllocation();
     while (true) {
-      if (this.shouldTrade()) {
-        allocation.reset();
-        const scoreList = [];
-        codeList.forEach((code, index) => {
-          const momentumScore = Analyst.getMomentum1(
-            code,
-            this.date,
-            momentumWindow
-          );
-          scoreList.push(momentumScore);
-        });
-
-        let maxScoreIdx = scoreList.indexOf(Math.max(...scoreList));
-        const codeOfMaxScore = codeList[maxScoreIdx];
-
-        allocation.addWeight(codeOfMaxScore, 100);
-        const newAllocation = allocation.getAllocation();
-
-        this.portfolio.executeAllocation(newAllocation);
+      if (shouldTrade(context)) {
+        intraMarket(context, Strategy.strategy2);
       }
-      this.afterMarket();
+      afterMarket(context);
 
       if (this.date === this.endDate) break;
       this.forwardDate();
@@ -379,7 +409,7 @@ class BackTest {
 
   // run3
   // 리밸런싱 날, '주식'지수 6개중 모멘텀 점수가 높은 top개 지수를 100/top 씩 (동일비중)
-  run3(top = 1, momentumWindow = 60) {
+  run3(simulationArgs) {
     // top <= 6
     // 모멘텀 점수 : 최근 momentumWindow 거래일 수익률
     // 리밸런싱 날, '주식'지수 6개중 모멘텀 점수가 높은 top개 지수를 100/top 씩 (동일비중)
@@ -391,37 +421,18 @@ class BackTest {
     const stockCodeList = codeList.slice(0, 6);
 
     const allocation = new PortfolioAllocation();
+
+    const context = {
+      backtest: this,
+      portfolio: this.portfolio,
+      allocation,
+      codeList,
+      stockCodeList,
+      simulationArgs
+    };
     while (true) {
       if (this.shouldTrade()) {
-        allocation.reset();
-        const scoreList = [];
-
-        stockCodeList.forEach((code, index) => {
-          const momentumScore = Analyst.getMomentum1(
-            code,
-            this.date,
-            momentumWindow
-          );
-          scoreList.push(momentumScore);
-        });
-
-        const scoreObjList = [];
-        stockCodeList.forEach((code, i) => {
-          scoreObjList.push({ code, momentumScore: scoreList[i] });
-        });
-
-        // 모멘텀 점수 내림차순 정렬
-        scoreObjList.sort((a, b) => {
-          return b.momentumScore - a.momentumScore;
-        });
-
-        const topCodesList = scoreObjList.slice(0, top).map(d => d.code);
-        const equalWeight = 100 / top;
-
-        topCodesList.forEach(code => allocation.addWeight(code, equalWeight));
-
-        const newAllocation = allocation.getAllocation();
-        this.portfolio.executeAllocation(newAllocation);
+        intraMarket(context, Strategy.strategy3);
       }
       this.afterMarket();
 
@@ -1688,5 +1699,14 @@ const summaryTable = (codeList, startDate, endDate) => {
   });
   return results;
 };
+
+const a = { one: 1, two: 2 };
+console.log(a);
+
+const test = arg => {
+  arg.one = 2;
+};
+test(a);
+console.log(a);
 
 export { BackTest, BackTestArgsHandler, summaryTable };
