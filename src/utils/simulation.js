@@ -1,6 +1,6 @@
-import { Market } from "../market";
+import { Market } from "market";
 import * as math from "mathjs";
-import { tradingDateList, assetCodeList } from "./data";
+import { tradingDateList, assetCodeList } from "utils/data";
 import { getAnnualizedReturns, getAnnualizedStd, toRank } from "utils/utils";
 import { Analyst } from "utils/analyst";
 import * as Strategy from "core/strategy";
@@ -430,6 +430,7 @@ class BackTest {
       stockCodeList,
       simulationArgs
     };
+
     while (true) {
       if (this.shouldTrade()) {
         intraMarket(context, Strategy.strategy3);
@@ -455,11 +456,10 @@ class BackTest {
     // n 의 크기에 따라 주식:채권 비중 결정
     // 채권: selectedAsset
 
-    // 절대모멘텀 필터 점수
-    const absScore = 0;
-
-    // 채권
-    const bondCode = selectedAsset;
+    const simulationArgs = {
+      selectedAsset,
+      momentumWindow
+    };
 
     // 첫 거래일, 초기 비중 설정을 위해
     this.rebalanceDateList.push(this.date);
@@ -467,44 +467,18 @@ class BackTest {
     const codeList = assetCodeList;
     const stockCodeList = codeList.slice(0, 6);
     const allocation = new PortfolioAllocation();
+    const context = {
+      backtest: this,
+      portfolio: this.portfolio,
+      allocation,
+      codeList,
+      stockCodeList,
+      simulationArgs
+    };
+
     while (true) {
       if (this.shouldTrade()) {
-        allocation.reset();
-        const scoreList = [];
-
-        stockCodeList.forEach((code, index) => {
-          const momentumScore = Analyst.getMomentum1(
-            code,
-            this.date,
-            momentumWindow
-          );
-          scoreList.push(momentumScore);
-        });
-
-        const scoreObjList = [];
-        stockCodeList.forEach((code, i) => {
-          scoreObjList.push({ code, momentumScore: scoreList[i] });
-        });
-
-        // 절대모멘텀 충족 필터
-        const filterdCodeList = scoreObjList
-          .filter(d => d.momentumScore > absScore)
-          .map(d => d.code);
-
-        const numOfFilterdCode = filterdCodeList.length;
-
-        const weightOfOneDiv = Math.floor(100 / stockCodeList.length);
-
-        const weightOfStock = weightOfOneDiv * numOfFilterdCode;
-        const weightOfBond = 100 - weightOfStock;
-
-        filterdCodeList.forEach(code =>
-          allocation.addWeight(code, weightOfOneDiv)
-        );
-        allocation.addWeight(bondCode, weightOfBond);
-
-        const newAllocation = allocation.getAllocation();
-        this.portfolio.executeAllocation(newAllocation);
+        intraMarket(context, Strategy.strategy4);
       }
       this.afterMarket();
 
