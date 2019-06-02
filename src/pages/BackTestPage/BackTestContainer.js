@@ -251,6 +251,8 @@ const executeBacktest = (backTest, backTestArgs) => {
     selectedAsset
   } = backTestArgs;
 
+  // backTest.runA(backTestArgs)
+
   if (strategyType === "none") {
     backTest.run();
   } else if (strategyType === "momentum") {
@@ -263,12 +265,10 @@ const executeBacktest = (backTest, backTestArgs) => {
     };
     backTest.run3(simulationArgs);
   } else if (strategyType === "momentum3") {
-    const momentumWindow = strategyArg1;
-    const asset = selectedAsset;
-    backTest.run4(momentumWindow, asset);
+    backTest.run4(backTestArgs);
   } else if (strategyType === "momentum4") {
     const momentumWindow = strategyArg1;
-    backTest.run5(momentumWindow);
+    backTest.run5(backTestArgs);
   } else if (strategyType === "momentum5") {
     const topLimit = strategyArg1;
     backTest.run6(topLimit);
@@ -302,9 +302,7 @@ const executeBacktest = (backTest, backTestArgs) => {
     const asset = selectedAsset;
     backTest.run13(momentumWindow, top, stockWeight, asset);
   } else if (strategyType === "momentum13") {
-    const momentumWindow = strategyArg1;
-    const top = strategyArg2;
-    backTest.run14(momentumWindow, top);
+    backTest.run14(backTestArgs);
   } else if (strategyType === "momentum14") {
     const momentumWindow = strategyArg1;
     const top = strategyArg2;
