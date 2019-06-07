@@ -24,7 +24,7 @@ const periodStore = {
   },
   GAPS2019: {
     startDate: "20190603",
-    endDate: "20191031"
+    endDate: tradingDateList[tradingDateList.length - 1]
   },
   GAPS2018: {
     startDate: "20180601",
