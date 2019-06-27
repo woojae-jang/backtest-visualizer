@@ -20,7 +20,7 @@ class BackTestContainer extends Component {
               client={client}
               columns={this.columns}
               dataSource={this.state.dataSource}
-              func={{ runSimulation: this.runSimulation2 }}
+              func={{ runSimulation: this.runSimulation }}
               resultList={this.state.resultList}
               selectPortfolioHandler={this.selectPortfolioHandler}
               selectedPortfolio={this.state.selectedPortfolio}
