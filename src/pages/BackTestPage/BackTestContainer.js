@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { Query } from "react-apollo";
 import * as math from "mathjs";
 import { GET_GLOBAL_VARIABLES } from "apollo/queries";
-import { BackTest, BackTestArgsHandler } from "utils/simulation";
 import BackTestPresenter from "./BackTestPresenter";
 import { assetCodeList, getAssetShortName } from "utils/data";
 import { dateList, firstDateOfMonth, firtDateOfWeek } from "priceData";
+import { BackTest, BackTestArgsHandler } from "utils/simulation";
+import { BackTest as backTesting, main, strategyStore } from "backtesting";
 
 class BackTestContainer extends Component {
   render() {
@@ -19,7 +20,7 @@ class BackTestContainer extends Component {
               client={client}
               columns={this.columns}
               dataSource={this.state.dataSource}
-              func={{ runSimulation: this.runSimulation }}
+              func={{ runSimulation: this.runSimulation2 }}
               resultList={this.state.resultList}
               selectPortfolioHandler={this.selectPortfolioHandler}
               selectedPortfolio={this.state.selectedPortfolio}
@@ -102,9 +103,7 @@ class BackTestContainer extends Component {
 
     const testArgs = backTestArgsHandler.getArgs();
     const backTest = new BackTest();
-
     backTest.init(testArgs);
-
     const backTestArgs = {
       strategyType,
       strategyArg1,
@@ -113,10 +112,42 @@ class BackTestContainer extends Component {
       selectedAsset
     };
     executeBacktest(backTest, backTestArgs);
-
     backTest.createMetaData();
     const result = backTest.result();
+    console.log(result);
 
+    this.setState({ resultList: [...this.state.resultList, { result, name }] });
+  };
+
+  runSimulation2 = (
+    variables,
+    weightsList,
+    name,
+    rebalanceType = "none",
+    strategyType = "none",
+    strategyArg1 = "none",
+    strategyArg2 = "none",
+    strategyArg3 = "none",
+    selectedAsset = "none"
+  ) => {
+    const { startDate, endDate } = variables;
+    const strategy = strategyStore["momentum"];
+
+    const context = {
+      startDate,
+      endDate,
+      rebalanceType: rebalanceType,
+      taxRate: 0,
+      commissionRate: 0.00015,
+      strategyArgs: {
+        momentumWindow: 80,
+        top: 2
+      }
+    };
+
+    let backtest = new backTesting(context, strategy);
+    backtest.run();
+    const result = backtest.result();
     this.setState({ resultList: [...this.state.resultList, { result, name }] });
   };
 
@@ -250,8 +281,6 @@ const executeBacktest = (backTest, backTestArgs) => {
     strategyArg3,
     selectedAsset
   } = backTestArgs;
-
-  // backTest.runA(backTestArgs)
 
   if (strategyType === "none") {
     backTest.run();
