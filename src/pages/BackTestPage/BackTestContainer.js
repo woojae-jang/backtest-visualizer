@@ -6,7 +6,7 @@ import BackTestPresenter from "./BackTestPresenter";
 import { assetCodeList, getAssetShortName } from "utils/data";
 import { dateList, firstDateOfMonth, firtDateOfWeek } from "priceData";
 import { BackTest, BackTestArgsHandler } from "utils/simulation";
-import { BackTest as backTesting, main, strategyStore } from "backtesting";
+// import { BackTest as backTesting, main, strategyStore } from "backtesting";
 
 class BackTestContainer extends Component {
   render() {
@@ -119,37 +119,37 @@ class BackTestContainer extends Component {
     this.setState({ resultList: [...this.state.resultList, { result, name }] });
   };
 
-  runSimulation2 = (
-    variables,
-    weightsList,
-    name,
-    rebalanceType = "none",
-    strategyType = "none",
-    strategyArg1 = "none",
-    strategyArg2 = "none",
-    strategyArg3 = "none",
-    selectedAsset = "none"
-  ) => {
-    const { startDate, endDate } = variables;
-    const strategy = strategyStore["momentum"];
+  // runSimulation2 = (
+  //   variables,
+  //   weightsList,
+  //   name,
+  //   rebalanceType = "none",
+  //   strategyType = "none",
+  //   strategyArg1 = "none",
+  //   strategyArg2 = "none",
+  //   strategyArg3 = "none",
+  //   selectedAsset = "none"
+  // ) => {
+  //   const { startDate, endDate } = variables;
+  //   const strategy = strategyStore["momentum"];
 
-    const context = {
-      startDate,
-      endDate,
-      rebalanceType: rebalanceType,
-      taxRate: 0,
-      commissionRate: 0.00015,
-      strategyArgs: {
-        momentumWindow: 80,
-        top: 2
-      }
-    };
+  //   const context = {
+  //     startDate,
+  //     endDate,
+  //     rebalanceType: rebalanceType,
+  //     taxRate: 0,
+  //     commissionRate: 0.00015,
+  //     strategyArgs: {
+  //       momentumWindow: 80,
+  //       top: 2
+  //     }
+  //   };
 
-    let backtest = new backTesting(context, strategy);
-    backtest.run();
-    const result = backtest.result();
-    this.setState({ resultList: [...this.state.resultList, { result, name }] });
-  };
+  //   let backtest = new backTesting(context, strategy);
+  //   backtest.run();
+  //   const result = backtest.result();
+  //   this.setState({ resultList: [...this.state.resultList, { result, name }] });
+  // };
 
   refreshSimulations = (
     variables,
