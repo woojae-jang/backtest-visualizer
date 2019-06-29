@@ -1185,6 +1185,10 @@ class BackTest {
       if (this.date === this.endDate) break;
       this.forwardDate();
     }
+	  
+	  
+	console.log("end date : ", context.backtest.date)
+	console.log("next position : ", Strategy.positionOfStrategy14(context, context.backtest.date));
     this.orderLog = this.portfolio.log;
   }
 

@@ -6,12 +6,13 @@ const market = new Market("20160101");
 
 class Analyst {
   // 최근 3개월 수익률
-  static getMomentum1 = (code, date, window = 60) => {
+  static getMomentum1 = (code, date, window = 60, excludeCurrentDay=true) => {
     // '데이터 미리보기' 오류를 피하기 위해 조회날짜의 전날 까지의 데이터만 접근
     // window + 1
     // length - 2
 
-    const curPriceList = market.getHistoricalPriceListFromDate(
+	  if(excludeCurrentDay){
+		      const curPriceList = market.getHistoricalPriceListFromDate(
       code,
       date,
       Number(window) + 1
@@ -22,6 +23,21 @@ class Analyst {
 
     const returns = (endPrice - startPrice) / startPrice;
     return returns;
+	  }
+	  else {
+		      const curPriceList = market.getHistoricalPriceListFromDate(
+      code,
+      date,
+      Number(window)
+    );
+
+    const startPrice = curPriceList[0];
+    const endPrice = curPriceList[curPriceList.length - 1];
+
+    const returns = (endPrice - startPrice) / startPrice;
+    return returns;
+	  }
+
   };
 
   // 최근 1,3,6개월 평균수익률
