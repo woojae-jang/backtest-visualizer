@@ -6,7 +6,7 @@ import PortFolioPositionChart from "./PortFolioPositionChart";
 import StrategyDescription from "./StrategyDescription";
 import { Switch } from "antd";
 import { Button } from "antd";
-import GridLayout from "react-grid-layout";
+import styled from "styled-components";
 
 const BackTestPresenter = props => {
   const {
@@ -27,26 +27,12 @@ const BackTestPresenter = props => {
   const { globalVariables } = data;
   const { runSimulation } = func;
 
-  var layout = [
-    { i: "a", x: 0, y: 0, w: 12, h: 4, static: true },
-    { i: "b", x: 0, y: 4, w: 12, h: 12, static: true },
-    { i: "c", x: 0, y: 16, w: 7, h: 15, static: true },
-    { i: "d", x: 7, y: 16, w: 5, h: 15, static: true },
-    { i: "e", x: 0, y: 31, w: 12, h: 10, static: true }
-  ];
-
   return (
-    <GridLayout
-      className="layout"
-      layout={layout}
-      cols={12}
-      rowHeight={30}
-      width={1600}
-    >
-      <div key="a">
+    <Container>
+      <StrategyDescriptionContainer>
         <StrategyDescription />
-      </div>
-      <div key="b">
+      </StrategyDescriptionContainer>
+      <StrategyInputContainer>
         <WeightsInputTable
           columns={columns}
           dataSource={dataSource}
@@ -78,28 +64,63 @@ const BackTestPresenter = props => {
         <Button type="default" onClick={() => refreshHandler(globalVariables)}>
           Refresh
         </Button>
-      </div>
-      <div key="c">
-        <PriceChart
-          data={data}
-          resultList={resultList}
-          selectPortfolio={selectPortfolioHandler}
-          isLogScale={isLogScale}
-        />
-        {/* <span>Returns Log scale </span>
+      </StrategyInputContainer>
+
+      <ChartContainer>
+        <PriceChartContainer>
+          <PriceChart
+            data={data}
+            resultList={resultList}
+            selectPortfolio={selectPortfolioHandler}
+            isLogScale={isLogScale}
+          />
+          {/* <span>Returns Log scale </span>
         <Switch onChange={setLogScale} /> */}
-      </div>
-      <div key="d">
-        <PortFolioPositionChart
-          resultList={resultList}
-          portInfo={selectedPortfolio}
-        />
-      </div>
-      <div key="e">
-        <BackTestResultTable data={resultList} />
-      </div>
-    </GridLayout>
+        </PriceChartContainer>
+        <PortFolioPositionChartContainer>
+          <PortFolioPositionChart
+            resultList={resultList}
+            portInfo={selectedPortfolio}
+          />
+        </PortFolioPositionChartContainer>
+      </ChartContainer>
+
+      <BackTestResultTable data={resultList} />
+    </Container>
   );
 };
+
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
+  min-width: 1500px;
+`;
+
+const StrategyDescriptionContainer = styled.div`
+  height: 100%;
+  width: 100%;
+`;
+
+const StrategyInputContainer = styled.div`
+  height: 100%;
+  width: 100%;
+`;
+
+const ChartContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+`;
+
+const PriceChartContainer = styled.div`
+  height: 100%;
+  width: 60%;
+`;
+
+const PortFolioPositionChartContainer = styled.div`
+  height: 100%;
+  width: 40%;
+`;
 
 export default BackTestPresenter;
