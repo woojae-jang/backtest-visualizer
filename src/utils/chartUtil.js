@@ -1,3 +1,5 @@
+import { schemeCategory10 } from "d3-scale-chromatic";
+
 const dynamicColors = () => {
   var r = Math.floor(Math.random() * 255);
   var g = Math.floor(Math.random() * 255);
@@ -28,4 +30,14 @@ const getLineDataFromEquation = (gradient, yIntercept) => {
   });
 };
 
-export { dynamicColors, getLineDataFromEquation };
+const generateSchemeCategory20 = () => {
+  const arr = [...schemeCategory10];
+  for (let i = 0; i < 10; i++) {
+    arr.push(dynamicColors());
+  }
+  return arr;
+};
+
+const schemeCategory20 = generateSchemeCategory20();
+
+export { dynamicColors, getLineDataFromEquation, schemeCategory20 };

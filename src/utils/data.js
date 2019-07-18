@@ -812,21 +812,21 @@ const tradingDateList = [
   "20190619",
   "20190620",
   "20190621",
-"20190624",
-"20190625",
-"20190626",
-"20190627",
-"20190628",
-"20190701",
-"20190702",
-"20190703",
-"20190704",
-"20190705",
-"20190708",
-"20190709",
-"20190710",
-"20190711",
-"20190712",
+  "20190624",
+  "20190625",
+  "20190626",
+  "20190627",
+  "20190628",
+  "20190701",
+  "20190702",
+  "20190703",
+  "20190704",
+  "20190705",
+  "20190708",
+  "20190709",
+  "20190710",
+  "20190711",
+  "20190712"
 ];
 
 const holiyDayList = [
@@ -1270,11 +1270,17 @@ const getAssetShortName = code => {
   return shortNameList[idx];
 };
 
+const getAssetId = code => {
+  const idx = codeList.indexOf(code);
+  return idx;
+};
+
 export {
   tradingDateList,
   codeList as assetCodeList,
   nameList as assetNameList,
   shortNameList as assetShortNameList,
+  getAssetId,
   getAssetName,
   getAssetShortName
 };

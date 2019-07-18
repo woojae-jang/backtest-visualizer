@@ -1,11 +1,7 @@
 import React from "react";
-import { Market } from "market";
-import * as math from "mathjs";
-import * as $ from "jquery";
-import { dynamicColors } from "utils/chartUtil";
-import { schemeCategory10 } from "d3-scale-chromatic";
+import { schemeCategory20 } from "utils/chartUtil";
 import { Doughnut } from "react-chartjs-2";
-import { getAssetShortName } from "utils/data";
+import { getAssetShortName, getAssetId } from "utils/data";
 
 class PortFolioPositionChart extends React.Component {
   render() {
@@ -29,7 +25,10 @@ class PortFolioPositionChart extends React.Component {
       return null;
     }
     allocation.forEach((asset, index) => {
-      const color = index < 10 ? schemeCategory10[index] : dynamicColors();
+      if (asset.weight === 0) return;
+
+      const assetIndex = getAssetId(asset.code);
+      const color = schemeCategory20[assetIndex];
 
       if (asset.code !== "cash") {
         labels.push(getAssetShortName(asset.code));
@@ -52,7 +51,13 @@ class PortFolioPositionChart extends React.Component {
       ]
     };
 
-    return <Doughnut data={data} />;
+    const options = {
+      legend: {
+        position: "left"
+      }
+    };
+
+    return <Doughnut data={data} options={options} />;
   }
 }
 
