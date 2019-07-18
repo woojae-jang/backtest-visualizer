@@ -138,6 +138,7 @@ const Container = styled.div`
   min-height: 100vh;
   width: 100%;
   background-color: ${props => props.theme.mainColor};
+  color: ${props => props.theme.textColor};
 `;
 
 export default App;
