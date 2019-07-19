@@ -2,7 +2,7 @@ import React from "react";
 import AssetAllocationChart from "./AssetAllocationChart";
 import MarketCalendar from "components/MarketCalendar";
 import SelectInput from "components/SelectInput";
-import ResultTable from "components/ResultTable";
+import ResultTable from "./ResultTable";
 import ReturnsChart from "components/ReturnsChart";
 import DoughnutChart from "components/DoughnutChart";
 import { Button } from "antd";

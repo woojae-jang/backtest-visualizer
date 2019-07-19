@@ -37,6 +37,7 @@ const columns = [
 ];
 
 const ResultTable = props => {
+  const floatingPoint = 2;
   const dataSource = props.data.map((data, index) => {
     let { code, returns, std, annualizedReturns, annualizedStd } = data;
     returns = math.round(returns, 4);
@@ -48,10 +49,11 @@ const ResultTable = props => {
       key: index,
       code,
       name: getAssetName(code),
-      returns: returns * 100 + " %",
-      std: std * 100 + " %",
-      annualizedReturns: annualizedReturns * 100 + " %",
-      annualizedStd: annualizedStd * 100 + " %"
+      returns: (returns * 100).toFixed(floatingPoint) + " %",
+      std: (std * 100).toFixed(floatingPoint) + " %",
+      annualizedReturns:
+        (annualizedReturns * 100).toFixed(floatingPoint) + " %",
+      annualizedStd: (annualizedStd * 100).toFixed(floatingPoint) + " %"
     };
   });
 
