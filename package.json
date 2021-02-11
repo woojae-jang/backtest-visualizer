@@ -6,7 +6,7 @@
     "@babel/core": "7.2.2",
     "@svgr/webpack": "4.1.0",
     "antd": "^3.15.0",
-    "apexcharts": "^3.6.3",
+    "apexcharts": "^3.24.0",
     "apollo-cache-inmemory": "^1.5.1",
     "apollo-client": "^2.5.1",
     "apollo-link": "^1.2.9",
